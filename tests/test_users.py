@@ -44,6 +44,15 @@ class TestUsersTestCase(BaseTestCase):
         response_msg = json.loads(response.data.decode())
         self.assertIn("Password is required",response_msg["message"])
 
+    def test_users_signup_registered_email(self):
+         """ tests for missing password"""
+        response = self.app.post('/api/v1/auth/signup',
+        data=json.dumps(
+            dict(firstname="lawrence",lastname="chege" email="mbuchez8@gamil.com", password="mmmm")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Email already Registered",response_msg["message"])
+
     def test_users_signup(self):
          """ tests for good sign up"""
         response = self.app.post('/api/v1/auth/signup',
@@ -52,28 +61,69 @@ class TestUsersTestCase(BaseTestCase):
         self.assertIn("User successfully registered", response_msg["message"])
     
     def test_users_signin(self):
-        pass
+        """returns correct login"""
+        self.register_user()
+        resp = self.login_user()
+        data = json.loads(ret.get_data())
+        self.assertIn('token', data)
 
     def test_users_signin_wrong_email(self):
-        pass
+         """ tests for wrong email"""
+        response = self.app.post('/api/v1/auth/signin',
+        data=json.dumps(
+            dict(email="mbuchez99998@gamil.com", password="noyoudont")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Wrong Credentials!",response_msg["message"])
     
     def test_users_signin_wrong_password(self):
-        pass
+        """ tests for wrong Password"""
+        response = self.app.post('/api/v1/auth/signin',
+        data=json.dumps(
+            dict(email="mbuchez8@gamil.com", password="noyoudonthow")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Wrong Credentials!",response_msg["message"])
 
     def test_users_signin_empty_email(self):
-        pass
+        """ tests for empty email"""
+        response = self.app.post('/api/v1/auth/signin',
+        data=json.dumps(
+            dict(email="", password="noyoudont")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Email is Required!",response_msg["message"])
 
     def test_users_signin_empty_password(self):
-        pass
-
-     def test_users_signin_wrong_password(self):
-        pass
+        """ tests for empty password"""
+        response = self.app.post('/api/v1/auth/signin',
+        data=json.dumps(
+            dict(email="mbuchez8@gamil.com", password="")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Password required!",response_msg["message"])
 
     def test_users_signin_not_registered_email(self):
-        pass
+                """ tests for not registered user email"""
+        response = self.app.post('/api/v1/auth/signin',
+        data=json.dumps(
+            dict(email="somenewguy@gamil.com", password="noyoudont")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Wrong email or user not registered",response_msg["message"])
     
     def test_admin_signin(self):
-        pass
+        """returns correct login"""
+        self.register_user()
+        resp = self.login_admin()
+        data = json.loads(ret.get_data())
+        self.assertIn('token', data)
 
     def test_admin_signin_wrong_password(self):
-        pass
+         """ tests for wrong Password"""
+        response = self.app.post('/api/v1/auth/signin',
+        data=json.dumps(
+            dict(email="admin@gamil.com", password="noyoudonthow")),
+        headers={'content-type': "application/json"})
+        response_msg = json.loads(response.data.decode())
+        self.assertIn("Wrong Credentials!",response_msg["message"])
