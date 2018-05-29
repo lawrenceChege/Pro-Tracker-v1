@@ -1,5 +1,5 @@
 """ This is the base class for all the tests"""
-from app import app, REQUESTS,USERS
+from app import app
 from unittest import TestCase
 
 import os
@@ -63,7 +63,7 @@ class BaseTestCase(TestCase):
         headers = {'content-type':"appliction/json"})
         return ret
     
-    
+
     def tearDown(self):
         USERS.clear()
         REQUESTS.clear()

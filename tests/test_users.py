@@ -46,9 +46,9 @@ class TestUsersTestCase(BaseTestCase):
 
     def test_users_signup_registered_email(self):
         """ tests for missing password"""
-        response = self.app.post('/api/v1/auth/signup'),
+        response = self.app.post('/api/v1/auth/signup',
         data=json.dumps(
-            dict(firstname="lawrence",lastname="chege", email="mbuchez8@gamil.com", password="mmmm")),
+            dict(firstname="lawrence",lastname="chege", email="mbuchez8@gamil.com", password="")),
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("Email already Registered",response_msg["message"])
@@ -68,7 +68,7 @@ class TestUsersTestCase(BaseTestCase):
         self.assertIn('token', data)
 
     def test_users_signin_wrong_email(self):
-         """ tests for wrong email"""
+        """ tests for wrong email"""
         response = self.app.post('/api/v1/auth/signin',
         data=json.dumps(
             dict(email="mbuchez99998@gamil.com", password="noyoudont")),
@@ -104,7 +104,7 @@ class TestUsersTestCase(BaseTestCase):
         self.assertIn("Password required!",response_msg["message"])
 
     def test_users_signin_not_registered_email(self):
-                """ tests for not registered user email"""
+        """ tests for not registered user email"""
         response = self.app.post('/api/v1/auth/signin',
         data=json.dumps(
             dict(email="somenewguy@gamil.com", password="noyoudont")),
@@ -120,7 +120,7 @@ class TestUsersTestCase(BaseTestCase):
         self.assertIn('token', data)
 
     def test_admin_signin_wrong_password(self):
-         """ tests for wrong Password"""
+        """ tests for wrong Password"""
         response = self.app.post('/api/v1/auth/signin',
         data=json.dumps(
             dict(email="admin@gamil.com", password="noyoudonthow")),
