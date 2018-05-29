@@ -50,6 +50,11 @@ class BaseTestCase(TestCase):
         headers = {'content-type':"appliction/json"})
         return ret
 
+    def logout(self):
+        """Logout helper function."""
+        return self.app.get('/api/v1/auth/logout', follow_redirects=True)
+
+
     def new_request(self):
         """ New w request helper""""
         ret = self.app.post('/api/v1/dashboard/user<id>/new-request/',
