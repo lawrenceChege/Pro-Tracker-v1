@@ -1,16 +1,23 @@
 """ This is the base class for all the tests"""
 from app import app
 from unittest import TestCase
-
+import unittest
 import os
 import json
 
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
+    @classmethod
+    def setUpClass(cls):
+        pass 
+
+    @classmethod
+    def tearDownClass(cls):
+        pass 
     def setUp(self):
         """set up app configuration"""
-        app.testing = True
-        self.app = app.test_client()
+        self.app = app.test_client(self)
+        self.app.testing = True
 
         self.person = {
             "firstname":"lawrence",
@@ -56,17 +63,18 @@ class BaseTestCase(TestCase):
         return self.app.get('/api/v1/auth/logout', follow_redirects=True)
 
 
-    def new_request(self):
-        """ New w request helper"""
-        ret = self.app.post('/api/v1/dashboard/user<id>/new-request/',
-        data = json.dumps(self.new_request),
-        headers = {'content-type':"appliction/json"})
-        return ret
+    # def new_request(self):
+    #     """ New w request helper"""
+    #     ret = self.app.post('/api/v1/dashboard/user<id>/new-request/',
+    #     data = json.dumps(self.new_request),
+    #     headers = {'content-type':"appliction/json"})
+    #     return ret
     
 
-    def tearDown(self):
-        USERS.clear()
-        REQUESTS.clear()
-        Requests.count = 0
-
+    # def tearDown(self):
+    #     USERS.clear()
+    #     REQUESTS.clear()
+    #     Requests.count = 0
+if __name__ == '__main__':
+    unittest.main()
 
