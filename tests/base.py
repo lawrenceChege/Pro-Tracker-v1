@@ -18,6 +18,10 @@ class BaseTestCase(TestCase):
             "email":"mbuchez8@gmail.com"
             "password":"noyoudont"
         }
+        self.admin ={
+            "email":"admin@gmail.com"
+            "password":"admin1234"
+        }
         self.new_request{
             "category":"maintenance"
             "title":"fogort password"
@@ -36,6 +40,13 @@ class BaseTestCase(TestCase):
         """sign in helper"""
         ret = self.app.post('/api/v1/auth/signin',
         data = json.dumps(self.person),
+        headers = {'content-type':"appliction/json"})
+        return ret
+    
+    def login_admin(self):
+        """sign in helper for admin"""
+        ret = self.app.post('/api/v1/auth/signin',
+        data = json.dumps(self.admin),
         headers = {'content-type':"appliction/json"})
         return ret
 
