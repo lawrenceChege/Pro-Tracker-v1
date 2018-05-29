@@ -12,50 +12,50 @@ class TestUsersTestCase(BaseTestCase):
         """ tests for missing firstname"""
         response = self.app.post('/api/v1/auth/signup',
         data=json.dumps(
-            dict(firstname="",lastname="chege" email="mbuchez8@gamil.com", password="noyoudont")),
+            dict(firstname="", lastname="chege", email="mbuchez8@gamil.com", password="noyoudont")),
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
-        self.assertIn("Firstname is required",response_msg["message"])
+        self.assertIn("Firstname is required", response_msg["message"])
 
     def test_users_signup_empty_lastname(self):
-         """ tests for missing lastname"""
+        """ tests for missing lastname"""
         response = self.app.post('/api/v1/auth/signup',
-        data=json.dumps(
-            dict(firstname="lawrence",lastname="" email="mbuchez8@gamil.com", password="noyoudont")),
+            data=json.dumps(
+            dict(firstname="lawrence",lastname="", email="mbuchez8@gamil.com", password="noyoudont")),
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("Lastname is required",response_msg["message"])
 
     def test_users_signup_empty_email(self):
-         """ tests for missing email"""
+        """ tests for missing email"""
         response = self.app.post('/api/v1/auth/signup',
         data=json.dumps(
-            dict(firstname="lawrence",lastname="chege" email="", password="noyoudont")),
+            dict(firstname="lawrence",lastname="chege", email="", password="noyoudont")),
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("email is required",response_msg["message"])
 
     def test_users_signup_empty_password(self):
-         """ tests for missing password"""
+        """ tests for missing password"""
         response = self.app.post('/api/v1/auth/signup',
         data=json.dumps(
-            dict(firstname="lawrence",lastname="chege" email="mbuchez8@gamil.com", password="")),
+            dict(firstname="lawrence",lastname="chege", email="mbuchez8@gamil.com", password="")),
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("Password is required",response_msg["message"])
 
     def test_users_signup_registered_email(self):
-         """ tests for missing password"""
-        response = self.app.post('/api/v1/auth/signup',
+        """ tests for missing password"""
+        response = self.app.post('/api/v1/auth/signup'),
         data=json.dumps(
-            dict(firstname="lawrence",lastname="chege" email="mbuchez8@gamil.com", password="mmmm")),
+            dict(firstname="lawrence",lastname="chege", email="mbuchez8@gamil.com", password="mmmm")),
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("Email already Registered",response_msg["message"])
 
     def test_users_signup(self):
-         """ tests for good sign up"""
-        response = self.app.post('/api/v1/auth/signup',
+        """ tests for good sign up"""
+        response = self.app.post('/api/v1/auth/signup'),
         response = self.register_user()    
         response_msg = json.loads(response.data.decode())
         self.assertIn("User successfully registered", response_msg["message"])
