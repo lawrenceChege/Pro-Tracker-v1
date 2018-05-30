@@ -37,33 +37,33 @@ class BaseTestCase(TestCase):
             "description":"i am stupid",
             "status":"Pending"
         }
-        self.requests = {
-            [
+        self.requests = [
+            {
             "id":"0",
             "category":"maintenance",
             "title":"fogort password",
             "frequency":"once",
             "description":"i am stupid",
             "status":"Pending"
-            ],
-            [
+            },
+            {
             "id":"1",
             "category":"repair",
             "title":"fogort hammer",
             "frequency":"once",
             "description":"i am also stupid",
             "status":"Pending"
-            ],
-            [
+            },
+            {
             "id":"2",
             "category":"maintenance",
             "title":"Tissue out",
             "frequency":"daily",
             "description":"well, not cool",
             "status":"Pending"
+            }
             ]
-        }
-
+            
     def register_user(self):
         """Registration helper"""
         ret = self.app.post('/api/v1/auth/signup',
