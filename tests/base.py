@@ -1,16 +1,23 @@
 """ This is the base class for all the tests"""
 from app import app
 from unittest import TestCase
-
+import unittest
 import os
 import json
 
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
+    @classmethod
+    def setUpClass(cls):
+        pass 
+
+    @classmethod
+    def tearDownClass(cls):
+        pass 
     def setUp(self):
         """set up app configuration"""
-        app.testing = True
-        self.app = app.test_client()
+        self.app = app.test_client(self)
+        self.app.testing = True
 
         self.person = {
             "firstname":"lawrence",
@@ -23,17 +30,51 @@ class BaseTestCase(TestCase):
             "password":"admin1234"
         }
 
-        self.new_request={
+        self.request={
             "category":"maintenance",
             "title":"fogort password",
             "frequency":"once",
-            "description":"i am stupid"
+            "description":"i am stupid",
+            "status":"Pending"
+        }
+        self.requests = {
+            [
+            "id":"0",
+            "category":"maintenance",
+            "title":"fogort password",
+            "frequency":"once",
+            "description":"i am stupid",
+            "status":"Pending"
+            ],
+            [
+            "id":"1",
+            "category":"repair",
+            "title":"fogort hammer",
+            "frequency":"once",
+            "description":"i am also stupid",
+            "status":"Pending"
+            ],
+            [
+            "id":"2",
+            "category":"maintenance",
+            "title":"Tissue out",
+            "frequency":"daily",
+            "description":"well, not cool",
+            "status":"Pending"
+            ]
         }
 
     def register_user(self):
         """Registration helper"""
         ret = self.app.post('/api/v1/auth/signup',
         data = json.dumps(self.person),
+        headers = {'content-type':"appliction/json"})
+        return ret
+
+    def register_admin(self):
+        """Registration helper"""
+        ret = self.app.post('/api/v1/auth/signup',
+        data = json.dumps(self.admin),
         headers = {'content-type':"appliction/json"})
         return ret
         
@@ -57,16 +98,22 @@ class BaseTestCase(TestCase):
 
 
     def new_request(self):
-        """ New w request helper"""
-        ret = self.app.post('/api/v1/dashboard/user<id>/new-request/',
-        data = json.dumps(self.new_request),
+        """ New  request helper"""
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/0/',
+        data = json.dumps(self.request),
         headers = {'content-type':"appliction/json"})
         return ret
-    
 
-    def tearDown(self):
-        USERS.clear()
-        REQUESTS.clear()
-        Requests.count = 0
+    def load_requests(self):
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
+        data = json.dumps(self.requests),
+        headers = {'content-type':"appliction/json"})
+        return ret
 
+    # def tearDown(self):
+    #     USERS.clear()
+    #     REQUESTS.clear()
+    #     Requests.count = 0
+if __name__ == '__main__':
+    unittest.main()
 

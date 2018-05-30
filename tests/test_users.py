@@ -45,7 +45,7 @@ class TestUsersTestCase(BaseTestCase):
         self.assertIn("Password is required",response_msg["message"])
 
     def test_users_signup_registered_email(self):
-        """ tests for missing password"""
+        """ tests for registered email"""
         response = self.app.post('/api/v1/auth/signup',
         data=json.dumps(
             dict(firstname="lawrence",lastname="chege", email="mbuchez8@gamil.com", password="")),
@@ -63,7 +63,7 @@ class TestUsersTestCase(BaseTestCase):
     def test_users_signin(self):
         """returns correct login"""
         self.register_user()
-        resp = self.login_user()
+        ret = self.login_user()
         data = json.loads(ret.get_data())
         self.assertIn('token', data)
 
@@ -115,7 +115,7 @@ class TestUsersTestCase(BaseTestCase):
     def test_admin_signin(self):
         """returns correct login"""
         self.register_user()
-        resp = self.login_admin()
+        ret = self.login_admin()
         data = json.loads(ret.get_data())
         self.assertIn('token', data)
 
@@ -127,3 +127,8 @@ class TestUsersTestCase(BaseTestCase):
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("Wrong Credentials!",response_msg["message"])
+
+    def test_logout(self):
+        """Test for successful logout"""
+        response = self.logout()
+        self.assertIn("You have successfylly logged out", response["message"])
