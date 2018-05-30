@@ -62,4 +62,25 @@ request_fields = {
     'uri': fields.Url('request')
 }  
 
+class RequestList(Resource):
+    """Holds methods for giving all requests"""
 
+    def __init__(self):
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('category', type=str, required=True,
+                                   help='No task category provided',
+                                   location='json')
+        self.reqparse.add_argument('frequency', type=str, required=True,
+                                   help='No task frequency provided',
+                                   location='json')
+        self.reqparse.add_argument('title', type=str, required=True,
+                                   help='No task title provided',
+                                   location='json')
+        self.reqparse.add_argument('description', type=str, required=True,
+                                   help='No task description provided',
+                                   location='json')
+        self.reqparse.add_argument('status', type=str,
+                                   default= "Pending",
+                                   location='json')
+        super(RequestList, self).__init__()
+        
