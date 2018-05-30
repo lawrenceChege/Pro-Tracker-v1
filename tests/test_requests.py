@@ -41,6 +41,9 @@ class TestRequestsTestCase(BaseTestCase):
         self.assertEqual(response.status_code,200)
 
         response = self.new_request()
+        response_message = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("Request Added Successfully", response_message["message"])
+
         response_message = self.app.get('/api/v1/users-dashboard/0/requests/0/',
         data=json.dumps(response), content_type="application/json")
         self.assertEqual(response.status_code, 200)
@@ -83,11 +86,32 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_user_modify_a_request(self):
         """Test for modifying a request"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.new_request()
+        response_message = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("Request Added Successfully", response_message["message"]) 
+
+        response_message = self.app.put('/api/v1/users-dashboard/0/requests/0',
+        data=json.dumps(
+            dict(category="repair")),
+        headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code, 200)
 
     def test_user_delete_a_request(self):
         """Test for deleting a request"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.new_request()
+        response_message = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("Request Added Successfully", response_message["message"]) 
+
+        response = self.app.delete('/api/v1/users-dashboard/0/requests/0')
+        self.assertEqual(response.status_code, 200)
 
     def test_admin_view_a_users_requests(self):
         """Test if Admin can view a user's requests"""
