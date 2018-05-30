@@ -34,7 +34,34 @@ class BaseTestCase(TestCase):
             "category":"maintenance",
             "title":"fogort password",
             "frequency":"once",
-            "description":"i am stupid"
+            "description":"i am stupid",
+            "status":"Pending"
+        }
+        self.requests = {
+            [
+            "id":"0",
+            "category":"maintenance",
+            "title":"fogort password",
+            "frequency":"once",
+            "description":"i am stupid",
+            "status":"Pending"
+            ],
+            [
+            "id":"1",
+            "category":"repair",
+            "title":"fogort hammer",
+            "frequency":"once",
+            "description":"i am also stupid",
+            "status":"Pending"
+            ],
+            [
+            "id":"2",
+            "category":"maintenance",
+            "title":"Tissue out",
+            "frequency":"daily",
+            "description":"well, not cool",
+            "status":"Pending"
+            ]
         }
 
     def register_user(self):
@@ -65,11 +92,16 @@ class BaseTestCase(TestCase):
 
     def new_request(self):
         """ New  request helper"""
-        ret = self.app.post('/api/v1/users-dashboard/0/0/',
-        data = json.dumps(self.new_request),
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/0/',
+        data = json.dumps(self.request),
         headers = {'content-type':"appliction/json"})
         return ret
-    
+
+    def load_requests(self):
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
+        data = json.dumps(self.requests),
+        headers = {'content-type':"appliction/json"})
+        return ret
 
     # def tearDown(self):
     #     USERS.clear()

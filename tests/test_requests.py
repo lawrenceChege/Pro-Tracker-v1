@@ -20,20 +20,66 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.load_requests()
+        response_message = self.app.get('/api/v1/users-dashboard/0/requests/',
+        data=json.dumps(response), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        output = json.loads(response.data)
+        self.assertEqual(response_message, 201)
+        self.assertIn(output, "Tissue out")      
+        
+
 
     def test_user_view_a_request(self):
         """Test for vieving a particular request"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.new_request()
+        response_message = self.app.get('/api/v1/users-dashboard/0/requests/0/',
+        data=json.dumps(response), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        output = json.loads(response.data)
+        self.assertEqual(response_message, 201)
+        self.assertIn(output, "I am Stupid") 
 
     def test_user_view_a_request_category_by_category(self):
         """test for viewing a request category by category
         Categories include:Maintenance and Repair """
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.load_requests()
+        response_message = self.app.get('/api/v1/users-dashboard/0/requests/category/Repair',
+        data=json.dumps(response), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        output = json.loads(response.data)
+        self.assertEqual(response_message, 201)
+        self.assertIn(output, "repair")
+        self.assertNotIn(output, "maintenance") 
 
     def test_user_view_a_request_category_by_status(self):
         """Test for viewing a request category by status"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.load_requests()
+        response_message = self.app.get('/api/v1/users-dashboard/0/requests/status/pending',
+        data=json.dumps(response), content_type="application/json")
+        self.assertEqual(response.status_code, 200)
+        output = json.loads(response.data)
+        self.assertEqual(response_message, 201)
+        self.assertIn(output, "Pending") 
+        self.assertNotIn(output, "Approved")
+        self.assertNotIn(output, "Resolved")
+        self.assertNotIn(output, "Rejected")
 
     def test_user_modify_a_request(self):
         """Test for modifying a request"""
