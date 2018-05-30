@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 requests = [
     {
-        "id": "0",
+        "id": 0,
         "category": "maintenance",
         "title": "fogort password",
         "frequency": "once",
@@ -12,7 +12,7 @@ requests = [
         "status": "Pending"
     },
     {
-        "id": "1",
+        "id": 1,
         "category": "repair",
         "title": "fogort hammer",
         "frequency": "once",
@@ -20,7 +20,7 @@ requests = [
         "status": "Pending"
     },
     {
-        "id": "2",
+        "id": 2,
         "category": "maintenance",
         "title": "Tissue out",
         "frequency": "daily",
@@ -50,7 +50,7 @@ def user_create_request():
         'frequency': request.json['frequency'],
         'title': request.json['title'],
         'description': request.json.get('description', ""),
-        'status': request.json['status', ""]
+        'status': request.json['status']
         
     }
     requests.append(req)
