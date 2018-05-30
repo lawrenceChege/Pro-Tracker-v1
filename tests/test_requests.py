@@ -116,18 +116,63 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_admin_view_a_users_requests(self):
         """Test if Admin can view a user's requests"""
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.new_request()
+        response_message = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("Request Added Successfully", response_message["message"])
+
+        response = self.logout()
+        self.assertEqual(response.status_code, 200)
+
+
         self.register_admin()
         response = self.login_admin()
         self.assertEqual(response.status_code, 200)
 
-        response = self.app.get('/api')
+        
+        response = self.app.get('/api/v1/admin-dashboard/0/requests/')
+        self.assertEqual(response.status_code, 200)
 
     def test_admin_view_all_users_request(self):
         """Test if admin can view all requests from all users"""
-        pass
+        self.register_admin()
+        response = self.login_admin()
+        self.assertEqual(response.status_code, 200)
+
+        
+        response = self.app.get('/api/v1/admin-dashboard/requests/')
+        self.assertEqual(response.status_code, 200)
 
     def test_admin_modify_a_users_request_status(self):
         """Test admin modify a user's request status"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        response = self.new_request()
+        response_message = json.loads(response.data.decode("UTF-8"))
+        self.assertIn("Request Added Successfully", response_message["message"])
+
+        response = self.logout()
+        self.assertEqual(response.status_code, 200)
+
+        self.register_admin()
+        response = self.login_admin()
+        self.assertEqual(response.status_code, 200)
+        
+        response_message = self.app.put('/api/v1/admin-dashboard/0/requests/0',
+        data=json.dumps(
+            dict(status="Approved")),
+        headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code, 200)
+
+
+
+
+
+
 
     

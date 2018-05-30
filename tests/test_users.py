@@ -127,3 +127,8 @@ class TestUsersTestCase(BaseTestCase):
         headers={'content-type': "application/json"})
         response_msg = json.loads(response.data.decode())
         self.assertIn("Wrong Credentials!",response_msg["message"])
+
+    def test_logout(self):
+        """Test for successful logout"""
+        response = self.logout()
+        self.assertIn("You have successfylly logged out", response["message"])
