@@ -1,4 +1,5 @@
 """Test for methods applied to requests"""
+
 from base import BaseTestCase
 
 import json
@@ -115,7 +116,11 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_admin_view_a_users_requests(self):
         """Test if Admin can view a user's requests"""
-        pass
+        self.register_admin()
+        response = self.login_admin()
+        self.assertEqual(response.status_code, 200)
+
+        response = self.app.get('/api')
 
     def test_admin_view_all_users_request(self):
         """Test if admin can view all requests from all users"""

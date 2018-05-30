@@ -70,6 +70,13 @@ class BaseTestCase(TestCase):
         data = json.dumps(self.person),
         headers = {'content-type':"appliction/json"})
         return ret
+
+    def register_admin(self):
+        """Registration helper"""
+        ret = self.app.post('/api/v1/auth/signup',
+        data = json.dumps(self.admin),
+        headers = {'content-type':"appliction/json"})
+        return ret
         
     def login_user(self):
         """sign in helper"""
