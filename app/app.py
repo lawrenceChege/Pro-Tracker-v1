@@ -24,9 +24,9 @@ class User(Resource):
         """This method deletes a user"""
         pass
 
-api.add_resource(User, 'api/v1/user-dashboard/<int:id>', endpoint = 'user')
+api.add_resource(User, '/api/v1/user-dashboard/<int:id>', endpoint = 'user')
 
-reqests = [
+requests = [
     {
         "id": "0",
         "category": "maintenance",
@@ -66,6 +66,7 @@ class RequestList(Resource):
     """Holds methods for giving all requests"""
 
     def __init__(self):
+        """set validation for fields and initialize"""
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('category', type=str, required=True,
                                    help='No task category provided',
@@ -83,4 +84,72 @@ class RequestList(Resource):
                                    default= "Pending",
                                    location='json')
         super(RequestList, self).__init__()
-        
+
+    def get(self):
+        return {'requests':[ marshal(request, request_fields) for request in requests]}
+
+    def post(self):
+        args = self.reqparse.parse_args()
+        request = {
+            'id': requests[-1]['id'] +1,
+            'category': args['category'],
+            'frequency': args['frequency'],
+            'title': args['title'],
+            'description': args['description'],
+            'status': args['status']
+        }
+        requests.append(request)
+        return {'request': marshal(request, request_fields)}, 201 ,{'Etag': 'Request successfuly created'}
+
+class Request(Resource):
+    """ has methods for a single request"""
+    def __init__(self):
+        """set validation for fields and initialize"""
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('category', type=str, required=True,
+                                   help='No task category provided',
+                                   location='json')
+        self.reqparse.add_argument('frequency', type=str, required=True,
+                                   help='No task frequency provided',
+                                   location='json')
+        self.reqparse.add_argument('title', type=str, required=True,
+                                   help='No task title provided',
+                                   location='json')
+        self.reqparse.add_argument('description', type=str, required=True,
+                                   help='No task description provided',
+                                   location='json')
+        self.reqparse.add_argument('status', type=str,
+                                   default= "Pending",
+                                   location='json')
+        super(Request, self).__init__()
+
+    def get(self, id):
+        request = [request for request in requests if request['id']==id]
+        if len(request) == 0:
+            abort(404)
+        return {'request': marshal(request[0], request_fields)}
+
+    def put(self, id):
+        request = [request for request in requests if request['id']==id]
+        if len(request) ==0:
+            abort(404)
+        request = request[0]
+        args = self.reqparse.parse_args() 
+        for key, value in args.items():
+            if value is not None:
+                request[key] = value
+        return {'task': marshal(request, request_fields)}
+
+    def delete(self, id):
+        request = [request for request in requests if request['id'] == id]
+        if len(request) == 0:
+            abort(404)
+        request.remove(request[0])
+        return {'reslut': True}
+
+api.add_resource(RequestList,'/api/v1/requests', endpoint="requests")
+api.add_resource(Request,'/api/v1/requests/<request_id>', endpoint="request")
+
+if __name__ == '__main__':
+    app.run()    
+    
