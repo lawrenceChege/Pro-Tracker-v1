@@ -30,7 +30,7 @@ class BaseTestCase(TestCase):
             "password":"admin1234"
         }
 
-        self.new_request={
+        self.request={
             "category":"maintenance",
             "title":"fogort password",
             "frequency":"once",
@@ -63,12 +63,12 @@ class BaseTestCase(TestCase):
         return self.app.get('/api/v1/auth/logout', follow_redirects=True)
 
 
-    # def new_request(self):
-    #     """ New w request helper"""
-    #     ret = self.app.post('/api/v1/dashboard/user<id>/new-request/',
-    #     data = json.dumps(self.new_request),
-    #     headers = {'content-type':"appliction/json"})
-    #     return ret
+    def new_request(self):
+        """ New  request helper"""
+        ret = self.app.post('/api/v1/users-dashboard/0/0/',
+        data = json.dumps(self.new_request),
+        headers = {'content-type':"appliction/json"})
+        return ret
     
 
     # def tearDown(self):

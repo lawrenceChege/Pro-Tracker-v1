@@ -8,7 +8,15 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_user_make_new_request(self):
         """Test for making new request"""
-        pass
+        self.register_user()
+        response = self.login_user()
+        self.assertEqual(response.status_code,200)
+
+        self.new_request()
+        response = self.new_request()
+        response_message = json.loads(response.data.decode("UTF-8"))
+        self.assertEqual(response.status_code, 201)
+        self.assertIn("Request Added Successfully", response_message["message"]) 
 
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
