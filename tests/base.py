@@ -16,7 +16,7 @@ class BaseTestCase(TestCase):
         pass 
     def setUp(self):
         """set up app configuration"""
-        self.app = app.test_client(self)
+        self.app = self.app.test_client()
         self.app.testing = True
 
         self.person = {

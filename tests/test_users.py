@@ -1,8 +1,10 @@
 """Tests for users"""
 
 from base import BaseTestCase
+from app import app 
 
 import json
+import os
 
 
 class TestUsersTestCase(BaseTestCase):

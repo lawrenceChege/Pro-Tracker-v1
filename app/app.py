@@ -145,10 +145,10 @@ class Request(Resource):
         if len(request) == 0:
             abort(404)
         request.remove(request[0])
-        return {'reslut': True}
+        return {'result': True}
 
-api.add_resource(RequestList,'/api/v1/requests', endpoint="requests")
-api.add_resource(Request,'/api/v1/requests/<request_id>', endpoint="request")
+api.add_resource(RequestList,'/', '/api/v1/users-dashboard/0/requests/', endpoint="requests")
+api.add_resource(Request, '/<int:id>', '/api/v1/users-dashboard/0/requests/<int:id>')
 
 if __name__ == '__main__':
     app.run()    
