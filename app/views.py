@@ -57,6 +57,40 @@ def user_create_request():
     return jsonify({'req': req}), 201
 
 
+@app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['PUT'])
+def update_request(request_id):
+    req = [req for req in requests if req['id'] == request_id]
+    if len(req) == 0:
+        abort(404)
+    if not request.json:
+        abort(400)
+    if 'category' in request.json and type(request.json['category']) != unicode:
+        abort(400)
+    if 'frequency' in request.json and type(request.json['frequency']) is not unicode:
+        abort(400)
+    if 'title' in request.json and type(request.json['title']) != unicode:
+        abort(400)
+    if 'description' in request.json and type(request.json['description']) is not unicode:
+        abort(400)
+    if 'status' in request.json and type(request.json['status']) is not unicode:
+        abort(400)
+
+    req[0]['category'] = request.json.get('category', req[0]['category']),
+    req[0]['frequency'] = request.json.get('frequency', req[0]['frequency']),
+    req[0]['title'] = request.json.get('title', req[0]['title']),
+    req[0]['description'] = request.json.get('description', req[0]['description']),
+    req[0]['status'] = request.json.get('status', req[0]['status']),
+    return jsonify({'req': req[0]})
+
+@app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['DELETE'])
+def delete_request(request_id):
+    req = [req for req in requests if req['id'] == request_id]
+    if len(req) == 0:
+        abort(404)
+    requests.remove(req[0])
+    return jsonify({'result': True})
+
+
 
 if __name__ == '__main__':
     app.run(debug  =True)

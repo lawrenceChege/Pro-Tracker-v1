@@ -1,5 +1,5 @@
 """ This is the base class for all the tests"""
-from app import app
+from app.app import app
 from unittest import TestCase
 import unittest
 import os
@@ -16,7 +16,7 @@ class BaseTestCase(TestCase):
         pass 
     def setUp(self):
         """set up app configuration"""
-        self.app = self.app.test_client()
+        self.app = app.test_client()
         self.app.testing = True
 
         self.person = {
