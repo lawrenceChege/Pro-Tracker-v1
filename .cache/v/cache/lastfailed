@@ -1,8 +1,6 @@
 {
   "test_api.py::BaseTestCase::test_user_view_all_requests": true, 
   "test_api.py::TestRequestsTestCase::test_user_view_all_requests": true, 
-  "test_requests.py::BaseTestCase": true, 
-  "test_requests.py::TestRequestsTestCase": true, 
   "test_requests.py::TestRequestsTestCase::test_user_modify_a_request": true, 
   "tests/test_requests.py": true, 
   "tests/test_users.py": true
