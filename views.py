@@ -85,6 +85,21 @@ def get_user_request(request_id):
         abort(404)
     return jsonify({'req': req})
 
+@app.route('/api/v1/users-dashboard/0/requests/<category>/', methods = ['GET'])
+def get_user_request_by_category(category):
+    req = [req for req in requests if req['category']== category]
+    if len(req) == 0:
+        abort(404)
+    return jsonify({'req': req})
+
+
+@app.route('/api/v1/users-dashboard/0/requests/<category>/', methods = ['GET'])
+def get_user_request_by_status(category):
+    req = [req for req in requests if req['category']== category]
+    if len(req) == 0:
+        abort(404)
+    return jsonify({'req': req})
+
 @app.route('/api/v1/users-dashboard/0/requests/', methods = ['POST'])
 def user_create_request():
     if not request.json or not 'title' in request.json:

@@ -51,32 +51,22 @@ class TestRequestsTestCase(BaseTestCase):
         response_message = self.app.get('/api/v1/users-dashboard/0/requests/0/')
         self.assertEqual(response_message.status_code, 200)
 
-#     def test_user_view_a_request_category_by_category(self):
-#         """test for viewing a request category by category
-#         Categories include:Maintenance and Repair """
+    def test_user_view_a_request_category_by_category(self):
+        """test for viewing a request category by category
+            Categories include:
+                    -Maintenance 
+                    -Repair """
 
-#         response = self.load_requests()
-#         response_message = self.app.get('/api/v1/users-dashboard/0/requests/category/Repair',
-#                                         data=json.dumps(response), content_type="application/json")
-#         self.assertEqual(response.status_code, 200)
-#         output = json.loads(response.data)
-#         self.assertEqual(response_message, 201)
-#         self.assertIn(output, "repair")
-#         self.assertNotIn(output, "maintenance")
+        response_message = self.app.get('api/v1/users-dashboard/0/requests/repair/')
+        self.assertEqual(response_message.status_code, 200)
+       
 
-#     def test_user_view_a_request_category_by_status(self):
-#         """Test for viewing a request category by status"""
+    def test_user_view_a_request_category_by_status(self):
+        """Test for viewing a request category by status"""
 
-#         response = self.load_requests()
-#         response_message = self.app.get('/api/v1/users-dashboard/0/requests/status/pending',
-#                                         data=json.dumps(response), content_type="application/json")
-#         self.assertEqual(response.status_code, 200)
-#         output = json.loads(response.data)
-#         self.assertEqual(response_message, 201)
-#         self.assertIn(output, "Pending")
-#         self.assertNotIn(output, "Approved")
-#         self.assertNotIn(output, "Resolved")
-#         self.assertNotIn(output, "Rejected")
+        response = self.app.get('/api/v1/users-dashboard/0/requests/status/pending')
+        self.assertEqual(response.status_code, 200)
+
 
 #     def test_user_modify_a_request(self):
 #         """Test for modifying a request"""
