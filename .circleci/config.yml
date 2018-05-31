@@ -3,7 +3,7 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2
-jobs:
+jobs: 
   build:
     docker:
       # specify the version you desire here
@@ -33,7 +33,8 @@ jobs:
           - v1-dependencies-{{ checksum "requirements.txt" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
+jobs: build
+  build:
       steps:
       - checkout
       - run: mkdir test-reports
