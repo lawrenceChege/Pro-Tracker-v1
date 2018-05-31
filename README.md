@@ -35,8 +35,10 @@ It provides the API endpoints for [maintenance tracker]()
 * Git 
 * Virtualenv
 
-##Installation
+## Installation
+
 **Download option**
+
 * Go to [Pro-Tracker](https://github.com/lawrenceChege/Pro-Tracker-v1) on github
 * Download the zip file and extract it
 * Right click on the folder and open with terminal on linux or bash
@@ -47,19 +49,26 @@ _we will continue from there :-)_
 * On your favorite terminal 
 * cd to where you want the repo to go
 * Run the following command:
+
 `git clone https://github.com/lawrenceChege/Pro-Tracker-v1.git`
 * Then:
+
 `cd Pro-Tracker`
 
-##Virtual environment 
+## Virtual environment 
 
 > Now create a vitual environment, run:
+
 `virtualenv env`
+
 > or :
+
 ` python3 -m venv env`
+
 > or any other that you know of.
 
 > > Create a .env file and configure it with:
+
 `source env/bin/activate
 export FLASK_APP="run.py"
 export SECRET="thisissupposedtobeapassword"
@@ -67,19 +76,26 @@ export APP_SETTINGS="development"
 export DATABASE_URL="postgresql:username@password    //localhost/Pro-Tracker"`
 
 >To activate virtualenv, run:
+
 `source .env`
+
 > or:
+
 `source env/bin/activate`
 
 **Install Dependencies**
 > run:
+
 `pip install -r requirements.txt`
+
 > or:
+
 `python3 -m pip install -r requirements.txt`
 
-##API-Endpoints
+## API-Endpoints
 
 For user:
+
 Test | API-endpoint |HTTP-Verb
 ------------ | ------------- | ------------
 Users can create new requests |/api/v1/user-dashboard/<user_id>/requests/ | POST
@@ -88,7 +104,7 @@ users can view a request | /api/v1/user-dashboard/<user_id>/requests/<reqest_id>
 users can modify their requests | /api/v1/user-dashboard/<user_id>/requests/<reqest_id> | PUT
 users can delete a request | /api/v1/user-dashboard/<user_id>/requests/<reqest_id> | DELETE
 
-**Testing*
+*Testing*
 > you could test each endpoint on postman or curl
 > you could also run
 `nosetests`
@@ -96,10 +112,12 @@ or
 `pytest`
 
 *this readme will be updated periodically*
-###Author
+### Author
+
 *Lawrence Chege*
 
-###Acknowledgement
+### Acknowledgement
+
 *Andela Kenya*
 
 
