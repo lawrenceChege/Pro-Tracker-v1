@@ -70,9 +70,13 @@ _we will continue from there :-)_
 > > Create a .env file and configure it with:
 
 `source env/bin/activate
+
 export FLASK_APP="run.py"
+
 export SECRET="thisissupposedtobeapassword"
+
 export APP_SETTINGS="development"
+
 export DATABASE_URL="postgresql:username@password    //localhost/Pro-Tracker"`
 
 >To activate virtualenv, run:
