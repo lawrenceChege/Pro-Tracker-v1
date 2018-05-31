@@ -1,8 +1,8 @@
 from flask import Flask, jsonify, abort, request, make_response, url_for
-from flask_httpauth import HTTPBasicAuth
+# from flask_httpauth import HTTPBasicAuth
 
 app = Flask(__name__, static_url_path = "")
-auth = HTTPBasicAuth()
+# auth = HTTPBasicAuth()
 
 requests = [
     {
@@ -52,19 +52,19 @@ admin = {
 
 }
 
-unicode = str.encode('utf8')
+# unicode = str.encode('utf8')
 
-@auth.get_password
-def get_password(username):
-    if username == 'admin':
-        return 'babayao'
-    elif username == 'user':
-        return 'kamjamaa'
-    return None
+# @auth.get_password
+# def get_password(username):
+#     if username == 'admin':
+#         return 'babayao'
+#     elif username == 'user':
+#         return 'kamjamaa'
+#     return None
 
-@auth.error_handler
-def unauthorized():
-    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
+# @auth.error_handler
+# def unauthorized():
+#     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
 
 @app.errorhandler(400)
 def Bad_request(error):
@@ -144,7 +144,7 @@ def update_request(request_id):
     return jsonify({'req': req[0]})
 
 @app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['DELETE'])
-@auth.login_required
+# @auth.login_required
 def delete_request(request_id):
     req = [req for req in requests if req['id'] == request_id]
     if len(req) == 0:
