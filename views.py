@@ -52,6 +52,7 @@ admin = {
 
 }
 
+unicode = str.encode('utf8')
 
 @auth.get_password
 def get_password(username):
@@ -93,9 +94,9 @@ def get_user_request_by_category(category):
     return jsonify({'req': req})
 
 
-@app.route('/api/v1/users-dashboard/0/requests/<category>/', methods = ['GET'])
-def get_user_request_by_status(category):
-    req = [req for req in requests if req['category']== category]
+@app.route('/api/v1/users-dashboard/0/requests/<status>/', methods = ['GET'])
+def get_user_request_by_status(status):
+    req = [req for req in requests if req['status']== status]
     if len(req) == 0:
         abort(404)
     return jsonify({'req': req})
@@ -124,15 +125,15 @@ def update_request(request_id):
         abort(404)
     if not request.json:
         abort(400)
-    if 'category' in request.json and type(request.json['category']) != unicode:
+    if 'category' in request.json and type(request.json['category']) != str:
         abort(400)
-    if 'frequency' in request.json and type(request.json['frequency']) is not unicode:
+    if 'frequency' in request.json and type(request.json['frequency']) is not str:
         abort(400)
-    if 'title' in request.json and type(request.json['title']) != unicode:
+    if 'title' in request.json and type(request.json['title']) != str:
         abort(400)
-    if 'description' in request.json and type(request.json['description']) is not unicode:
+    if 'description' in request.json and type(request.json['description']) is not str:
         abort(400)
-    if 'status' in request.json and type(request.json['status']) is not unicode:
+    if 'status' in request.json and type(request.json['status']) is not str:
         abort(400)
 
     req[0]['category'] = request.json.get('category', req[0]['category']),
