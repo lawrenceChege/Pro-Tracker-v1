@@ -2,6 +2,9 @@
 
 from base import BaseTestCase
 
+import views
+import unittest
+
 import json
 
 class TestRequestsTestCase(BaseTestCase):
@@ -169,7 +172,8 @@ class TestRequestsTestCase(BaseTestCase):
         headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 200)
 
-
+if __name__ == '__main__':
+    unittest.main()
 
 
 

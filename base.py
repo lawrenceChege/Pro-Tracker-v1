@@ -108,10 +108,10 @@ class BaseTestCase(TestCase):
         return ret
 
     def load_requests(self):
-        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
-        data = json.dumps(self.requests),
-        headers = {'content-type':"appliction/json"})
-        return ret
+        response = self.app.post('/api/v1/users-dashboard/0/requests/',
+                                 data=json.dumps(self.request),
+                                 headers={'content-type': "application/json"})
+        return response
 
     # def tearDown(self):
     #     USERS.clear()

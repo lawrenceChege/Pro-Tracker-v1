@@ -1,6 +1,8 @@
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, make_response, url_for
+from flask_httpauth import HTTPBasicAuth
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path = "")
+auth = HTTPBasicAuth()
 
 requests = [
     {
@@ -28,10 +30,53 @@ requests = [
         "status": "Pending"
     }
 ]
+person = {
+    "firstname": "lawrence",
+    "lastname": "chege",
+    "email": "mbuchez8@gmail.com",
+    "password": "noyoudont"
+
+}
+
+req = {
+    "category": "repair",
+    "frequency": "once",
+    "title": "fogort hammer",
+    "description": "i am also stupid",
+    "status": "Approved"
+}
+admin = {
+
+    "email": "admin@gmail.com",
+    "password": "admin1234"
+
+}
+
+
+@auth.get_password
+def get_password(username):
+    if username == 'admin':
+        return 'babayao'
+    elif username == 'user':
+        return 'kamjamaa'
+    return None
+
+@auth.error_handler
+def unauthorized():
+    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
+
+@app.errorhandler(400)
+def Bad_request(error):
+    return make_response(jsonify( { 'error': 'Bad request' } ), 400)
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 @app.route('/api/v1/users-dashboard/0/requests/', methods = ['GET'])
 def get_user_requests():
-    return jsonify ({'requests': requests})
+    return jsonify({'requests': [make_public_request(req) for req in requests]})
 
 @app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods = ['GET'])
 def get_user_request(request_id):
@@ -54,7 +99,7 @@ def user_create_request():
         
     }
     requests.append(req)
-    return jsonify({'req': req}), 201
+    return jsonify({'req': req, "message": "Request Added Successfully"}), 201
 
 
 @app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['PUT'])
@@ -83,12 +128,22 @@ def update_request(request_id):
     return jsonify({'req': req[0]})
 
 @app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['DELETE'])
+@auth.login_required
 def delete_request(request_id):
     req = [req for req in requests if req['id'] == request_id]
     if len(req) == 0:
         abort(404)
     requests.remove(req[0])
     return jsonify({'result': True})
+
+def make_public_request(req):
+    new_request = {}
+    for field in req:
+        if field == 'id':
+            new_request['uri'] = url_for('get_user_request', request_id=req['id'], _external=True)
+        else:
+            new_request[field] = req[field]
+    return new_request
 
 
 
