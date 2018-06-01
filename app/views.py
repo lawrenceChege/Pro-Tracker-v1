@@ -159,33 +159,27 @@ def get_user_requests(user_id):
 
 @app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods = ['GET'])
 def get_user_request(user_id, request_id):
-    requests['user_id']
-    req = [req for req in requests if req['id']== request_id]
+    req = requests[user_id][request_id]
     if len(req) == 0:
         abort(404)
     return jsonify({'req': req})
 
-@app.route('/api/v1/users-dashboard/0/requests/<category>/', methods = ['GET'])
-def get_user_request_by_category(category):
-    req = [req for req in requests if req['category']== category]
-    if len(req) == 0:
-        abort(404)
-    return jsonify({'req': req})
+@app.route('/api/v1/users-dashboard/<int:user_id>/<category>/', methods = ['GET'])
+def get_user_request_by_category(user_id, category):
+    pass
 
 
 @app.route('/api/v1/users-dashboard/0/requests/<status>/', methods = ['GET'])
 def get_user_request_by_status(status):
-    req = [req for req in requests if req['status']== status]
-    if len(req) == 0:
-        abort(404)
-    return jsonify({'req': req})
+    pass
 
-@app.route('/api/v1/users-dashboard/0/requests/', methods = ['POST'])
-def user_create_request():
+@app.route('/api/v1/users-dashboard/<int:user_id>', methods = ['POST'])
+def user_create_request(user_id):
     if not request.json or not 'title' in request.json:
         abort(400)
+    reques = requests[user_id]
     req = {
-        'id': requests[-1]['id'] + 1,
+        'id': reques[-1]['id'] + 1,
         'category': request.json['category'],
         'frequency': request.json['frequency'],
         'title': request.json['title'],

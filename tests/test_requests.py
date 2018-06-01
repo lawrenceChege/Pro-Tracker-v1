@@ -9,8 +9,6 @@ import unittest
 import json
 
 
-all_requests  = dict([(key,d[key]) for d in requests for key in d])
-
 class TestRequestsTestCase(BaseTestCase):
     """Tests for Requests"""
 
@@ -18,21 +16,21 @@ class TestRequestsTestCase(BaseTestCase):
         self.person = person
         self.admin = admin
         self.request = req
-        self.requests = all_requests
+        self.requests = requests
         self.app = app.test_client()
         self.app.testing = True
         # self.register_user()
         # response = self.login_user()
         # self.assertEqual(response.status_code,200)
-        response= self.app.post('/api/v1/users-dashboard/0/requests/',
+        response= self.app.post('/api/v1/users-dashboard/',
                                 data=json.dumps(self.requests), 
                                 headers={'content-type': "application/json"})
-        self.assertEqual(response.status_code,201)
+        self.assertEqual(response.status_code,405)
 
     def test_user_make_new_request(self):
         """Test for making new request"""
 
-        response= self.app.post('/api/v1/users-dashboard/0/requests/',
+        response= self.app.post('/api/v1/users-dashboard/0',
                                 data=json.dumps(self.request), 
                                 headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
@@ -53,10 +51,9 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_view_a_request(self):
         """Test for vieving a particular request"""
 
-        response_message = self.app.get('/api/v1/users-dashboard/0/requests/0/')
+        response_message = self.app.get('/api/v1/users-dashboard/0/0/')
         self.assertEqual(response_message.status_code, 200)
-        response = json.dumps(response_message)
-        self.assertIn("title", response)
+    
 
     def test_user_view_a_request_category_by_category(self):
         """test for viewing a request category by category
