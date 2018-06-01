@@ -1,5 +1,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/lawrenceChege/Pro-Tracker-v1/badge.svg?branch=develop)](https://coveralls.io/github/lawrenceChege/Pro-Tracker-v1?branch=develop)
-[![Build Status](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1.svg?branch=develop)](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1)
+
+[![Build Status](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1.svg?branch=ft-157959190-api-views-requests)](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1)
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/3d8715ce44a3a2973776/maintainability)](https://codeclimate.com/github/lawrenceChege/Pro-Tracker-v1/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3d8715ce44a3a2973776/test_coverage)](https://codeclimate.com/github/lawrenceChege/Pro-Tracker-v1/test_coverage)
