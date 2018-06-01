@@ -90,32 +90,24 @@ class TestRequestsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
 
 
-# class AdminTestRequestsTestCase(TestRequestsTestCase):
+class AdminTestRequestsTestCase(TestRequestsTestCase):
 
-#     def setUp(self):
-#         self.admin = admin
-#         self.person = person
-#         self.request = request
-#         self.requests = request
-#         self.app = app.test_client()
-#         self.app.testing = True
-#         # self.register_user()
-#         # response = self.login_user()
-#         # self.assertEqual(response.status_code,200)
+    def setUp(self):
+        self.admin = admin
+        self.person = person
+        self.request = req
+        self.requests = all_requests
+        self.app = app.test_client()
+        self.app.testing = True
+        # self.register_user()
+        # response = self.login_user()
+        # self.assertEqual(response.status_code,200)
 
-#     def test_admin_view_a_users_requests(self):
-#         """Test if Admin can view a user's requests"""
+    def test_admin_view_a_users_requests(self):
+        """Test if Admin can view a user's requests"""
 
-#         response = self.new_request()
-#         response_message = json.loads(response.data.decode("UTF-8"))
-#         self.assertIn("Request Added Successfully",
-#                       response_message["message"])
-
-#         response = self.logout()
-#         self.assertEqual(response.status_code, 200)
-
-#         response = self.app.get('/api/v1/admin-dashboard/0/requests/')
-#         self.assertEqual(response.status_code, 200)
+        response = self.app.get('/api/v1/admin-dashboard/users/0/requests/')
+        self.assertEqual(response.status_code, 200)
 
 #     def test_admin_view_all_users_request(self):
 #         """Test if admin can view all requests from all users"""

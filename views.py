@@ -7,6 +7,7 @@ app = Flask(__name__, static_url_path = "")
 requests = [
     {
         "id": 0,
+        "user_id": 0,
         "category": "maintenance",
         "title": "fogort password",
         "frequency": "once",
@@ -15,6 +16,7 @@ requests = [
     },
     {
         "id": 1,
+        "user_id": 0,
         "category": "repair",
         "title": "fogort hammer",
         "frequency": "once",
@@ -23,10 +25,65 @@ requests = [
     },
     {
         "id": 2,
+        "user_id": 0,
         "category": "maintenance",
         "title": "Tissue out",
         "frequency": "daily",
         "description": "well, not cool",
+        "status": "Pending"
+    },
+    {
+        "id": 0,
+        "user_id": 1,
+        "category": "maintenance",
+        "title": "sad",
+        "frequency": "once",
+        "description": "just sad",
+        "status": "Pending"
+    },
+    {
+        "id": 1,
+        "user_id": 1,
+        "category": "repair",
+        "title": "toilet broken",
+        "frequency": "once",
+        "description": "shit happens", 
+        "status": "Pending"
+    },
+    {
+        "id": 2,
+        "user_id": 1,
+        "category": "maintenance",
+        "title": "Tissue out",
+        "frequency": "daily",
+        "description": "well, not cool",
+        "status": "Pending"
+    },
+    {
+        "id": 0,
+        "user_id": 2,
+        "category": "maintenance",
+        "title": "laptop battery dead",
+        "frequency": "annually",
+        "description": "they should really work on battery life",
+        "status": "Pending"
+    },
+    {
+        "id": 1,
+        "user_id": 2,
+        "category": "repair",
+        "title": "heart broken",
+        "frequency": "once",
+        "description": "i miss her",
+        "status": "Pending"
+    },
+    {
+        "id": 2,
+        "user_id": 2,
+        "category": "maintenance",
+        "title": "bulb blown up",
+        "frequency": "once",
+        "description": "well, ligts out",
         "status": "Pending"
     }
 ]
@@ -151,6 +208,29 @@ def delete_request(request_id):
         abort(404)
     requests.remove(req[0])
     return jsonify({'result': True})
+
+@app.route('/api/v1/admin-dashboard/users/<int:user_id>/requests/', methods=['GET'])
+def admin_get_a_user_request(user_id):
+    pass
+
+@app.route('/api/v1/admin-dashboard/users/requests/', methods=['GET'])
+def admin_get_users_requests():
+    pass
+
+@app.route('/api/v1/admin-dashboard/users/requests/<category>', methods=['GET'])
+def admin_get_requests_by_category():
+    pass
+
+@app.route('/api/v1/admin-dashboard/users/requests/<status>', methods=['GET'])
+def admin_get_requests_by_status():
+    pass
+
+@app.route('/api/v1/admin-dashboard/users/0/requests/0', methods=['PUT'])
+def admin_modify_a_user_request():
+    pass
+
+
+
 
 def make_public_request(req):
     new_request = {}
