@@ -1,12 +1,12 @@
 """ This is the base class for all the tests"""
 from flask import Flask
-import views
+from app import views
 from unittest import TestCase
 import unittest
 import os
 import json
 
-app = Flask(__name__)
+# app = Flask(__name__)
 
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
