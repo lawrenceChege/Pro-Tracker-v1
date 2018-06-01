@@ -132,9 +132,16 @@ def Bad_request(error):
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
-@app.route('/api/v1/users-dashboard/0/requests/', methods = ['GET'])
-def get_user_requests():
+@app.route('/api/v1/users-dashboard/', methods = ['GET'])
+def get_users():
+    return jsonify({'requests': [make_public_user(req) for req in requests]})
+
+@app.route('/api/v1/users-dashboard/<int:user_id>', methods = ['GET'])
+def get_user():
     return jsonify({'requests': [make_public_request(req) for req in requests]})
+
+@app.route('/api/v1/users-dashboard/<int:user_id>/', methods =['GET'])
+
 
 @app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods = ['GET'])
 def get_user_request(request_id):
@@ -230,10 +237,20 @@ def admin_modify_a_user_request():
     pass
 
 
-
+def make_public_user(req):
+    new_user = {}
+    for field in req:
+        if field == 'user_id':
+            new_user['uri'] = url_for('get_users', user_id=req['user_id'], _external=True)
+            new_user['uri'] = url_for('get_user', user_id=req['user_id'], _external=True)
+        else:
+            new_user[field] = req[field]
+    return new_user
 
 def make_public_request(req):
-    new_request = {}
+    new_user = make_public_user(req)
+
+    new_request = new_user
     for field in req:
         if field == 'id':
             new_request['uri'] = url_for('get_user_request', request_id=req['id'], _external=True)

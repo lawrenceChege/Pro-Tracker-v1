@@ -102,6 +102,10 @@ class AdminTestRequestsTestCase(TestRequestsTestCase):
         # self.register_user()
         # response = self.login_user()
         # self.assertEqual(response.status_code,200)
+        response= self.app.post('/api/v1/users-dashboard/0/requests/',
+                                data=json.dumps(self.requests), 
+                                headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
 
     def test_admin_view_a_users_requests(self):
         """Test if Admin can view a user's requests"""
