@@ -185,7 +185,6 @@ def user_create_request(user_id):
         'title': request.json['title'],
         'description': request.json.get('description', ""),
         'status': request.json['status']
-        
     }
     # requests.append(req)
     return jsonify({'req': req, "message": "Request Added Successfully"}), 201
