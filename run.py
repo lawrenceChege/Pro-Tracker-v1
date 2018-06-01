@@ -1,9 +1,9 @@
 import os
+from flask import Flask
+from app import views
 
-from app import app
-
-config_name = os.getenv('APP_SETTINGS') # config_name = "development"
-app = (config_name)
+# config_name = os.getenv('APP_SETTINGS') # config_name = "development"
+app = Flask(__name__)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
