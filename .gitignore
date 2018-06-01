@@ -1,6 +1,6 @@
 env/
 .vscode/
-.pyc
+*.pyc
 tests/.pyc
 tests/__pycache__
 app/.pyc
@@ -9,5 +9,5 @@ instance/.pyc
 instance/__pycache__
 .cache/v/cache
 .env
-__pycache__/
+*__pycache__/
 
