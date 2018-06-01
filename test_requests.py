@@ -27,6 +27,7 @@ class TestRequestsTestCase(BaseTestCase):
         response= self.app.post('/api/v1/users-dashboard/0/requests/',
                                 data=json.dumps(self.requests), 
                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
 
     def test_user_make_new_request(self):
         """Test for making new request"""
@@ -76,22 +77,17 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_modify_a_request(self):
         """Test for modifying a request"""
         
-        response = self.app.put('/api/v1/users-dashboard/0/requests/0/',
+        response = self.app.put('/api/v1/users-dashboard/0/requests/3/',
                                         data=json.dumps(
                                             dict(category="repair")),
                                         headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 200)
 
-#     def test_user_delete_a_request(self):
-#         """Test for deleting a request"""
+    def test_user_delete_a_request(self):
+        """Test for deleting a request"""
 
-#         response = self.new_request()
-#         response_message = json.loads(response.data.decode("UTF-8"))
-#         self.assertIn("Request Added Successfully",
-#                       response_message["message"])
-
-#         response = self.app.delete('/api/v1/users-dashboard/0/requests/0')
-#         self.assertEqual(response.status_code, 200)
+        response = self.app.delete('/api/v1/users-dashboard/0/requests/3/')
+        self.assertEqual(response.status_code, 200)
 
 
 # class AdminTestRequestsTestCase(TestRequestsTestCase):
