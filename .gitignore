@@ -3,5 +3,5 @@ env/
 .pyc
 .cache/v/cache
 .env
-__pycache__
+__pycache__/
 
