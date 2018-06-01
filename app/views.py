@@ -154,9 +154,6 @@ def get_users_requests():
 @app.route('/api/v1/users-dashboard/<int:user_id>', methods = ['GET'])
 def get_user_requests(user_id):
     req = requests[user_id]
-    for k in requests:
-        if k == "user_id":
-            req = requests['user_id']
     return jsonify({'req' : req})
 
 

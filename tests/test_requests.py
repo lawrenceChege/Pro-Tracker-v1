@@ -42,7 +42,11 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
 
-        response = self.app.get('/api/v1/users-dashboard/0/requests')
+        response = self.app.get('/api/v1/users-dashboard/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_user_view_a_users_requests(self):
+        response = self.app.get('/api/v1/users-dashboard/')
         self.assertEqual(response.status_code, 200)
         
 
