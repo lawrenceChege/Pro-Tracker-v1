@@ -3,7 +3,7 @@
 from base import BaseTestCase
 from views import app, person, req, requests, admin
 
-import views
+from app import views
 import unittest
 
 import json
