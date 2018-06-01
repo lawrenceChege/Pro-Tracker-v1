@@ -1,6 +1,6 @@
 """Test for methods applied to requests"""
 
-from base import BaseTestCase
+from tests.base import BaseTestCase
 from app.views import app, person, req, requests, admin
 
 from app import views
@@ -42,7 +42,7 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
 
-        response = self.app.get('/api/v1/users-dashboard/0/requests/')
+        response = self.app.get('/api/v1/users-dashboard/0/requests')
         self.assertEqual(response.status_code, 200)
         
 
@@ -51,6 +51,8 @@ class TestRequestsTestCase(BaseTestCase):
 
         response_message = self.app.get('/api/v1/users-dashboard/0/requests/0/')
         self.assertEqual(response_message.status_code, 200)
+        response = json.dumps(response_message)
+        self.assertIn("title", response)
 
     def test_user_view_a_request_category_by_category(self):
         """test for viewing a request category by category

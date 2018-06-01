@@ -4,89 +4,92 @@ from flask import Flask, jsonify, abort, request, make_response, url_for
 app = Flask(__name__, static_url_path = "")
 # auth = HTTPBasicAuth()
 
-requests = [
-    {
-        "id": 0,
-        "user_id": 0,
-        "category": "maintenance",
-        "title": "fogort password",
-        "frequency": "once",
-        "description": "i am stupid",
-        "status": "Pending"
-    },
-    {
-        "id": 1,
-        "user_id": 0,
-        "category": "repair",
-        "title": "fogort hammer",
-        "frequency": "once",
-        "description": "i am also stupid",
-        "status": "Pending"
-    },
-    {
-        "id": 2,
-        "user_id": 0,
-        "category": "maintenance",
-        "title": "Tissue out",
-        "frequency": "daily",
-        "description": "well, not cool",
-        "status": "Pending"
-    },
-    {
-        "id": 0,
-        "user_id": 1,
-        "category": "maintenance",
-        "title": "sad",
-        "frequency": "once",
-        "description": "just sad",
-        "status": "Pending"
-    },
-    {
-        "id": 1,
-        "user_id": 1,
-        "category": "repair",
-        "title": "toilet broken",
-        "frequency": "once",
-        "description": "shit happens", 
-        "status": "Pending"
-    },
-    {
-        "id": 2,
-        "user_id": 1,
-        "category": "maintenance",
-        "title": "Tissue out",
-        "frequency": "daily",
-        "description": "well, not cool",
-        "status": "Pending"
-    },
-    {
-        "id": 0,
-        "user_id": 2,
-        "category": "maintenance",
-        "title": "laptop battery dead",
-        "frequency": "annually",
-        "description": "they should really work on battery life",
-        "status": "Pending"
-    },
-    {
-        "id": 1,
-        "user_id": 2,
-        "category": "repair",
-        "title": "heart broken",
-        "frequency": "once",
-        "description": "i miss her",
-        "status": "Pending"
-    },
-    {
-        "id": 2,
-        "user_id": 2,
-        "category": "maintenance",
-        "title": "bulb blown up",
-        "frequency": "once",
-        "description": "well, ligts out",
-        "status": "Pending"
-    }
-]
+requests = {
+    0: [
+
+        {
+            "id": 0,
+            "category": "maintenance",
+            "title": "fogort password",
+            "frequency": "once",
+            "description": "i am stupid",
+            "status": "Pending"
+        },
+        {
+            "id": 1,
+            "category": "repair",
+            "title": "fogort hammer",
+            "frequency": "once",
+            "description": "i am also stupid",
+            "status": "Pending"
+        },
+        {
+            "id": 2,
+            "category": "maintenance",
+            "title": "Tissue out",
+            "frequency": "daily",
+            "description": "well, not cool",
+            "status": "Pending"
+        }
+
+    ],
+    1: [
+
+        {
+            "id": 0,
+            "category": "maintenance",
+            "title": "sad",
+            "frequency": "once",
+            "description": "just sad",
+            "status": "Pending"
+        },
+        {
+            "id": 1,
+            "category": "repair",
+            "title": "toilet broken",
+            "frequency": "once",
+            "description": "shit happens",
+            "status": "Pending"
+        },
+        {
+            "id": 2,
+            "category": "maintenance",
+            "title": "Tissue out",
+            "frequency": "daily",
+            "description": "well, not cool",
+            "status": "Pending"
+        }
+
+    ],
+    2: [
+        {
+            "id": 0,
+            "category": "maintenance",
+            "title": "laptop battery dead",
+            "frequency": "annually",
+            "description": "they should really work on battery life",
+            "status": "Pending"
+        },
+        {
+            "id": 1,
+            "category": "repair",
+            "title": "heart broken",
+            "frequency": "once",
+            "description": "i miss her",
+            "status": "Pending"
+        },
+        {
+            "id": 2,
+            "category": "maintenance",
+            "title": "bulb blown up",
+            "frequency": "once",
+            "description": "well, ligts out",
+            "status": "Pending"
+        }
+
+    ]
+}
+
 person = {
     "firstname": "lawrence",
     "lastname": "chege",
@@ -108,6 +111,17 @@ admin = {
     "password": "admin1234"
 
 }
+
+
+def make_public_request(requests):
+
+    new_request = {}
+    for field in req:
+        if field == 'id':
+            new_request['uri'] = url_for('get_user_request', request_id=req['id'], _external=True)
+        else:
+            new_request[field] = req[field]
+    return new_request
 
 # unicode = str.encode('utf8')
 
@@ -132,19 +146,23 @@ def Bad_request(error):
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
+
 @app.route('/api/v1/users-dashboard/', methods = ['GET'])
-def get_users():
-    return jsonify({'requests': [make_public_user(req) for req in requests]})
+def get_users_requests():
+    return jsonify({"requests": requests})
 
 @app.route('/api/v1/users-dashboard/<int:user_id>', methods = ['GET'])
-def get_user():
-    return jsonify({'requests': [make_public_request(req) for req in requests]})
+def get_user_requests(user_id):
+    req = requests[user_id]
+    for k in requests:
+        if k == "user_id":
+            req = requests['user_id']
+    return jsonify({'req' : req})
 
-@app.route('/api/v1/users-dashboard/<int:user_id>/', methods =['GET'])
 
-
-@app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods = ['GET'])
-def get_user_request(request_id):
+@app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods = ['GET'])
+def get_user_request(user_id, request_id):
+    requests['user_id']
     req = [req for req in requests if req['id']== request_id]
     if len(req) == 0:
         abort(404)
@@ -178,7 +196,7 @@ def user_create_request():
         'status': request.json['status']
         
     }
-    requests.append(req)
+    # requests.append(req)
     return jsonify({'req': req, "message": "Request Added Successfully"}), 201
 
 
@@ -235,30 +253,6 @@ def admin_get_requests_by_status():
 @app.route('/api/v1/admin-dashboard/users/0/requests/0', methods=['PUT'])
 def admin_modify_a_user_request():
     pass
-
-
-def make_public_user(req):
-    new_user = {}
-    for field in req:
-        if field == 'user_id':
-            new_user['uri'] = url_for('get_users', user_id=req['user_id'], _external=True)
-            new_user['uri'] = url_for('get_user', user_id=req['user_id'], _external=True)
-        else:
-            new_user[field] = req[field]
-    return new_user
-
-def make_public_request(req):
-    new_user = make_public_user(req)
-
-    new_request = new_user
-    for field in req:
-        if field == 'id':
-            new_request['uri'] = url_for('get_user_request', request_id=req['id'], _external=True)
-        else:
-            new_request[field] = req[field]
-    return new_request
-
-
 
 if __name__ == '__main__':
     app.run(debug  =True)

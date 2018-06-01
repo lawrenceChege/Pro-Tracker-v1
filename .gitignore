@@ -10,4 +10,5 @@ instance/__pycache__
 .cache/v/cache
 .env
 *__pycache__/
+.pytest_cache/
 
