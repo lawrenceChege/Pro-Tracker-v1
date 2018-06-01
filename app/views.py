@@ -191,9 +191,10 @@ def user_create_request(user_id):
     return jsonify({'req': req, "message": "Request Added Successfully"}), 201
 
 
-@app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['PUT'])
-def update_request(request_id):
-    req = [req for req in requests if req['id'] == request_id]
+@app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods=['PUT'])
+def update_request(user_id, request_id):
+    reqw=requests[user_id]
+    req = [req for req in reqw if req['id'] == request_id]
     if len(req) == 0:
         abort(404)
     if not request.json:
@@ -216,13 +217,14 @@ def update_request(request_id):
     req[0]['status'] = request.json.get('status', req[0]['status']),
     return jsonify({'req': req[0]})
 
-@app.route('/api/v1/users-dashboard/0/requests/<int:request_id>/', methods=['DELETE'])
+@app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods=['DELETE'])
 # @auth.login_required
-def delete_request(request_id):
-    req = [req for req in requests if req['id'] == request_id]
+def delete_request(user_id, request_id):
+    reqw = requests[user_id]
+    req = [req for req in reqw if req['id'] == request_id]
     if len(req) == 0:
         abort(404)
-    requests.remove(req[0])
+    reqw.remove(req[0])
     return jsonify({'result': True})
 
 @app.route('/api/v1/admin-dashboard/users/<int:user_id>/requests/', methods=['GET'])
