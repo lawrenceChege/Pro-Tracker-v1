@@ -1,4 +1,4 @@
-[![Coverage Status](https://coveralls.io/repos/github/lawrenceChege/Pro-Tracker-v1/badge.svg?branch=develop)](https://coveralls.io/github/lawrenceChege/Pro-Tracker-v1?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/lawrenceChege/Pro-Tracker-v1/badge.svg?branch=ft-157959190-api-views-requests)](https://coveralls.io/github/lawrenceChege/Pro-Tracker-v1?branch=ft-157959190-api-views-requests)
 
 [![Build Status](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1.svg?branch=ft-157959190-api-views-requests)](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1)
 
