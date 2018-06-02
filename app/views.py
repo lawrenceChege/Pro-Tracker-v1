@@ -201,15 +201,20 @@ def update_request(user_id, request_id):
     if not request.json:
         abort(400)
     if 'category' in request.json and type(request.json['category']) != str:
-        return jsonify({"message" : "Category is required"})
+        abort(400)
+        # return jsonify({"message" : "Category is required"})
     if 'frequency' in request.json and type(request.json['frequency']) is not str:
         abort(400)
+        # return jsonify({"message" : "Category is required"})
     if 'title' in request.json and type(request.json['title']) != str:
         abort(400)
+        # return jsonify({"message" : "Category is required"})
     if 'description' in request.json and type(request.json['description']) is not str:
         abort(400)
+        # return jsonify({"message" : "Category is required"})
     if 'status' in request.json and type(request.json['status']) is not str:
         abort(400)
+        # return jsonify({"message" : "Category is required"})
 
     req[0]['category'] = request.json.get('category', req[0]['category']),
     req[0]['frequency'] = request.json.get('frequency', req[0]['frequency']),
