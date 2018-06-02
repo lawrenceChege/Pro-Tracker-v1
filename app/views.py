@@ -200,9 +200,8 @@ def update_request(user_id, request_id):
         abort(404)
     if not request.json:
         abort(400)
-    if 'category' in request.json and type(request.json['category']) != str:
-        abort(400)
-        # return jsonify({"message" : "Category is required"})
+    if 'category' in request.json and not isinstance(request.json['category'], str):
+        raise ValueError("Category must be a string")
     if 'frequency' in request.json and type(request.json['frequency']) is not str:
         abort(400)
         # return jsonify({"message" : "Category is required"})

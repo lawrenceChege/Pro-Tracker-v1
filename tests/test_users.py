@@ -1,7 +1,6 @@
 # """Tests for users"""
 
 # from base import BaseTestCase
-# from app import app 
 
 # import json
 # import os
@@ -58,7 +57,7 @@
 #     def test_users_signup(self):
 #         """ tests for good sign up"""
 #         response = self.app.post('/api/v1/auth/signup'),
-#         response = self.register_user()    
+#         response = self.register_user()   
 #         response_msg = json.loads(response.data.decode())
 #         self.assertIn("User successfully registered", response_msg["message"])
     

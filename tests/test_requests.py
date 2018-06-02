@@ -3,9 +3,7 @@
 from tests.base import BaseTestCase
 from app.views import app, person, req, requests, admin
 
-from app import views
 import unittest
-
 import json
 
 
@@ -30,12 +28,11 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_make_new_request(self):
         """Test for making new request"""
 
-        response = self.app.post('/api/v1/users-dashboard/0',
-                                 data=json.dumps(self.request),
-                                 headers={'content-type': "application/json"})
+        response = self.app.post('/api/v1/users-dashboard/0', data=json.dumps(
+            self.request), headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())
-        assert data['message'] == 'Request Added Successfully'
+        self.assertEqual(data['message'],'Request Added Successfully')
 
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
@@ -65,9 +62,8 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_view_a_request_category_by_category(self):
         """test for viewing a request category by category
             Categories include:
-                                -Maintenance 
+                                -Maintenance
                                 -Repair """
-
         pass
        
 

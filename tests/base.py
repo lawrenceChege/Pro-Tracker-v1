@@ -1,12 +1,9 @@
 """ This is the base class for all the tests"""
-from flask import Flask
-from app import views
 from unittest import TestCase
+from app import app
 import unittest
-import os
 import json
 
-# app = Flask(__name__)
 
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
@@ -70,8 +67,8 @@ class BaseTestCase(TestCase):
     def register_user(self):
         """Registration helper"""
         ret = self.app.post('/api/v1/auth/signup',
-        data = json.dumps(self.person),
-        headers = {'content-type':"appliction/json"})
+                            data=json.dumps(self.person),
+                            headers={'content-type': "appliction/json"})
         return ret
 
     def register_admin(self):
