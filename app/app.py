@@ -104,24 +104,8 @@ class RequestList(Resource):
 class Request(Resource):
     """ has methods for a single request"""
     def __init__(self):
-        """set validation for fields and initialize"""
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('category', type=str, required=True,
-                                   help='No task category provided',
-                                   location='json')
-        self.reqparse.add_argument('frequency', type=str, required=True,
-                                   help='No task frequency provided',
-                                   location='json')
-        self.reqparse.add_argument('title', type=str, required=True,
-                                   help='No task title provided',
-                                   location='json')
-        self.reqparse.add_argument('description', type=str, required=True,
-                                   help='No task description provided',
-                                   location='json')
-        self.reqparse.add_argument('status', type=str,
-                                   default= "Pending",
-                                   location='json')
-        super(Request, self).__init__()
+        pass
+        
     @classmethod
     def get(self, id):
         request = [request for request in requests if request['id']==id]
