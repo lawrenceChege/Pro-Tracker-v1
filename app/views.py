@@ -204,7 +204,7 @@ def update_request(user_id, request_id):
         abort(404)
     if not request.json:
         abort(400)
-    if 'category' in request.json and not isinstance(request.json['frequency'], str):
+    if 'category' in request.json and not isinstance(request.json['category'], str):
         return jsonify({"message" : "Please enter category as either repair or maintenance"})
     if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
         return jsonify({"message" : "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})

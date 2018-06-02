@@ -12,15 +12,15 @@ class User(Resource):
         """This class creates a user"""
         pass
 
-    def get(self, id):
+    def get(self):
         """This method gets the details of a user"""
         pass
 
-    def put(self, id):
+    def put(self):
         """This method modifies the details of a user"""
         pass
 
-    def delete(self, id):
+    def delete(self):
         """This method deletes a user"""
         pass
 
