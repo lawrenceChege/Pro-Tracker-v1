@@ -30,22 +30,27 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_make_new_request(self):
         """Test for making new request"""
 
-        response= self.app.post('/api/v1/users-dashboard/0',
-                                data=json.dumps(self.request), 
-                                headers={'content-type': "application/json"})
+        response = self.app.post('/api/v1/users-dashboard/0',
+                                 data=json.dumps(self.request),
+                                 headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
-        # self.assertIn("Request Added Successfully",
-        #               response["message"])
+        data = json.loads(response.get_data())
+        assert data['message'] == 'Request Added Successfully'
 
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
 
         response = self.app.get('/api/v1/users-dashboard/')
         self.assertEqual(response.status_code, 200)
+        data = json.loads(response.get_data())
+        self.assertEqual( data['message'] , "all requests found successfully")
 
     def test_user_view_a_users_requests(self):
+        """Test for viewing a user's requests """
         response = self.app.get('/api/v1/users-dashboard/')
         self.assertEqual(response.status_code, 200)
+        data = json.loads(response.get_data())
+        self.assertEqual( data['message'] , "all requests found successfully")
         
 
     def test_user_view_a_request(self):
@@ -53,6 +58,8 @@ class TestRequestsTestCase(BaseTestCase):
 
         response_message = self.app.get('/api/v1/users-dashboard/0/0/')
         self.assertEqual(response_message.status_code, 200)
+        data = json.loads(response_message.get_data())
+        self.assertEqual( data['message'] , "Request successfully retrieved")
     
 
     def test_user_view_a_request_category_by_category(self):
@@ -83,12 +90,16 @@ class TestRequestsTestCase(BaseTestCase):
                                             dict(category="repair")),
                                         headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 200)
+        data = json.loads(response.get_data())
+        self.assertEqual( data['message'] , "Request successfully updated")
 
     def test_user_delete_a_request(self):
         """Test for deleting a request"""
 
         response = self.app.delete('/api/v1/users-dashboard/0/2/')
         self.assertEqual(response.status_code, 200)
+        data = json.loads(response.get_data())
+        self.assertEqual( data['message'] , "Request successfuly deleted")
 
 
 # class AdminTestRequestsTestCase(TestRequestsTestCase):
@@ -97,7 +108,7 @@ class TestRequestsTestCase(BaseTestCase):
 #         self.admin = admin
 #         self.person = person
 #         self.request = req
-#         self.requests = all_requests
+#         self.requests = requests
 #         self.app = app.test_client()
 #         self.app.testing = True
 #         # self.register_user()
@@ -107,18 +118,21 @@ class TestRequestsTestCase(BaseTestCase):
 #                                 data=json.dumps(self.requests), 
 #                                 headers={'content-type': "application/json"})
 #         self.assertEqual(response.status_code,201)
+#         self.fail()
 
 #     def test_admin_view_a_users_requests(self):
 #         """Test if Admin can view a user's requests"""
 
 #         response = self.app.get('/api/v1/admin-dashboard/users/0/requests/')
 #         self.assertEqual(response.status_code, 200)
+#         self.fail()
 
 #     def test_admin_view_all_users_request(self):
 #         """Test if admin can view all requests from all users"""
 
 #         response = self.app.get('/api/v1/admin-dashboard/requests/')
 #         self.assertEqual(response.status_code, 404)
+#         self.fail()
 
 #     def test_admin_modify_a_users_request_status(self):
 #         """Test admin modify a user's request status"""
@@ -130,12 +144,14 @@ class TestRequestsTestCase(BaseTestCase):
 
 #         response = self.logout()
 #         self.assertEqual(response.status_code, 200)
+#         self.fail()
 
 #         response_message = self.app.put('/api/v1/admin-dashboard/0/requests/0',
 #                                         data=json.dumps(
 #                                             dict(status="Approved")),
 #                                         headers={'content-type': "application/json"})
 #         self.assertEqual(response.status_code, 200)
+#         self.fail()
 
 
 if __name__ == '__main__':
