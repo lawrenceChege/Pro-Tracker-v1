@@ -21,7 +21,7 @@ class TestRequestsTestCase(BaseTestCase):
         # response = self.login_user()
         # self.assertEqual(response.status_code,200)
         response= self.app.post('/api/v1/users-dashboard/',
-                                data=json.dumps(self.requests), 
+                                data=json.dumps(self.requests),
                                 headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,405)
 

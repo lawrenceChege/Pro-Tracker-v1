@@ -106,7 +106,6 @@ class Request(RequestList):
     def __init__(self):
         pass
 
-    @classmethod
     def get(self, id):
         request = [request for request in requests if request['id']==id]
         if len(request) == 0:

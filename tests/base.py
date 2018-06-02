@@ -9,7 +9,7 @@ class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
     @classmethod
     def setUpClass(cls):
-        pass 
+        pass
 
     @classmethod
     def tearDownClass(cls):
@@ -63,7 +63,7 @@ class BaseTestCase(TestCase):
                 "status": "Pending"
             }
         ]
-            
+
     def register_user(self):
         """Registration helper"""
         ret = self.app.post('/api/v1/auth/signup',
