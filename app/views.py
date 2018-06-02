@@ -1,5 +1,5 @@
 """API endpoints for the maintenance tracker app"""
-from flask import Flask, jsonify, abort, request, make_response, url_for
+from flask import Flask, jsonify, abort, request, make_response, url_for, render_template
 
 app = Flask(__name__, static_url_path = "")
 
@@ -149,7 +149,7 @@ def server_error(error):
 
 @app.route('/', methods = ['GET'])
 def index():
-    return "Hello world"
+    return render_template('home.html')
 
 #hii inaget request zote za kila user.
 #inafaa kuwa ya admin
