@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,13 +9,116 @@
     <link rel="stylesheet" type="text/css" media="screen" href="#" />
     <script src="#"></script>
 </head>
+<style>
+    body {
+        background-color: rgba(11, 245, 245, 0.918);
+    }
+
+    table {
+        width: 90%;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    table tr:nth-child(even) {
+        background-color: rgba(18, 155, 197, 0.801);
+    }
+
+    table tr:nth-child(odd) {
+        background-color: rgba(219, 23, 160, 0.767);
+    }
+
+    table th {
+        background-color: black;
+        color: white;
+    }
+
+    .juu {
+        background-color: rgba(178, 196, 22, 0.678);
+        color: white;
+        margin: o;
+        width: 90%;
+        left: 50px;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 22pt;
+    }
+    .chini{
+        padding: 20px;
+        left: 50px;
+        text-align: center;
+    }
+    header{
+        font-size: 22px;
+        color: blueviolet;
+        text-align: center;
+
+    }
+</style>
+
 <body>
-        <div style="background-color:rgba(80, 95, 45, 0.438); color:white;">
-            <h2> Pro-Tracker</h2>
-            <h4> Welcome to Pro-Tracker</h4>
-            <p> an api service for managing maintenance and rpair requests</p>
-            <br>
-        </div>
+    <header>
+        <h2> Pro-Tracker</h2>
+    </header>
+    <div class="juu">
+        <h4> Welcome to Pro-Tracker</h4>
+        <p> an api service for managing maintenance and repair requests</p>
+        <br>
+    </div>
+    <div>
+        <h2> Pro-Tracker Endpoints </h2>
+
+        <table class="chini">
+            <tr>
+                <th>Test</th>
+                <th>Endpoint</th>
+                <th>HTTP-verb</th>
+            </tr>
+            <tr>
+                <td>View all users reuests </td>
+                <td>/api/v1/user-dashboard/</td>
+                <td>GET</td>
+            </tr>
+            <tr>
+                <td>Users can create new requests</td>
+                <td>/api/v1/user-dashboard/user_id</td>
+                <td>POST</td>
+            </tr>
+            <tr>
+                <td>users can view all their requests</td>
+                <td>/api/v1/user-dashboard/user_id/</td>
+                <td>GET</td>
+            </tr>
+            <tr>
+                <td>users can view a request</td>
+                <td>/api/v1/user-dashboard/user_id/reqest_id/</td>
+                <td>GET</td>
+            </tr>
+            <tr>
+                <td>users can modify their requests</td>
+                <td>/api/v1/user-dashboard/user_id/reqest_id/</td>
+                <td>PUT</td>
+            </tr>
+            <tr>
+                <td>users can delete a request </td>
+                <td>/api/v1/user-dashboard/user_id/reqest_id/</td>
+                <td>DELETE</td>
+            </tr>
+        </table>
+    </div>
+
 
 </body>
+
 </html>
