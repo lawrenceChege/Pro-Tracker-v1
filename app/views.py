@@ -147,6 +147,10 @@ def server_error(error):
     """Handle 500 errors"""
     return make_response(jsonify({'error': 'Internal Server error'}), 500)
 
+@app.route('/', methods = ['GET'])
+def index():
+    return "Hello world"
+
 #hii inaget request zote za kila user.
 #inafaa kuwa ya admin
 @app.route('/api/v1/users-dashboard/', methods = ['GET'])
@@ -200,20 +204,16 @@ def update_request(user_id, request_id):
         abort(404)
     if not request.json:
         abort(400)
-    if 'category' in request.json and not isinstance(request.json['category'], str):
-        raise ValueError("Category must be a string")
-    if 'frequency' in request.json and type(request.json['frequency']) is not str:
-        abort(400)
-        # return jsonify({"message" : "Category is required"})
-    if 'title' in request.json and type(request.json['title']) != str:
-        abort(400)
-        # return jsonify({"message" : "Category is required"})
-    if 'description' in request.json and type(request.json['description']) is not str:
-        abort(400)
-        # return jsonify({"message" : "Category is required"})
-    if 'status' in request.json and type(request.json['status']) is not str:
-        abort(400)
-        # return jsonify({"message" : "Category is required"})
+    if 'category' in request.json and not isinstance(request.json['frequency'], str):
+        return jsonify({"message" : "Please enter category as either repair or maintenance"})
+    if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
+        return jsonify({"message" : "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
+    if 'title' in request.json and not isinstance(request.json['title'], str):
+        return jsonify({"message" : "Title should be a string"})
+    if 'description' in request.json and not isinstance(request.json['description'], str):
+        return jsonify({"message" : "Description is a string"})
+    if 'status' in request.json and not isinstance(request.json['status'], str) :
+        return jsonify({"message" : "status  is a string"})
 
     req[0]['category'] = request.json.get('category', req[0]['category']),
     req[0]['frequency'] = request.json.get('frequency', req[0]['frequency']),
