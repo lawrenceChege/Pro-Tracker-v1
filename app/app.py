@@ -101,11 +101,11 @@ class RequestList(Resource):
         requests.append(request)
         return {'request': marshal(request, request_fields)}, 201 ,{'Etag': 'Request successfuly created'}
 
-class Request(Resource):
+class Request(RequestList):
     """ has methods for a single request"""
     def __init__(self):
         pass
-        
+
     @classmethod
     def get(self, id):
         request = [request for request in requests if request['id']==id]
