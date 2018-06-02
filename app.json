@@ -1,14 +1,4 @@
 {
-<<<<<<< HEAD
-  "environments": {
-    "test": {
-      "scripts": {
-        "test": "nose test"
-      }
-    }
-  }
-}
-=======
   "name": "Pro-Tracker-v1",
   "description": "api endpoints for maintenance tracker",
   "scripts": {
@@ -24,4 +14,3 @@
 
   ]
 }
->>>>>>> 6fac8f6bebe2c2921dc04555166a2a4642f9bc97

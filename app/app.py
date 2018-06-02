@@ -1,4 +1,4 @@
-from flask import Flask, abort, make_response
+from flask import Flask, abort
 from flask_restful import Api, Resource, reqparse, fields, marshal
 from flask_httpauth import HTTPBasicAuth
 
@@ -60,7 +60,7 @@ request_fields = {
     'description':fields.String,
     'status':fields.String,
     'uri': fields.Url('request')
-}  
+}
 
 class RequestList(Resource):
     """Holds methods for giving all requests"""
@@ -84,7 +84,7 @@ class RequestList(Resource):
                                    default= "Pending",
                                    location='json')
         super(RequestList, self).__init__()
-
+    @classmethod
     def get(self):
         return {'requests':[ marshal(request, request_fields) for request in requests]}
 
@@ -122,7 +122,7 @@ class Request(Resource):
                                    default= "Pending",
                                    location='json')
         super(Request, self).__init__()
-
+    @classmethod
     def get(self, id):
         request = [request for request in requests if request['id']==id]
         if len(request) == 0:
@@ -134,12 +134,12 @@ class Request(Resource):
         if len(request) ==0:
             abort(404)
         request = request[0]
-        args = self.reqparse.parse_args() 
+        args = self.reqparse.parse_args()
         for key, value in args.items():
             if value is not None:
                 request[key] = value
         return {'task': marshal(request, request_fields)}
-
+    @classmethod
     def delete(self, id):
         request = [request for request in requests if request['id'] == id]
         if len(request) == 0:
@@ -151,5 +151,4 @@ api.add_resource(RequestList,'/', '/api/v1/users-dashboard/0/requests/', endpoin
 api.add_resource(Request, '/<int:id>', '/api/v1/users-dashboard/0/requests/<int:id>')
 
 if __name__ == '__main__':
-    app.run()    
-    
+    app.run()
