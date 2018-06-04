@@ -1,7 +1,7 @@
 """Test for methods applied to requests"""
 # from flask import url_for
 from tests.base import BaseTestCase
-from app.views import app, person, req, not_found, requests, admin
+from app.views import app, person, req, requests, admin
 
 import unittest
 import json
@@ -93,11 +93,6 @@ class TestRequestsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual( data['message'] , "Request successfuly deleted")
-
-    def test_404(self):
-        response = not_found(error)
-        data =json.loads(response.get_data())
-        self.assertEqual(data['error'], 'Not found')
 
 class AdminTestRequestsTestCase(TestRequestsTestCase):
 
