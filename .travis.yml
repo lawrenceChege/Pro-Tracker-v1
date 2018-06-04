@@ -11,8 +11,8 @@ install:
   -pip install pytest
 
 script:
--nosetests --with-coverage --cover-package=tests && coverage report
--python -m pytest --cov-report term-missing --cov=app
+  -nosetests --with-coverage --cover-package=tests && coverage report
+  -python -m pytest --cov-report term-missing --cov=app
 # -python-codacy-coverage -r coverage.xml
 
 
@@ -21,4 +21,5 @@ script:
   -nosetests
 
 after_success: 
-  -coveralls
+  - coveralls
+  - codecov
