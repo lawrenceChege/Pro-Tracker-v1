@@ -11,6 +11,6 @@ script:
   - python -m pytest --cov-report term-missing --cov=app
 # -python-codacy-coverage -r coverage.xml
 
-after_script: 
+after_success: 
   - coveralls
   - codecov
