@@ -9,8 +9,9 @@ install:
   -pip install coveralls
 
 script:
-- nosetests --with-coverage --cover-package=tests && coverage report
-- python -m pytest --cov-report term-missing --cov=app
+-nosetests --with-coverage --cover-package=tests && coverage report
+-python -m pytest --cov-report term-missing --cov=app
+# -python-codacy-coverage -r coverage.xml
 
 
 script:

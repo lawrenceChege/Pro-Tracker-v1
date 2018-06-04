@@ -1,4 +1,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/lawrenceChege/Pro-Tracker-v1/badge.svg?branch=ft-157959190-api-views-requests)](https://coveralls.io/github/lawrenceChege/Pro-Tracker-v1?branch=ft-157959190-api-views-requests)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/59902067ff0a426aa825fbf06e71c4ef)](https://www.codacy.com/app/lawrenceChege/Pro-Tracker-v1?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lawrenceChege/Pro-Tracker-v1&amp;utm_campaign=Badge_Grade)
 
 [![Build Status](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1.svg?branch=ft-157959190-api-views-requests)](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1)
 
