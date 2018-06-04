@@ -1,0 +1,15 @@
+language: python
+python:
+  - "3.6"
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - nosetests --with-coverage --cover-package=tests && coverage report
+  - python -m pytest --cov-report term-missing --cov=app
+# -python-codacy-coverage -r coverage.xml
+
+after_success: 
+  - coveralls
+  - codecov

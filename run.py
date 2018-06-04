@@ -1,9 +1,5 @@
-import os
-
-from app import create_app
-
-config_name = os.getenv('APP_SETTINGS') # config_name = "development"
-app = create_app(config_name)
+"""Runs the app"""
+from app.views import app
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

@@ -1,22 +1,22 @@
 """ This is the base class for all the tests"""
-from app import app
 from unittest import TestCase
+from app import app
 import unittest
-import os
 import json
+
 
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
     @classmethod
     def setUpClass(cls):
-        pass 
+        pass
 
     @classmethod
     def tearDownClass(cls):
-        pass 
+        pass
     def setUp(self):
         """set up app configuration"""
-        self.app = app.test_client(self)
+        self.app = app.test_client()
         self.app.testing = True
 
         self.person = {
@@ -30,57 +30,57 @@ class BaseTestCase(TestCase):
             "password":"admin1234"
         }
 
-        self.request={
-            "category":"maintenance",
-            "title":"fogort password",
-            "frequency":"once",
-            "description":"i am stupid",
-            "status":"Pending"
+        self.request = {
+            "category": "repair",
+            "frequency": "once",
+            "title": "fogort hammer",
+            "description": "i am also stupid",
+            "status": "Approved"
         }
-        self.requests = {
-            [
-            "id":"0",
-            "category":"maintenance",
-            "title":"fogort password",
-            "frequency":"once",
-            "description":"i am stupid",
-            "status":"Pending"
-            ],
-            [
-            "id":"1",
-            "category":"repair",
-            "title":"fogort hammer",
-            "frequency":"once",
-            "description":"i am also stupid",
-            "status":"Pending"
-            ],
-            [
-            "id":"2",
-            "category":"maintenance",
-            "title":"Tissue out",
-            "frequency":"daily",
-            "description":"well, not cool",
-            "status":"Pending"
-            ]
-        }
+        self.requests = [
+            {
+                "id": 0,
+                "category": "maintenance",
+                "title": "fogort password",
+                "frequency": "once",
+                "description": "i am stupid",
+                "status": "Pending"
+            },
+            {
+                "id": 1,
+                "category": "repair",
+                "title": "fogort hammer",
+                "frequency": "once",
+                "description": "i am also stupid",
+                "status": "Pending"
+            },
+            {
+                "id": 2,
+                "category": "maintenance",
+                "title": "Tissue out",
+                "frequency": "daily",
+                "description": "well, not cool",
+                "status": "Pending"
+            }
+        ]
 
     def register_user(self):
         """Registration helper"""
         ret = self.app.post('/api/v1/auth/signup',
-        data = json.dumps(self.person),
-        headers = {'content-type':"appliction/json"})
+                            data=json.dumps(self.person),
+                            headers={'content-type': "appliction/json"})
         return ret
 
     def register_admin(self):
         """Registration helper"""
-        ret = self.app.post('/api/v1/auth/signup',
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
         data = json.dumps(self.admin),
         headers = {'content-type':"appliction/json"})
         return ret
-        
+
     def login_user(self):
         """sign in helper"""
-        ret = self.app.post('/api/v1/auth/signin',
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
         data = json.dumps(self.person),
         headers = {'content-type':"appliction/json"})
         return ret
@@ -99,16 +99,16 @@ class BaseTestCase(TestCase):
 
     def new_request(self):
         """ New  request helper"""
-        ret = self.app.post('/api/v1/users-dashboard/0/requests/0/',
+        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
         data = json.dumps(self.request),
         headers = {'content-type':"appliction/json"})
         return ret
 
     def load_requests(self):
-        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
-        data = json.dumps(self.requests),
-        headers = {'content-type':"appliction/json"})
-        return ret
+        response = self.app.post('/api/v1/users-dashboard/0/requests/',
+                                 data=json.dumps(self.request),
+                                 headers={'content-type': "application/json"})
+        return response
 
     # def tearDown(self):
     #     USERS.clear()

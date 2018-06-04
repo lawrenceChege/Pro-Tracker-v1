@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pro-Tracker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="#" />
+    <script src="#"></script>
+</head>
+<style>
+    body {
+        background-color:#3261B5;
+        background-image: url('static/maintenance4.png');
+        background-repeat: space;
+    }
+
+    table {
+        width: 80%;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid #68686A;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 15px;
+        text-align: left;
+    }
+
+    table tr:nth-child(even) {
+        background-color:#529CFC;
+    }
+
+    table tr:nth-child(odd) {
+        background-color: #808285;
+    }
+
+    table th {
+        background-color: #68686A;
+        color: white;
+    }
+
+    .juu {
+        background-color: #DDDDDC;
+        color: rgb(0, 0, 0);
+        margin: o;
+        margin-left: 10%;
+        margin-right: 10%;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 22pt;
+    }
+    .chini{
+        padding: 20px;
+        margin-left: 10%;
+        margin-right: 10%;
+        text-align: center;
+    }
+    header{
+        font-size: 22px;
+        color: rgb(255, 255, 255);
+        text-align: center;
+
+    }
+</style>
+
+<body>
+    <header>
+        <h2> Pro-Tracker</h2>
+    </header>
+    <div class="juu">
+        <h4> Welcome to Pro-Tracker</h4>
+        <p> an api service for managing maintenance and repair requests</p>
+        <br>
+    </div>
+    <div>
+        <table class="chini">
+            <caption><h2> Pro-Tracker Endpoints </h2></caption>
+            <tr>
+                <th>Test</th>
+                <th>Endpoint</th>
+                <th>HTTP-verb</th>
+            </tr>
+            <tr>
+                <td>View all users requests </td>
+                <td>/api/v1/requests/</td>
+                <td>GET</td>
+            </tr>
+            <tr>
+                <td>Users can create new requests</td>
+                <td>/api/v1/requests/user_id</td>
+                <td>POST</td>
+            </tr>
+            <tr>
+                <td>users can view all their requests</td>
+                <td>/api/v1/requests/user_id/</td>
+                <td>GET</td>
+            </tr>
+            <tr>
+                <td>users can view a request</td>
+                <td>/api/v1/requests/user_id/reqest_id/</td>
+                <td>GET</td>
+            </tr>
+            <tr>
+                <td>users can modify their requests</td>
+                <td>/api/v1/requests/user_id/reqest_id/</td>
+                <td>PUT</td>
+            </tr>
+            <tr>
+                <td>users can delete a request </td>
+                <td>/api/v1/requests/user_id/reqest_id/</td>
+                <td>DELETE</td>
+            </tr>
+        </table>
+    </div>
+
+
+</body>
+
+</html>
