@@ -1,5 +1,5 @@
 """API endpoints for the maintenance tracker app"""
-from flask import Flask, jsonify, abort, request, url_for, render_template
+from flask import Flask, jsonify, abort, request, render_template
 
 app = Flask(__name__, static_url_path = "/static")
 
@@ -85,10 +85,7 @@ requests = {
             "frequency": "once",
             "description": "well, ligts out",
             "status": "Pending"
-        }
-
-    ]
-}
+            },]}
 
 #details za user
 person = {
