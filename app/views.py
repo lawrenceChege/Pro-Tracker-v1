@@ -136,16 +136,6 @@ def Bad_request(error):
 def not_found(error):
     """Handle 404 errors"""
     return make_response(jsonify({'error': 'Not found'}), 404)
-#ukifanya vitu hufai .like kuweka put kwa url haina id
-@app.errorhandler(405)
-def method_not_allowed(error):
-    """Handle 405 errors"""
-    return make_response(jsonify({'error': 'Method Not Allowed '}), 405)
-
-@app.errorhandler(500)
-def server_error(error):
-    """Handle 500 errors"""
-    return make_response(jsonify({'error': 'Internal Server error'}), 500)
 
 @app.route('/', methods = ['GET'])
 def index():

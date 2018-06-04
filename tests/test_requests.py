@@ -95,6 +95,7 @@ class TestRequestsTestCase(BaseTestCase):
         self.assertEqual( data['message'] , "Request successfuly deleted")
 
 
+
 class AdminTestRequestsTestCase(TestRequestsTestCase):
 
     def setUp(self):
