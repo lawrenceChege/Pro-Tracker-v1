@@ -109,11 +109,11 @@ For user:
 
 Test | API-endpoint |HTTP-Verb
 ------------ | ------------- | ------------
-Users can create new requests |/api/v1/user-dashboard/<user_id>/requests/ | POST
-users can view all their requests | /api/v1/user-dashboard/<user_id>/requests/ | GET
-users can view a request | /api/v1/user-dashboard/<user_id>/requests/<reqest_id> | GET
-users can modify their requests | /api/v1/user-dashboard/<user_id>/requests/<reqest_id> | PUT
-users can delete a request | /api/v1/user-dashboard/<user_id>/requests/<reqest_id> | DELETE
+Users can create new requests |/api/v1/requests/<user_id>/ | POST
+users can view all their requests | /api/v1/requests/<user_id>/ | GET
+users can view a request | /api/v1/requests/<user_id>/<reqest_id> | GET
+users can modify their requests | /api/v1/requests/<user_id>/<reqest_id> | PUT
+users can delete a request | /api/v1/requests/<user_id>/<reqest_id> | DELETE
 
 *Testing*
 > you could test each endpoint on postman or curl
