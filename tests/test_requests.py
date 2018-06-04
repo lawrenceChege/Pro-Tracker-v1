@@ -83,8 +83,8 @@ class TestRequestsTestCase(BaseTestCase):
                                             dict(category="repair")),
                                         headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 200)
-        data = json.loads(response.get_data())
-        self.assertEqual( data['message'] , "Request successfully updated")
+        data=json.loads(response.get_data())
+        self.assertEqual(data['message'], "Request successfully updated")
 
     def test_user_delete_a_request(self):
         """Test for deleting a request"""

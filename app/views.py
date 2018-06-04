@@ -1,5 +1,5 @@
 """API endpoints for the maintenance tracker app"""
-from flask import Flask, jsonify, abort, request, make_response, url_for, render_template
+from flask import Flask, jsonify, abort, request, url_for, render_template
 
 app = Flask(__name__, static_url_path = "/static")
 

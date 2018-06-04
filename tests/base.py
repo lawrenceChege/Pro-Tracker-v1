@@ -13,7 +13,7 @@ class BaseTestCase(TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        pass 
+        pass
     def setUp(self):
         """set up app configuration"""
         self.app = app.test_client()
@@ -77,7 +77,7 @@ class BaseTestCase(TestCase):
         data = json.dumps(self.admin),
         headers = {'content-type':"appliction/json"})
         return ret
-        
+
     def login_user(self):
         """sign in helper"""
         ret = self.app.post('/api/v1/users-dashboard/0/requests/',
