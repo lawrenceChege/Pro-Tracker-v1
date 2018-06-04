@@ -233,38 +233,5 @@ def delete_request(user_id, request_id):
     reqw.remove(req[0])
     return jsonify({'result': True, "message":"Request successfuly deleted"})
 
-#*******************#**************#*************#**************#************#**********#
-
-#hizi zimekataa
-@app.route('/api/v1/requests/<int:user_id>/<category>/', methods = ['GET'])
-def get_user_request_by_category(user_id, category):
-    pass
-
-#pia hii
-@app.route('/api/v1/requests/0/requests/<status>/', methods = ['GET'])
-def get_user_request_by_status(status):
-    pass
-
-
-@app.route('/api/v1/admin-dashboard/users/<int:user_id>/requests/', methods=['GET'])
-def admin_get_a_user_request(user_id):
-    pass
-
-@app.route('/api/v1/admin-dashboard/users/requests/', methods=['GET'])
-def admin_get_users_requests():
-    pass
-
-@app.route('/api/v1/admin-dashboard/users/requests/<category>', methods=['GET'])
-def admin_get_requests_by_category():
-    pass
-
-@app.route('/api/v1/admin-dashboard/users/requests/<status>', methods=['GET'])
-def admin_get_requests_by_status():
-    pass
-
-@app.route('/api/v1/admin-dashboard/users/0/requests/0', methods=['PUT'])
-def admin_modify_a_user_request():
-    pass
-
 if __name__ == '__main__':
     app.run()
