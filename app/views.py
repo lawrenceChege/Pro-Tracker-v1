@@ -153,20 +153,20 @@ def index():
 
 #hii inaget request zote za kila user.
 #inafaa kuwa ya admin
-@app.route('/api/v1/users-dashboard/', methods = ['GET'])
+@app.route('/api/v1/requests/', methods = ['GET'])
 def get_users_requests():
     """Gets requests for all users"""
     return jsonify({"requests": requests, "message": "all requests found successfully"}), 200
 
 #hii inaget request zote za msee mmoja
-@app.route('/api/v1/users-dashboard/<int:user_id>', methods = ['GET'])
+@app.route('/api/v1/requests/<int:user_id>', methods = ['GET'])
 def get_user_requests(user_id):
     """Gets requests for v single user"""
     req = requests[user_id]
     return jsonify({'req' : req,"message": "all user's requests"}),200
 
 #hii inaget request moja ya msee specific
-@app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods = ['GET'])
+@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods = ['GET'])
 def get_user_request(user_id, request_id):
     """Gets a specific request from a specific user"""
     req = requests[user_id][request_id]
@@ -176,7 +176,7 @@ def get_user_request(user_id, request_id):
 
 
 #hii inacreate request mpya inaongeza kwa user mmoja
-@app.route('/api/v1/users-dashboard/<int:user_id>', methods = ['POST'])
+@app.route('/api/v1/requests/<int:user_id>', methods = ['POST'])
 def user_create_request(user_id):
     """creates a new request to a specific user"""
     if not request.json or not 'title' in request.json:
@@ -195,7 +195,7 @@ def user_create_request(user_id):
 
 
 #hii ni ya kuedit
-@app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods=['PUT'])
+@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['PUT'])
 def update_request(user_id, request_id):
     """Modifies a specific request to a specific user"""
     reqw=requests[user_id]
@@ -223,7 +223,7 @@ def update_request(user_id, request_id):
     return jsonify({'req': req[0], "message":"Request successfully updated"})
 
 #kudelete
-@app.route('/api/v1/users-dashboard/<int:user_id>/<int:request_id>/', methods=['DELETE'])
+@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
 def delete_request(user_id, request_id):
     """Deletes a reuest from a specific user"""
     reqw = requests[user_id]
@@ -236,12 +236,12 @@ def delete_request(user_id, request_id):
 #*******************#**************#*************#**************#************#**********#
 
 #hizi zimekataa
-@app.route('/api/v1/users-dashboard/<int:user_id>/<category>/', methods = ['GET'])
+@app.route('/api/v1/requests/<int:user_id>/<category>/', methods = ['GET'])
 def get_user_request_by_category(user_id, category):
     pass
 
 #pia hii
-@app.route('/api/v1/users-dashboard/0/requests/<status>/', methods = ['GET'])
+@app.route('/api/v1/requests/0/requests/<status>/', methods = ['GET'])
 def get_user_request_by_status(status):
     pass
 
