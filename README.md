@@ -1,11 +1,10 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/db6a65a8b65c49ccb10d444f9ab9d848)](https://app.codacy.com/app/lawrenceChege/Pro-Tracker-v1?utm_source=github.com&utm_medium=referral&utm_content=lawrenceChege/Pro-Tracker-v1&utm_campaign=badger)
 [![Coverage Status](https://coveralls.io/repos/github/lawrenceChege/Pro-Tracker-v1/badge.svg?branch=ft-157959190-api-views-requests)](https://coveralls.io/github/lawrenceChege/Pro-Tracker-v1?branch=ft-157959190-api-views-requests)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/59902067ff0a426aa825fbf06e71c4ef)](https://www.codacy.com/app/lawrenceChege/Pro-Tracker-v1?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lawrenceChege/Pro-Tracker-v1&amp;utm_campaign=Badge_Grade)
+[![codecov](https://codecov.io/gh/lawrenceChege/Pro-Tracker-v1/branch/develop/graph/badge.svg)](https://codecov.io/gh/lawrenceChege/Pro-Tracker-v1)
 
 [![Build Status](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1.svg?branch=ft-157959190-api-views-requests)](https://travis-ci.org/lawrenceChege/Pro-Tracker-v1)
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/3d8715ce44a3a2973776/maintainability)](https://codeclimate.com/github/lawrenceChege/Pro-Tracker-v1/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/3d8715ce44a3a2973776/test_coverage)](https://codeclimate.com/github/lawrenceChege/Pro-Tracker-v1/test_coverage)
 
 
 # Pro-Tracker
