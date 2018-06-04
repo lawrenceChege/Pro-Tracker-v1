@@ -17,10 +17,7 @@ class TestRequestsTestCase(BaseTestCase):
         self.requests = requests
         self.app = app.test_client()
         self.app.testing = True
-        # self.register_user()
-        # response = self.login_user()
-        # self.assertEqual(response.status_code,200)
-        response= self.app.post('/api/v1/users-dashboard/',
+        response= self.app.post('/api/v1/requests/',
                                 data=json.dumps(self.requests),
                                 headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,405)
@@ -28,7 +25,7 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_make_new_request(self):
         """Test for making new request"""
 
-        response = self.app.post('/api/v1/users-dashboard/0', data=json.dumps(
+        response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request), headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())
@@ -37,14 +34,14 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
 
-        response = self.app.get('/api/v1/users-dashboard/')
+        response = self.app.get('/api/v1/requests/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual( data['message'] , "all requests found successfully")
 
     def test_user_view_a_users_requests(self):
         """Test for viewing a user's requests """
-        response = self.app.get('/api/v1/users-dashboard/')
+        response = self.app.get('/api/v1/requests/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual( data['message'] , "all requests found successfully")
@@ -53,7 +50,7 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_view_a_request(self):
         """Test for vieving a particular request"""
 
-        response_message = self.app.get('/api/v1/users-dashboard/0/0/')
+        response_message = self.app.get('/api/v1/requests/0/0/')
         self.assertEqual(response_message.status_code, 200)
         data = json.loads(response_message.get_data())
         self.assertEqual( data['message'] , "Request successfully retrieved")
@@ -81,7 +78,7 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_modify_a_request(self):
         """Test for modifying a request"""
         
-        response = self.app.put('/api/v1/users-dashboard/0/1/',
+        response = self.app.put('/api/v1/requests/0/1/',
                                         data=json.dumps(
                                             dict(category="repair")),
                                         headers={'content-type': "application/json"})
@@ -92,7 +89,7 @@ class TestRequestsTestCase(BaseTestCase):
     def test_user_delete_a_request(self):
         """Test for deleting a request"""
 
-        response = self.app.delete('/api/v1/users-dashboard/0/2/')
+        response = self.app.delete('/api/v1/requests/0/2/')
         self.assertEqual(response.status_code, 200)
         data = json.loads(response.get_data())
         self.assertEqual( data['message'] , "Request successfuly deleted")
