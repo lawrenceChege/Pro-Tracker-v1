@@ -8,7 +8,10 @@ install:
   -pip install -r requirements.txt
   -pip install coveralls
 
-script: nosetests --with-coverage --cover-package=tests && coverage report
+script:
+- nosetests --with-coverage --cover-package=tests && coverage report
+- python -m pytest --cov-report term-missing --cov=app
+
 
 script:
   -pytest
