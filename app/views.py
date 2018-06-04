@@ -114,29 +114,6 @@ admin = {
 
 }
 
-#function ya kutengeneza uri
-def make_public_request(requests):
-
-    new_request = {}
-    for field in req:
-        if field == 'id':
-            new_request['uri'] = url_for('get_user_request', request_id=req['id'], _external=True)
-        else:
-            new_request[field] = req[field]
-    return new_request
-
-#error handler ya bad request
-@app.errorhandler(400)
-def Bad_request(error):
-    """Handle error 400"""
-    return make_response(jsonify( { 'error': 'Bad request' } ), 400)
-
-#error handler ya page not found
-@app.errorhandler(404)
-def not_found(error):
-    """Handle 404 errors"""
-    return make_response(jsonify({'error': 'Not found'}), 404)
-
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('home.html')
