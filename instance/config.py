@@ -1,24 +1,34 @@
-from flask import Flask
-from flask_restful import Api, Resource
+import os
 
-app = Flask(__name__)
-api = Api(app)
+class Config(object):
+    """Parent configuration class."""
+    DEBUG = False
+    CSRF_ENABLED = True
+    SECRET = os.getenv('SECRET')
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
-class User(Resource):
-    """This class will define methods for the user"""
-    def post(self):
-        """This class creates a user"""
-        pass
-    def get(self, id):
-        """This method gets the details of a user"""
-        pass
+class DevelopmentConfig(Config):
+    """Configurations for Development."""
+    DEBUG = True
 
-    def put(self, id):
-        """This method modifies the details of a user"""
-        pass
+class TestingConfig(Config):
+    """Configurations for Testing, with a separate test database."""
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/test_db'
+    DEBUG = True
 
-    def delete(self, id):
-        """This method deletes a user"""
-        pass
+class StagingConfig(Config):
+    """Configurations for Staging."""
+    DEBUG = True
 
-api.add_resource(User, 'api/v1/user-dashboard/<int:id>', endpoint = 'user')
+class ProductionConfig(Config):
+    """Configurations for Production."""
+    DEBUG = False
+    TESTING = False
+
+app_config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'staging': StagingConfig,
+    'production': ProductionConfig,
+} 
