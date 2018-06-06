@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api
+from passlib.hash import pbkdf2_sha256
 
 import psycopg2
 
@@ -9,6 +10,12 @@ api = Api(app)
 
 class User(Resource):
     """This class will define methods for the user"""
+    def __init__(self, username, email, password):
+        """This method initializes the user"""
+        self.username = username
+        self.email = email
+        self.password = pbkdf2_sha256.hash("password")
+        
     def post(self):
         """This class creates a user"""
         pass
