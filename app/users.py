@@ -26,6 +26,8 @@ class User(Resource):
     def post_signup(self, username, email, password):
         """This class creates a user"""
         
+         usr=cur.fetchall()
+       #method ya kupost to database 
 
     def get(self, id):
         """This method gets the details of a user"""
