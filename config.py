@@ -13,23 +13,22 @@ def connectTODB():
 
 def create_tables():
     """"Create tables in the protrackerdb database."""
-    commands= (
-        """
-        (CREATE TABLE users (user_id SERIAL PRIMARY KEY,
+    commands="""
+        CREATE TABLE users (user_id SERIAL PRIMARY KEY,
         username CHAR(150) NOT NULL unique,
         email VARCHAR(100) NOT NULL unique,
         password VARCHAR(255) NOT NULL,
-        role CHAR(50) DEFAULT user)
-        """,
-        """
-        (CREATE TABLE requests(request_id SERIAL PRIMARY KEY,
+        role CHAR(50) DEFAULT user
+        );
+        CREATE TABLE requests(request_id SERIAL PRIMARY KEY,
         category CHAR(100) NOT NULL,
         title VARCHAR(100) NOT NULL,
         frequency CHAR(100) NOT NULL,
         description VARCHAR(255) NOT NULL,
         status CHAR(50) DEFAULT pending,
-        user_id integer REFERENCES users (user_id) ON DELETE RESTRICT)
-        """)
+        user_id integer REFERENCES users (user_id) ON DELETE RESTRICT
+        )
+        """
 
     conn=None
     try:
