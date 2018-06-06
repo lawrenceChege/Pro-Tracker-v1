@@ -1,12 +1,14 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from passlib.hash import pbkdf2_sha256
+from config import conn
 
 import psycopg2
 
 
 app = Flask(__name__)
 api = Api(app)
+cur = conn.cursor()
 
 class User(Resource):
     """This class will define methods for the user"""
@@ -25,9 +27,13 @@ class User(Resource):
         
     def post_signup(self, username, email, password):
         """This class creates a user"""
-        
-         usr=cur.fetchall()
-       #method ya kupost to database 
+        cur.execute("SELECT username FROM users")
+        data = cur.fetchall()
+        if username in data:
+            return "User already exists"
+        else:
+            cur.execute("INSERT (self.username, self.email, self.password) VALUES(%s, %s, %s)")
+        return "User created successful!"
 
     def get(self, id):
         """This method gets the details of a user"""

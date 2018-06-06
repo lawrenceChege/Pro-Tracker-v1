@@ -1,6 +1,6 @@
 """Tests for users"""
 from tests.base import BaseTestCase
-from app.users import app
+from app import app 
 from passlib.hash import pbkdf2_sha256
 
 import unittest
@@ -18,4 +18,14 @@ class TestRequestTestCase(BaseTestCase):
 
     def test_user_signup(self):
         """Test for user signup"""
-        
+        data = {"username": "lawrence",
+                "email": "mbchez8@gmail,com",
+                "password": "maembembili"}
+
+        response = self.app.post('api/v1/auth',
+                                 data=data,
+                                 content_type="application/json")
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'User created successfully!')
+
