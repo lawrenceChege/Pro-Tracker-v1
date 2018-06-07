@@ -30,33 +30,23 @@ class User(Resource):
                                     required=True,
                                     help='Username is required!',
                                     location='json')
-        # args =  self.reqparse.parse_args()
-        # self.reqparse.add_argument(args["username"],
-        #                             required=True,
-        #                             help='Username is required and should be a valid string!',
-        #                             location='json')
-        
+    
         self.reqparse.add_argument('email',
                                     type = str,
                                     required = True,
                                     help = "Email is required!",
                                     location = 'json')
-        # args =  self.reqparse.parse_args()
-        # self.reqparse.add_argument(args["email"],
-        #                             required=True,
-        #                             help='Email is required!',
-        #                             location='json')
+        
         self.reqparse.add_argument('password',
                                     type = str,
                                     required = True,
                                     help = "Passord is required!",
                                     location = 'json')
         args =  self.reqparse.parse_args()
-        # self.reqparse.add_argument(args["password"],
-        #                             required=True,
-        #                             help='Password is required!',
-        #                             location='json')
         username, email, password = args["username"], args["email"], args["password"]
+        if username is None:
+            return "Username cannot be empty!"
+
         hash_password = pbkdf2_sha256.hash(password)
         data = {
             "username" : username,
