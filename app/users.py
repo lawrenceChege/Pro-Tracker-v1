@@ -57,15 +57,26 @@ class User(Resource):
         #                             help='Password is required!',
         #                             location='json')
         username, email, password = args["username"], args["email"], args["password"]
+        hash_password = pbkdf2_sha256.hash(password)
         data = {
             "username" : username,
             "email": email,
-            "password": password,
+            "password": hash_password,
             "role": "user"
 
         }
-        cur.execute(""" INSERT INTO users (username, email, password, role) VALUES (%(username)s, %(email)s, %(password)s, %(role)s)""",data)
-        conn.commit()
+        try:
+            cur.execute("""SELECT * FROM users""")
+            result = cur.fetchall()
+            if username in result:
+                return "User already exists!"
+            else:
+                cur.execute(""" INSERT INTO users (username, email, password, role) VALUES (%(username)s, %(email)s, %(password)s, %(role)s)""",data)
+                conn.commit()
+                return "User created successfully!"
+        except:
+            print ("I could not  select from user")
+
         access_token = create_access_token(identity=username)
         token = str(access_token)
         return (token), 200, 
