@@ -8,14 +8,7 @@ import json
 class BaseTestCase(TestCase):
     """ set up configurations for the test environment"""
     @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
-        pass
-
-    def setUp(self):
+    def setUpClass(self):
         """set up app configuration"""
         self.app = app.test_client()
         self.app.testing = True
@@ -24,6 +17,31 @@ class BaseTestCase(TestCase):
             "username": "lawrence",
             "email": "mbuchez8@gmail.com",
             "password": "maembembili"
+        }
+        self.person_no_username ={
+            "username": "",
+            "email": "mbuchez8@gmail.com",
+            "password": "maembembili"
+        }
+        self.person_no_email = {
+            "username": "lawrence",
+            "email": "",
+            "password": "maembembili"
+        }
+        self.person_no_password = {
+            "username": "lawrence",
+            "email": "mbuchez8@gmail.com",
+            "password": ""
+        }
+        self.person_invalid_email = {
+            "username": "lawrence",
+            "email": "mbuchez8@gmail.com",
+            "password": "maembembili"
+        }
+        self.person_existing_user ={
+            "username": "test",
+            "email": "test@gmail.com",
+            "password": "password"
         }
         self.correct_login = {"username": "lawrence",
                               "password": "maembembili"}
@@ -77,54 +95,9 @@ class BaseTestCase(TestCase):
             }
         ]
 
-    def register_user(self):
-        """Registration helper"""
-        ret = self.app.post('/api/v1/auth/signup',
-                            data=json.dumps(self.person),
-                            headers={'content-type': "appliction/json"})
-        return ret
-
-    def register_admin(self):
-        """Registration helper"""
-        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
-                            data=json.dumps(self.admin),
-                            headers={'content-type': "appliction/json"})
-        return ret
-
-    def login_user(self):
-        """sign in helper"""
-        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
-                            data=json.dumps(self.person),
-                            headers={'content-type': "appliction/json"})
-        return ret
-
-    def login_admin(self):
-        """sign in helper for admin"""
-        ret = self.app.post('/api/v1/auth/signin',
-                            data=json.dumps(self.admin),
-                            headers={'content-type': "appliction/json"})
-        return ret
-
-    def logout(self):
-        """Logout helper function."""
-        return self.app.get('/api/v1/auth/logout', follow_redirects=True)
-
-    def new_request(self):
-        """ New  request helper"""
-        ret = self.app.post('/api/v1/users-dashboard/0/requests/',
-                            data=json.dumps(self.request),
-                            headers={'content-type': "appliction/json"})
-        return ret
-
-    def load_requests(self):
-        response = self.app.post('/api/v1/users-dashboard/0/requests/',
-                                 data=json.dumps(self.request),
-                                 headers={'content-type': "application/json"})
-        return response
-
-    # def tearDown(self):
-    #     USERS.clear()
-    #     REQUESTS.clear()
-    #     Requests.count = 0
+    @classmethod
+    def tearDownClass(cls):
+        pass
+        
 if __name__ == '__main__':
     unittest.main()
