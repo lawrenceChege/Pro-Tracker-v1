@@ -1,52 +1,50 @@
-from flask import Flask
+from flask import Flask,jsonify
 from flask_restful import Resource, Api, reqparse
 from passlib.hash import pbkdf2_sha256
-from config import conn
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
+
+# from config import conn
 
 import psycopg2
 
 
 app = Flask(__name__)
 api = Api(app)
-cur = conn.cursor()
+# cur = conn.cursor()
+app.config['JWT_SECRET_KEY'] = 'raise JSONDecodeError("Expecting value", s, err.value) from None'  # Change this!
+jwt = JWTManager(app)
+
 def check_email(email):
     pass
 
 class User(Resource):
     """This class will define methods for the user"""
-    def __init__(self, username, email, password):
-        """This method initializes the user"""
+    
+    def post(self):
+        """This class creates a user"""
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('username', type = str, required = True,
         help = 'Username is required!', location = 'json')
         self.reqparse.add_argument('email', type = str,required = True,
         help = "Email is required!", location = 'json')
-        check_email(email)
         self.reqparse.add_argument('password', type = str, required = True,
         help = "Passord is required!", location = 'json')
-        self.username = username
-        self.email = email
-        self.password = pbkdf2_sha256.hash("password")
-        
-    def post_signup(self, username, email, password):
-        """This class creates a user"""
-        cur.execute("SELECT username FROM users")
-        data = cur.fetchall()
-        if username in data:
-            return "User already exists"
-        else:
-            cur.execute("INSERT (self.username, self.email, self.password) VALUES(%s, %s, %s)")
-        return "User created successful!"
+        args =  self.reqparse.parse_args()
+        username, email, password = args["username"], args["email"], args["password"]
+        data = {
+            "username" : username,
+            "email": email,
+            "password": password
 
-    def post_login(self, id):
-        """This method logs in a user"""
-        pass
+        }
+        return data
+class User_login(Resource):
+    """This user logs in the user"""
+    def post(self):
 
-    def put(self, id):
-        """This method modifies the details of a user"""
-        pass
 
-    def delete(self, id):
-        """This method deletes a user"""
-        pass
-api.add_resource(User, 'api/v1/auth/')
+api.add_resource(User_login, '/api/v1/auth/')
+api.add_resource(User, '/api/v1/auth/')

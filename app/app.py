@@ -22,4 +22,4 @@ class Request(Resource):
         """This method deletes a request"""
         pass
 
-api.add_resource(Request, 'api/v1/request/<int:id>', endpoint = 'request')
+api.add_resource(Request, '/api/v1/request/<int:id>', endpoint = 'request')
