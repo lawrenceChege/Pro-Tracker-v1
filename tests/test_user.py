@@ -9,9 +9,6 @@ import json
 
 class TestUserTestCase(BaseTestCase):
     """ Test for normal user"""
-    def setUp(self):
-        """class initializations"""
-        pass
        
     def test_user_signup(self):
         """Test for user signup"""

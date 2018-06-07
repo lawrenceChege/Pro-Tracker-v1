@@ -9,12 +9,13 @@ from flask_jwt_extended import (
 # from config import conn
 
 import psycopg2
+import json
 
 
 app = Flask(__name__)
 api = Api(app)
 # cur = conn.cursor()
-app.config['JWT_SECRET_KEY'] = 'raise JSONDecodeError("Expecting value", s, err.value) from None'  # Change this!
+app.config['JWT_SECRET_KEY'] = 'raise JSONDecodeError("Expecting value", s, err.value) from None' 
 jwt = JWTManager(app)
 
 def check_email(email):
@@ -64,7 +65,11 @@ class User(Resource):
             "password": password
 
         }
-        return data
+        access_token = create_access_token(identity=username)
+        token = str(access_token)
+        return (token), 200, data
+
+
 class User_login(Resource):
     """This user logs in the user"""
     def post(self):
