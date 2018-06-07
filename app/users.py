@@ -5,16 +5,14 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
 )
-
-# from config import conn
-
+import config
 import psycopg2
 import json
 
-
+conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
 app = Flask(__name__)
 api = Api(app)
-# cur = conn.cursor()
+cur = conn.cursor()
 app.config['JWT_SECRET_KEY'] = 'raise JSONDecodeError("Expecting value", s, err.value) from None' 
 jwt = JWTManager(app)
 
@@ -32,42 +30,45 @@ class User(Resource):
                                     required=True,
                                     help='Username is required!',
                                     location='json')
-        args =  self.reqparse.parse_args()
-        self.reqparse.add_argument(args["username"],
-                                    required=True,
-                                    help='Username is required and should be a valid string!',
-                                    location='json')
+        # args =  self.reqparse.parse_args()
+        # self.reqparse.add_argument(args["username"],
+        #                             required=True,
+        #                             help='Username is required and should be a valid string!',
+        #                             location='json')
         
         self.reqparse.add_argument('email',
                                     type = str,
                                     required = True,
                                     help = "Email is required!",
                                     location = 'json')
-        args =  self.reqparse.parse_args()
-        self.reqparse.add_argument(args["email"],
-                                    required=True,
-                                    help='Email is required!',
-                                    location='json')
+        # args =  self.reqparse.parse_args()
+        # self.reqparse.add_argument(args["email"],
+        #                             required=True,
+        #                             help='Email is required!',
+        #                             location='json')
         self.reqparse.add_argument('password',
                                     type = str,
                                     required = True,
                                     help = "Passord is required!",
                                     location = 'json')
         args =  self.reqparse.parse_args()
-        self.reqparse.add_argument(args["password"],
-                                    required=True,
-                                    help='Password is required!',
-                                    location='json')
+        # self.reqparse.add_argument(args["password"],
+        #                             required=True,
+        #                             help='Password is required!',
+        #                             location='json')
         username, email, password = args["username"], args["email"], args["password"]
         data = {
             "username" : username,
             "email": email,
-            "password": password
+            "password": password,
+            "role": "user"
 
         }
+        cur.execute(""" INSERT INTO users (username, email, password, role) VALUES (%(username)s, %(email)s, %(password)s, %(role)s)""",data)
+        conn.commit()
         access_token = create_access_token(identity=username)
         token = str(access_token)
-        return (token), 200, data
+        return (token), 200, 
 
 
 class User_login(Resource):
