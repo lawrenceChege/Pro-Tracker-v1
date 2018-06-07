@@ -18,22 +18,55 @@ class TestRequestTestCase(BaseTestCase):
 
     def test_user_signup(self):
         """Test for user signup"""
-        data = {"username": "lawrence",
-                "email": "mbchez8@gmail,com",
-                "password": "maembembili"}
+        #no username
+        response = self.app.post('api/v1/auth/',
+                                 data=json.dumps(self.person_no_username),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Username is required')
 
-        response = self.app.post('api/v1/auth',
-                                 data=data,
-                                 content_type="application/json")
+        #no email
+        response = self.app.post('api/v1/auth/',
+                                 data=json.dumps(self.person_no_email),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Email is required!')
+
+        #invalid email
+        response = self.app.post('api/v1/auth/',
+                                 data=json.dumps(self.person_invalid_email),
+                                 headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,201)
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'User created successfully!')
+        #no password
+        response = self.app.post('api/v1/auth/',
+                                 data=json.dumps(self.person_no_password),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Passord is required!')
+        #correct details
+        response = self.app.post('api/v1/auth/',
+                                 data=json.dumps(self.person),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'User created successfully!')
+        #existing user
+        response = self.app.post('api/v1/auth/',
+                                 data=json.dumps(self.person_existing_user),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'User already exists')
 
     def test_login(self):
         """Test for login"""
-        correct_cred = {"username": "lawrence",
-                        "password": "maembembili"}
-        wrong_cred = {"username": "lawrence",
-                      "password": "mistubishi"}
-        response = self.app.post('api/v1/auth',
-        data = correct_cred)
+        response = self.app.post('/api/v1/requests/0', data=json.dumps(
+            self.request), 
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'],'Request Added Successfully')

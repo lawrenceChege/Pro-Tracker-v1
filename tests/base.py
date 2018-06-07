@@ -35,7 +35,7 @@ class BaseTestCase(TestCase):
         }
         self.person_invalid_email = {
             "username": "lawrence",
-            "email": "mbuchez8@gmail.com",
+            "email": "mbuchez.com",
             "password": "maembembili"
         }
         self.person_existing_user ={
@@ -94,7 +94,6 @@ class BaseTestCase(TestCase):
                 "status": "Pending"
             }
         ]
-
     @classmethod
     def tearDownClass(cls):
         pass
