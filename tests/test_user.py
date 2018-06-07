@@ -29,3 +29,11 @@ class TestRequestTestCase(BaseTestCase):
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'User created successfully!')
 
+    def test_login(self):
+        """Test for login"""
+        correct_cred = {"username": "lawrence",
+                        "password": "maembembili"}
+        wrong_cred = {"username": "lawrence",
+                      "password": "mistubishi"}
+        response = self.app.post('api/v1/auth',
+        data = correct_cred)

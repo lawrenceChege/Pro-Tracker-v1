@@ -35,8 +35,8 @@ class User(Resource):
             cur.execute("INSERT (self.username, self.email, self.password) VALUES(%s, %s, %s)")
         return "User created successful!"
 
-    def get(self, id):
-        """This method gets the details of a user"""
+    def post_login(self, id):
+        """This method logs in a user"""
         pass
 
     def put(self, id):
