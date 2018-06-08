@@ -86,6 +86,7 @@ class User_login(Resource):
             "username":username,
             "password":password
         }
+        pbkdf2_sha256.verify("password", hash)
         return data
 
 

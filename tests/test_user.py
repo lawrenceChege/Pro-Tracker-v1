@@ -16,7 +16,7 @@ class TestUserTestCase(BaseTestCase):
         response = self.app.post('/api/v1/auth/signup',
                                  data=json.dumps(self.person_no_username),
                                  headers={'content-type': "application/json"})
-        self.assertEqual(response.status_code,400)
+        self.assertEqual(response.status_code,404)
         print(response)
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'Username is required')

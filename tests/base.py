@@ -19,19 +19,16 @@ class BaseTestCase(TestCase):
             "password": "maembembili"
         }
         self.person_no_username ={
-            "username": "",
             "email": "mbuchez8@gmail.com",
             "password": "maembembili"
         }
         self.person_no_email = {
             "username": "lawrence",
-            "email": "",
             "password": "maembembili"
         }
         self.person_no_password = {
             "username": "lawrence",
             "email": "mbuchez8@gmail.com",
-            "password": ""
         }
         self.person_invalid_email = {
             "username": "lawrence",
