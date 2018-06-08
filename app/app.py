@@ -1,8 +1,4 @@
-from flask import Flask
-from flask_restful import Api, Resource
-
-app = Flask(__name__)
-api = Api(app)
+from flask_restful import Resource
 
 class Request(Resource):
     """This class will define methods for the request"""

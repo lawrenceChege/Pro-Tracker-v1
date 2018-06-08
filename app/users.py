@@ -1,4 +1,5 @@
 from flask import Flask,jsonify
+
 from flask_restful import Resource, Api, reqparse
 from passlib.hash import pbkdf2_sha256
 from app.helpers import HelperDb
@@ -11,11 +12,8 @@ import psycopg2
 import json
 
 conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
-app = Flask(__name__)
-api = Api(app)
+
 cur = conn.cursor()
-app.config['JWT_SECRET_KEY'] = 'raise JSONDecodeError("Expecting value", s, err.value) from None' 
-jwt = JWTManager(app)
 
 def check_email(email):
     pass
@@ -56,8 +54,7 @@ class User(Resource):
             "role": "user"
         }
         
-        HelperDb().register_user(username, data)
-        return 201
+        return HelperDb().register_user(username, data)
 
 class User_login(Resource):
     """This user logs in the user"""
@@ -99,7 +96,3 @@ class Get_user(Resource):
 
 
 
-
-api.add_resource(User_login, '/api/v1/auth/login')
-api.add_resource(User, '/api/v1/auth/signup')
-api.add_resource(Get_user, '/api/v1/auth/<int:user_id>')

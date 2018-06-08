@@ -23,7 +23,9 @@ def create_tables():
                             )                            
     """,
     """
-        CREATE TABLE requests(request_id SERIAL PRIMARY KEY,
+        CREATE TABLE requestsif __name__ == '__main__':
+#     create_tables()
+(request_id SERIAL PRIMARY KEY,
                                 category CHAR(100) NOT NULL,
                                 title VARCHAR(100) NOT NULL,
                                 frequency CHAR(100) NOT NULL,
@@ -51,5 +53,4 @@ def create_tables():
         if conn is not None:
             conn.close()
 
-if __name__ == '__main__':
-    create_tables()
+# 
