@@ -44,9 +44,6 @@ class User(Resource):
                                     location = 'json')
         args =  self.reqparse.parse_args()
         username, email, password = args["username"], args["email"], args["password"]
-        if username is None:
-            return "Username cannot be empty!"
-
         hash_password = pbkdf2_sha256.hash(password)
         data = {
             "username" : username,
@@ -92,7 +89,7 @@ class User_login(Resource):
         access_token = create_access_token(identity=username)
         token = str(access_token)
         
-        return "welcome"+username "Feel t work"(token), 200
+        return "welcome"+username+"Feel t work", (token), 201
 
 
 api.add_resource(User_login, '/api/v1/auth/login')
