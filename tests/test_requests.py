@@ -26,27 +26,27 @@ class TestRequestsTestCase(BaseTestCase):
         #no category
         response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request_no_category), headers={'content-type': "application/json"})
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
-        self.assertEqual(data['message'],'Request Added Successfully')
+        self.assertEqual(data['message'],'Please enter category as either repair or maintenanc')
         #no title
         response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request_no_title), headers={'content-type': "application/json"})
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
-        self.assertEqual(data['message'],'Request Added Successfully')
+        self.assertEqual(data['message'],'Title should be a string')
         #no description
         response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request_no_description), headers={'content-type': "application/json"})
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
         data = json.loads(response.get_data())
-        self.assertEqual(data['message'],'Request Added Successfully')
+        self.assertEqual(data['message'],'Description is a string')
         #no frequency
         response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request_no_frequency ), headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())
-        self.assertEqual(data['message'],'Request Added Successfully')
+        self.assertEqual(data['message'],'Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually')
 
 
     def test_user_view_all_requests(self):

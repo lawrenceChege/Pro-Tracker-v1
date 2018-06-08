@@ -11,46 +11,75 @@ cur = conn.cursor()
 def index():
     return render_template('home.html')
 
-#hii inaget request zote za kila user.
-#inafaa kuwa ya admin
-@app.route('/api/v1/requests/', methods = ['GET'])
-def get_users_requests():
-    """Gets requests for all users"""
-    return jsonify({"requests": requests, "message": "all requests found successfully"}), 200
+# #hii inaget request zote za kila user.
+# #inafaa kuwa ya admin
+# @app.route('/api/v1/requests/', methods = ['GET'])
+# def get_users_requests():
+#     """Gets requests for all users"""
+#     return jsonify({"requests": requests, "message": "all requests found successfully"}), 200
 
-#hii inaget request zote za msee mmoja
-@app.route('/api/v1/requests/<int:user_id>', methods = ['GET'])
-def get_user_requests(user_id):
-    """Gets requests for v single user"""
-    req = requests[user_id]
-    return jsonify({'req' : req,"message": "all user's requests"}),200
+# #hii inaget request zote za msee mmoja
+# @app.route('/api/v1/requests/<int:user_id>', methods = ['GET'])
+# def get_user_requests(user_id):
+#     """Gets requests for v single user"""
+#     req = requests[user_id]
+#     return jsonify({'req' : req,"message": "all user's requests"}),200
 
-#hii inaget request moja ya msee specific
-@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods = ['GET'])
-def get_user_request(user_id, request_id):
-    """Gets a specific request from a specific user"""
-    req = requests[user_id][request_id]
-    if len(req) == 0:
-        abort(404)
-    return jsonify({'req': req, "message":"Request successfully retrieved"}),200
+# #hii inaget request moja ya msee specific
+# @app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods = ['GET'])
+# def get_user_request(user_id, request_id):
+#     """Gets a specific request from a specific user"""
+#     req = requests[user_id][request_id]
+#     if len(req) == 0:
+#         abort(404)
+#     return jsonify({'req': req, "message":"Request successfully retrieved"}),200
 
 
 #hii inacreate request mpya inaongeza kwa user mmoja
-@app.route('/api/v1/requests/<int:user_id>', methods = ['POST'])
+@app.route('/api/v1/requests/', methods = ['POST'])
 def user_create_request(user_id):
     """creates a new request to a specific user"""
     if not request.json or not 'title' in request.json:
         abort(400)
-    reques = requests[user_id]
+    if 'category' in request.json and not isinstance(request.json['category'], str):
+        return jsonify({"message" : "Please enter category as either repair or maintenance"})
+    if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
+        return jsonify({"message" : "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
+    if 'title' in request.json and not isinstance(request.json['title'], str):
+        return jsonify({"message" : "Title should be a string"})
+    if 'description' in request.json and not isinstance(request.json['description'], str):
+        return jsonify({"message" : "Description is a string"})
+    category, title, frequency, description, = request.json['category'],request.json['frequency'],request.json['title'],request.json.get('description', "")
     req = {
-        'id': reques[-1]['id'] + 1,
-        'category': request.json['category'],
-        'frequency': request.json['frequency'],
-        'title': request.json['title'],
-        'description': request.json.get('description', ""),
-        'status': request.json['status']
+        'category': category,
+        'frequency': frequency,
+        'title': title,
+        'description': description,
+        'status': "pending",
+        'user_id': user_id
     }
-    reques.append(req)
+    try:
+            cur.execute("""SELECT * FROM requests""")
+            result = cur.fetchall()
+            if title in result:
+                return "Request already exists!"
+            else:
+                cur.execute(""" INSERT INTO requests (category,
+                                                        frequency,
+                                                        title,
+                                                        description,
+                                                        status,
+                                                        user_id) VALUES (%(category)s,
+                                                                        %(frequency)s,
+                                                                        %(title)s,
+                                                                        %(description)s,
+                                                                        %(status)s,
+                                                                        %(user_id)s)""", req)
+                conn.commit()
+                return "Request created successfully!"
+    except:
+        print ("I could not  select from requests")
+
     return jsonify({'req': req, "message":'Request Added Successfully'}),201
 
 

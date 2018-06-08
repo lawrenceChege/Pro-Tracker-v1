@@ -16,10 +16,10 @@ def create_tables():
     commands=(
     """
         CREATE TABLE users (user_id SERIAL PRIMARY KEY,
-                            username CHAR(150) NOT NULL unique,
-                            email VARCHAR(100) NOT NULL unique,
+                            username CHAR(20) NOT NULL unique,
+                            email VARCHAR(50) NOT NULL unique,
                             password VARCHAR(255) NOT NULL,
-                            role CHAR(50) DEFAULT user
+                            role CHAR(10) DEFAULT user
                             )                            
     """,
     """
@@ -51,5 +51,5 @@ def create_tables():
         if conn is not None:
             conn.close()
 
-# if __name__ == '__main__':
-#     create_tables()
+if __name__ == '__main__':
+    create_tables()
