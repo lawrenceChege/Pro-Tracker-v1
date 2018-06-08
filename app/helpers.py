@@ -22,7 +22,7 @@ class HelperDb(object):
     def register_user(self, item, data):
         """helper for registering a user"""
         try:
-            result= HelperDb().get_item(item) 
+            result= HelperDb().get_item_users(item) 
             if item in result:
                 return "User already exists!"
             else:
@@ -33,7 +33,7 @@ class HelperDb(object):
     
     def login_user(self, item,data):
         """helper for confirming user using id"""
-        result= HelperDb().get_item(item, table)
+        result= HelperDb().get_item_users(item)
         if item in result :
             pass
 

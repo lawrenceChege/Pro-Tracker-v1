@@ -1,6 +1,7 @@
 from flask import Flask,jsonify
 from flask_restful import Resource, Api, reqparse
 from passlib.hash import pbkdf2_sha256
+from app.helpers import HelperDb
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
@@ -53,19 +54,9 @@ class User(Resource):
             "email": email,
             "password": hash_password,
             "role": "user"
-
         }
-        try:
-            cur.execute("""SELECT * FROM users""")
-            result = cur.fetchall()
-            if username in result:
-                return "User already exists!"
-            else:
-                cur.execute(""" INSERT INTO users (username, email, password, role) VALUES (%(username)s, %(email)s, %(password)s, %(role)s)""",data)
-                conn.commit()
-                return "User created successfully!"
-        except:
-            print ("I could not  select from user")
+        
+        HelperDb().register_user(username, data)
         return 201
 
 class User_login(Resource):
@@ -82,7 +73,7 @@ class User_login(Resource):
             cur.execute("""SELECT * FROM users""")
             result = cur.fetchall()
             if username in result and pbkdf2_sha256.verify(password, hash):
-                cur.execute("""SELECT user_id FROM users WHERE username = username """)
+                cur.execute("""SELECT user_id FROM users WHERE username = %(username)s """)
                 user_id = cur.fetchall()
                 return "User successfully logged in"
             else:

@@ -84,13 +84,9 @@ def user_create_request(user_id):
 
 
 #hii ni ya kuedit
-@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['PUT'])
+@app.route('/api/v1/requests/<int:request_id>/', methods=['PUT'])
 def update_request(user_id, request_id):
     """Modifies a specific request to a specific user"""
-
-    req = [req for req in reqw if req['id'] == request_id]
-    if len(req) == 0:
-        abort(404)
     if not request.json:
         abort(400)
     if 'category' in request.json and not isinstance(request.json['category'], str):
@@ -103,13 +99,45 @@ def update_request(user_id, request_id):
         return jsonify({"message" : "Description is a string"})
     if 'status' in request.json and not isinstance(request.json['status'], str) :
         return jsonify({"message" : "status  is a string"})
+    
+    
+    # req['category'] = request.json.get('category'),
+    # req['frequency'] = request.json.get('frequency', req['frequency']),
+    # req['title'] = request.json.get('title', req['title']),
+    # req['description'] = request.json.get('description', req['description']),
+    # req['status'] = request.json.get('status', req['status'])
 
-    req[0]['category'] = request.json.get('category', req[0]['category']),
-    req[0]['frequency'] = request.json.get('frequency', req[0]['frequency']),
-    req[0]['title'] = request.json.get('title', req[0]['title']),
-    req[0]['description'] = request.json.get('description', req[0]['description']),
-    req[0]['status'] = request.json.get('status', req[0]['status']),
-    return jsonify({'req': req[0], "message":"Request successfully updated"})
+    category, title, frequency, description, = request.json.get('category'),request.json.get('title'),req['title'],req['description']
+    
+    req = {
+        'category': category,
+        'frequency': frequency,
+        'title': title,
+        'description': description,
+        'status': "pending",
+        'user_id': user_id
+    }
+    try:
+            cur.execute("""SELECT * FROM requests""")
+            result = cur.fetchall()
+            if title not in result:
+                return "Request does not exist!"
+            else:
+                cur.execute(""" UPDATE requests SET (category,
+                                                        frequency,
+                                                        title,
+                                                        description,
+                                                        status,
+                                                        user_id) VALUES (%(category)s,
+                                                                        %(frequency)s,
+                                                                        %(title)s,
+                                                                        %(description)s,
+                                                                        %(status)s,
+                                                                        %(user_id)s)""", req)
+                conn.commit()
+                return "Request created successfully!"
+    except:
+        print ("I could not  select from requests")
 
 #kudelete
 # @app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
