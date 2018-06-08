@@ -14,6 +14,9 @@ class TestRequestsTestCase(BaseTestCase):
 
     def test_user_make_new_request(self):
         """Test for making new request"""
+        #not json
+        response = self.app.post('/api/v1/requests/0', data=self.request)
+        self.assertEqual(response.status_code, 400)
         #correct request
         response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request), headers={'content-type': "application/json"})
