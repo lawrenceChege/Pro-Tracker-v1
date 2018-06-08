@@ -107,7 +107,7 @@ def update_request(user_id, request_id):
     # req['description'] = request.json.get('description', req['description']),
     # req['status'] = request.json.get('status', req['status'])
 
-    category, title, frequency, description, = request.json.get('category'),request.json.get('title'),req['title'],req['description']
+    category, title, frequency, description, = request.json.get('category'),request.json.get('title'),request.json.get('frequency'),request.json.get('description')
     
     req = {
         'category': category,
