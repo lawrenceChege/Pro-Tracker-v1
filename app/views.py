@@ -100,13 +100,6 @@ def update_request(user_id, request_id):
     if 'status' in request.json and not isinstance(request.json['status'], str) :
         return jsonify({"message" : "status  is a string"})
     
-    
-    # req['category'] = request.json.get('category'),
-    # req['frequency'] = request.json.get('frequency', req['frequency']),
-    # req['title'] = request.json.get('title', req['title']),
-    # req['description'] = request.json.get('description', req['description']),
-    # req['status'] = request.json.get('status', req['status'])
-
     category, title, frequency, description, = request.json.get('category'),request.json.get('title'),request.json.get('frequency'),request.json.get('description')
     
     req = {
