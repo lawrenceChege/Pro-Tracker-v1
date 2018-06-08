@@ -1,7 +1,6 @@
 """Test for methods applied to requests"""
 # from flask import url_for
 from tests.base import BaseTestCase
-from app.views import app, person, req, requests, admin
 
 import unittest
 import json
@@ -11,25 +10,41 @@ class TestRequestsTestCase(BaseTestCase):
     """Tests for Requests"""
 
     def setUp(self):
-        self.person = person
-        self.admin = admin
-        self.request = req
-        self.requests = requests
-        self.app = app.test_client()
-        self.app.testing = True
-        response= self.app.post('/api/v1/requests/',
-                                data=json.dumps(self.requests),
-                                headers={'content-type': "application/json"})
-        self.assertEqual(response.status_code,405)
+        pass
 
     def test_user_make_new_request(self):
         """Test for making new request"""
-
+        #correct request
         response = self.app.post('/api/v1/requests/0', data=json.dumps(
             self.request), headers={'content-type': "application/json"})
         self.assertEqual(response.status_code, 201)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'],'Request Added Successfully')
+        #no category
+        response = self.app.post('/api/v1/requests/0', data=json.dumps(
+            self.request_no_category), headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'],'Request Added Successfully')
+        #no title
+        response = self.app.post('/api/v1/requests/0', data=json.dumps(
+            self.request_no_title), headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'],'Request Added Successfully')
+        #no description
+        response = self.app.post('/api/v1/requests/0', data=json.dumps(
+            self.request_no_description), headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'],'Request Added Successfully')
+        #no frequency
+        response = self.app.post('/api/v1/requests/0', data=json.dumps(
+            self.request_no_frequency ), headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code, 201)
+        data = json.loads(response.get_data())
+        self.assertEqual(data['message'],'Request Added Successfully')
+
 
     def test_user_view_all_requests(self):
         """Test for viewing all requests"""
@@ -97,13 +112,7 @@ class TestRequestsTestCase(BaseTestCase):
 class AdminTestRequestsTestCase(TestRequestsTestCase):
 
     def setUp(self):
-        self.admin = admin
-        self.person = person
-        self.request = req
-        self.requests = requests
-        self.app = app.test_client()
-        self.app.testing = True
-        
+        pass 
 
     def test_admin_view_a_users_requests(self):
         """Test if Admin can view a user's requests"""

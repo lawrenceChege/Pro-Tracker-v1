@@ -1,116 +1,12 @@
 """API endpoints for the maintenance tracker app"""
 from flask import Flask, jsonify, abort, request, render_template
+from app.users import User_login
+import config
+import psycopg2
 
 app = Flask(__name__, static_url_path = "/static")
-
-# dictionary containing user requests with user ids as the key
-requests = {
-    0: [
-
-        {
-            "id": 0,
-            "category": "maintenance",
-            "title": "fogort password",
-            "frequency": "once",
-            "description": "i am stupid",
-            "status": "Pending"
-        },
-        {
-            "id": 1,
-            "category": "repair",
-            "title": "fogort hammer",
-            "frequency": "once",
-            "description": "i am also stupid",
-            "status": "Pending"
-        },
-        {
-            "id": 2,
-            "category": "maintenance",
-            "title": "Tissue out",
-            "frequency": "daily",
-            "description": "well, not cool",
-            "status": "Pending"
-        }
-
-    ],
-    1: [
-
-        {
-            "id": 0,
-            "category": "maintenance",
-            "title": "sad",
-            "frequency": "once",
-            "description": "just sad",
-            "status": "Pending"
-        },
-        {
-            "id": 1,
-            "category": "repair",
-            "title": "toilet broken",
-            "frequency": "once",
-            "description": "shit happens",
-            "status": "Pending"
-        },
-        {
-            "id": 2,
-            "category": "maintenance",
-            "title": "Tissue out",
-            "frequency": "daily",
-            "description": "well, not cool",
-            "status": "Pending"
-        }
-
-    ],
-    2: [
-        {
-            "id": 0,
-            "category": "maintenance",
-            "title": "laptop battery dead",
-            "frequency": "annually",
-            "description": "they should really work on battery life",
-            "status": "Pending"
-        },
-        {
-            "id": 1,
-            "category": "repair",
-            "title": "heart broken",
-            "frequency": "once",
-            "description": "i miss her",
-            "status": "Pending"
-        },
-        {
-            "id": 2,
-            "category": "maintenance",
-            "title": "bulb blown up",
-            "frequency": "once",
-            "description": "well, ligts out",
-            "status": "Pending"
-            },]}
-
-#details za user
-person = {
-    "firstname": "lawrence",
-    "lastname": "chege",
-    "email": "mbuchez8@gmail.com",
-    "password": "noyoudont"
-
-}
-#request moja
-req = {
-    "category": "repair",
-    "frequency": "once",
-    "title": "fogort hammer",
-    "description": "i am also stupid",
-    "status": "Approved"
-}
-#details za admin
-admin = {
-
-    "email": "admin@gmail.com",
-    "password": "admin1234"
-
-}
-
+conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
+cur = conn.cursor()
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('home.html')
