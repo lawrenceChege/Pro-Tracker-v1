@@ -109,4 +109,3 @@ class Get_user(Resource):
 
 api.add_resource(User_login, '/api/v1/auth/login')
 api.add_resource(User, '/api/v1/auth/signup')
-api.add_resource(Get_user, '/api/v1/auth/<int:user_id>')

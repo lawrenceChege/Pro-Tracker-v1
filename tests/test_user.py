@@ -91,7 +91,7 @@ class TestUserTestCase(BaseTestCase):
 
     def test_get_user(self, user_id):
         """Test for get user"""
-        response = self.app.get('api/v1/auth/<int:user_id>')
+        response = self.app.get('api/v1/auth/')
         self.assertEqual(response.status_code,200)
         data = json.loads(response.get_data())
         self.assertEqual(data['message'], "user not found!")
