@@ -83,7 +83,7 @@ class User_login(Resource):
             if username in result and pbkdf2_sha256.verify(password, hash):
                 return "User successfully logged in"
             else:
-                return "please checkk your credentials!"
+                return "please check your credentials!"
         except:
             print ("I could not  select from user")
         

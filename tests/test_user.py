@@ -58,14 +58,34 @@ class TestUserTestCase(BaseTestCase):
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'User already exists')
 
-    # def test_login(self):
-    #     """Test for login"""
-    #     response = self.app.post('/api/v1/requests/0', data=json.dumps(
-    #         self.request)
-    #     self.assertEqual(response.status_code, 201)
-    #     data = json.loads(response.get_data())
-    #     self.assertEqual(data['message'],'Request Added Successfully')
-        #correct
+    def test_login(self):
+        """Test for login"""
+        #nopassword
+        response = self.app.post('api/v1/auth/login',
+                                 data=json.dumps(self.no_password),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,400)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Password is required'
+        #no username
+        response = self.app.post('api/v1/auth/login',
+                                 data=json.dumps(self.no_username),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,400)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'password is requirecd'
         #incorrect
+        response = self.app.post('api/v1/auth/login',
+                                 data=json.dumps(self.wrong_login),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,401)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'please check your credential'
         #empty
-        #
+        response = self.app.post('api/v1/auth/signup',
+                                 data=json.dumps(self.correct_login),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,200)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'User successfully logged in'
+        
