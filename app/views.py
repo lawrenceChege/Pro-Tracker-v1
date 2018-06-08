@@ -87,7 +87,7 @@ def user_create_request(user_id):
 @app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['PUT'])
 def update_request(user_id, request_id):
     """Modifies a specific request to a specific user"""
-    reqw=requests[user_id]
+
     req = [req for req in reqw if req['id'] == request_id]
     if len(req) == 0:
         abort(404)
@@ -112,15 +112,15 @@ def update_request(user_id, request_id):
     return jsonify({'req': req[0], "message":"Request successfully updated"})
 
 #kudelete
-@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
-def delete_request(user_id, request_id):
-    """Deletes a reuest from a specific user"""
-    reqw = requests[user_id]
-    req = [req for req in reqw if req['id'] == request_id]
-    if len(req) == 0:
-        abort(404)
-    reqw.remove(req[0])
-    return jsonify({'result': True, "message":"Request successfuly deleted"})
+# @app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
+# def delete_request(user_id, request_id):
+#     """Deletes a reuest from a specific user"""
+#     reqw = requests[user_id]
+#     req = [req for req in reqw if req['id'] == request_id]
+#     if len(req) == 0:
+#         abort(404)
+#     reqw.remove(req[0])
+#     return jsonify({'result': True, "message":"Request successfuly deleted"})
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run()
