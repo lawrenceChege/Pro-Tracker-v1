@@ -66,10 +66,7 @@ class User(Resource):
                 return "User created successfully!"
         except:
             print ("I could not  select from user")
-
-        access_token = create_access_token(identity=username)
-        token = str(access_token)
-        return (token), 200, 
+        return 201
 
 
 class User_login(Resource):
@@ -82,12 +79,20 @@ class User_login(Resource):
         help = "Passord is required!", location = 'json')
         args =  self.reqparse.parse_args()
         username, password = args["username"], args["password"]
-        data ={
-            "username":username,
-            "password":password
-        }
-        pbkdf2_sha256.verify("password", hash)
-        return data
+        
+        try:
+            cur.execute("""SELECT * FROM users""")
+            result = cur.fetchall()
+            if username in result and pbkdf2_sha256.verify("password", hash):
+                return "User successfuly logged in"   
+            else:
+                return "Wrong credentials!"
+        except:
+            print ("I could not  select from user")
+        access_token = create_access_token(identity=username)
+        token = str(access_token)
+        
+        return "welcome"+username "Feel t work"(token), 200
 
 
 api.add_resource(User_login, '/api/v1/auth/login')

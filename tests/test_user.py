@@ -58,14 +58,29 @@ class TestUserTestCase(BaseTestCase):
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'User already exists')
 
-    # def test_login(self):
-    #     """Test for login"""
-    #     response = self.app.post('/api/v1/requests/0', data=json.dumps(
-    #         self.request)
-    #     self.assertEqual(response.status_code, 201)
-    #     data = json.loads(response.get_data())
-    #     self.assertEqual(data['message'],'Request Added Successfully')
-        #correct
+    def test_login(self):
+        """Test for login"""
+        response = self.app.post('/api/v1/auth/signup',
+                                 data=json.dumps(self.person_no_username),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,404)
+        print(response)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Username is required')
         #incorrect
+        response = self.app.post('/api/v1/auth/signup',
+                                 data=json.dumps(self.person_no_username),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,404)
+        print(response)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Username is required')
         #empty
-        #
+        response = self.app.post('/api/v1/auth/signup',
+                                 data=json.dumps(self.person_no_username),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,404)
+        print(response)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'Username is required')
+        
