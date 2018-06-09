@@ -84,18 +84,57 @@ class HelperDb(object):
             return "I could not select from requests"
 
     def delete_request(self, request_id):
-        pass
+        try:
+            self.cur.execute(""" SELECT request_id FROM requests""")
+            result = self.cur.fetchall()
+            if request_id in result:
+                self.cur.execute(""" DELETE FROM requests WHERE request_id = %s""", request_id)
+                self.conn.commit()
+            else:
+                return "Request does not exitst!"
+        except:
+            return "I could not read from requests"
 
     def get_request(self, request_id):
-        pass
+        try:
+            self.cur.execute(""" SELECT request_id FROM requests""")
+            result = self.cur.fetchall()
+            if request_id in result:
+                self.cur.execute(""" SELECT * FROM requests WHERE request_id = %s""", request_id)
+                return self.cur.fetchall()
+            else:
+                return "Request does not exitst!"
+        except:
+            return "I could not read from requests"
 
     def get_user(self,username):
-        pass
+        try:
+            self.cur.execute(""" SELECT username FROM users""")
+            result = self.cur.fetchall()
+            if username in result:
+                self.cur.execute(""" SELECT * FROM users WHERE username = %s""", username)
+                return self.cur.fetchall()
+            else:
+                return "username does not exitst!"
+        except:
+            return "I could not read from users"
 
     def get_all_users(self):
-        pass
+        self.cur.execute(""" SELECT * FROM users""")
+        return self.cur.fetchall()
     
-    def change_status(self, request_id):
-        pass
+    def change_status(self, status, request_id):
+        try:
+            self.cur.execute(""" SELECT request_id FROM users""")
+            result = self.cur.fetchall()
+            if request_id in result:
+                self.cur.execute(""" UPADTE requests SET (status) VALUES (%(status)s)""")
+                self.conn.commit()
+                return "Request status updated !"
+            else:
+                return "username does not exitst!"
+        except:
+            return "I could not read from users"
+        
 
 
