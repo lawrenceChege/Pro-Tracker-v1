@@ -46,13 +46,16 @@ class HelperDb(object):
     #     except:
     #         print ("I could not  select from user")
 
-    def create_request(self,data):
+    def create_request(self, **kwargs):
         pass
 
     def update_request(self, request_id, data):
         pass
 
     def delete_request(self, request_id):
+        pass
+        
+    def get_request(self, request_id):
         pass
 
     def get_user(self,username):
