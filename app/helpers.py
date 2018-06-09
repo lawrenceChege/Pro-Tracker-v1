@@ -35,19 +35,19 @@ class HelperDb(object):
         except:
             return "dingehota"
     
-    # def login_user(self,password, username):
-    #     """helper for confirming user using id"""
-    #     try:
-    #         self.cur.execute("SELECT username FROM users")
-    #         result = self.cur.fetchall() 
-    #         if username in result and pbkdf2_sha256.verify(password, hash):
-    #             self.cur.execute("""SELECT user_id FROM users WHERE username = %s """, (username))
-    #             user_id = self.cur.fetchall()
-    #             return (user_id), "User successfully logged in"
-    #         else:
-    #             return "please check your credentials!"
-    #     except:
-    #         print ("I could not  select from user")
+    def login_user(self,password, username):
+        """helper for confirming user using id"""
+        try:
+            self.cur.execute("SELECT username FROM users")
+            result = self.cur.fetchall() 
+            if username in result and pbkdf2_sha256.verify(password, hash):
+                self.cur.execute("""SELECT user_id FROM users WHERE username = %s """, (username))
+                user_id = self.cur.fetchall()
+                return (user_id), "User successfully logged in"
+            else:
+                return "please check your credentials!"
+        except:
+            print ("I could not  select from user")
 
     def create_request(self, title, data):
         try:
@@ -66,8 +66,22 @@ class HelperDb(object):
         except:
             return "I could not select from requests"
 
-    def update_request(self, request_id, **kwargs):
-        pass
+    def update_request(self, request_id, data):
+        try:
+            self.cur.execute("SELECT request_id FROM requests")
+            result = self.cur.fetchall()
+            if request_id in result:
+                self.cur.execute(
+                    """ 
+                        UPADTE requests SET (category, frequency, title, description, status )
+                                                VALUES ( %(category)s, %(frequency)s, %(title)s, %(desctiption)s, %(status)s)
+                    """,data)
+                self.conn.commit()
+                return  "Request created successfully!"
+            else:
+                return "Request does not exist"
+        except:
+            return "I could not select from requests"
 
     def delete_request(self, request_id):
         pass
