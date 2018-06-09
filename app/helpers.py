@@ -8,16 +8,7 @@ class HelperDb(object):
         self.conn = psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
         # self.cur2= self.conn.cursor()
-    def get_item_users(self, username):
-        self.cur.execute("SELECT * FROM users WHERE username = %s", (username))
-        result = self.cur.fetchall()
-        return dict(result)
-
-    def add_user(self, data):
-        """ helper for user registration"""
-        self.cur.execute(""" INSERT INTO users (username, email, password, role) VALUES (%(username)s, %(email)s, %(password)s, %(role)s)""",data)
-        self.conn.commit()
-        return "User created successfully!"
+   
     def register_user(self, username,data ):
         """helper for registering a user"""
         try:
@@ -33,7 +24,7 @@ class HelperDb(object):
                 self.conn.commit()
                 return "User created successfully!"
         except:
-            return "dingehota"
+            return " "
     
     def login_user(self,password, username):
         """helper for confirming user using id"""
@@ -136,5 +127,6 @@ class HelperDb(object):
         except:
             return "I could not read from users"
         
-
+# if __name__ =='__main__':
+# print(
 

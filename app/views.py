@@ -132,7 +132,7 @@ def update_request(user_id, request_id):
     except:
         print ("I could not  select from requests")
 
-kudelete
+#kudelete
 @app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
 def delete_request(user_id, request_id):
     """Deletes a reuest from a specific user"""
