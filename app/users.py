@@ -3,6 +3,7 @@ from flask import Flask,jsonify
 from flask_restful import Resource, Api, reqparse
 from passlib.hash import pbkdf2_sha256
 from app.helpers import HelperDb
+from flask_jwt_extended import  create_access_token
 
 import config
 import psycopg2
@@ -62,8 +63,25 @@ class User_login(Resource):
         help = "Passord is required!", location = 'json')
         args =  self.reqparse.parse_args()
         username, password = args["username"], args["password"]
-        HelperDb().login_user(username, password)
+        # HelperDb().login_user(username, password)
+        # access_token = create_access_token(identity=username)
+        # token = {
+        #     # "user_id": user_id,
+        #     "token": access_token
+        # }
         # return (token), 201
+        try:
+            cur.execute("SELECT username FROM users")
+            result = cur.fetchall() 
+            if username in result and pbkdf2_sha256.verify(password, hash):
+                cur.execute("""SELECT user_id FROM users WHERE username = %s """, (username))
+                user_id = cur.fetchall()
+                print (user_id)
+                return (user_id), "User successfully logged in"
+            else:
+                return "please check your credentials!"
+        except:
+            print ("I could not  select from user")
 class Get_user(Resource):
     """Gets user details"""
     def get(self, user_id):
@@ -76,6 +94,27 @@ class Get_user(Resource):
                 return "User not found!"
         except:
             print ("I could not  select from users")
+class admin_get_users(Resource):
+    """gets all users"""
+    def get(self):
+        pass
 
+class admin_get_user(Resource):
+    """ gets a user"""
+    def get(self, user_id):
+        pass
 
+class admin_approve_request(Resource):
+    """change the status of the request to approved"""
+    def put(self, request_id):
+        pass
+
+class admin_disapprove_request(Resource):
+    """change the status of the request to rejected"""
+    def put(self, request_id):
+        pass
+class admin_resolve_request(Resource):
+    """change the status of the request to resolved"""
+    def put(self, request_id):
+        pass
 

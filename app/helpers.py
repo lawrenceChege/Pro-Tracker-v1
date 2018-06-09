@@ -1,8 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from passlib.hash import pbkdf2_sha256
-from flask_jwt_extended import  create_access_token
-
 class HelperDb(object):
     """ Helper methods for connecting to db"""
     def __init__(self):
@@ -34,24 +32,19 @@ class HelperDb(object):
         except:
             return "dingehota"
     
-    def login_user(self,password, username):
-        """helper for confirming user using id"""
-        try:
-            self.cur.execute("SELECT * FROM users WHERE username = %s", (username))
-            result = self.cur.fetchall() 
-            if username in result and pbkdf2_sha256.verify(password, hash):
-                self.cur.execute("""SELECT user_id FROM users WHERE username = %s """, (username))
-                user_id = self.cur.fetchall()
-                access_token = create_access_token(identity=username)
-                token = {
-                    "user_id": user_id,
-                    "token": access_token
-                }
-                return token, "User successfully logged in"
-            else:
-                return "please check your credentials!"
-        except:
-            print ("I could not  select from user")
+    # def login_user(self,password, username):
+    #     """helper for confirming user using id"""
+    #     try:
+    #         self.cur.execute("SELECT username FROM users")
+    #         result = self.cur.fetchall() 
+    #         if username in result and pbkdf2_sha256.verify(password, hash):
+    #             self.cur.execute("""SELECT user_id FROM users WHERE username = %s """, (username))
+    #             user_id = self.cur.fetchall()
+    #             return (user_id), "User successfully logged in"
+    #         else:
+    #             return "please check your credentials!"
+    #     except:
+    #         print ("I could not  select from user")
 
     def create_request(self,data):
         pass
