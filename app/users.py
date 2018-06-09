@@ -82,11 +82,17 @@ class User_login(Resource):
                 return "please check your credentials!"
         except:
             print ("I could not  select from user")
-class Get_user(Resource):
-    """Gets user details"""
+    
+class Admin_get_users(Resource):
+    """gets all users"""
+    def get(self):
+        pass
+
+class Admin_get_user(Resource):
+    """ gets a user"""
     def get(self, user_id):
         try:
-            cur.execute("""SELECT FROM users WHERE user_id = user_id""")
+            cur.execute("""SELECT user_id FROM users""")
             result = cur.fetchall()
             if user_id in result:
                 return jsonify(result)
@@ -94,26 +100,17 @@ class Get_user(Resource):
                 return "User not found!"
         except:
             print ("I could not  select from users")
-class admin_get_users(Resource):
-    """gets all users"""
-    def get(self):
-        pass
 
-class admin_get_user(Resource):
-    """ gets a user"""
-    def get(self, user_id):
-        pass
-
-class admin_approve_request(Resource):
+class Admin_approve_request(Resource):
     """change the status of the request to approved"""
     def put(self, request_id):
         pass
 
-class admin_disapprove_request(Resource):
+class Admin_disapprove_request(Resource):
     """change the status of the request to rejected"""
     def put(self, request_id):
         pass
-class admin_resolve_request(Resource):
+class Admin_resolve_request(Resource):
     """change the status of the request to resolved"""
     def put(self, request_id):
         pass

@@ -132,16 +132,16 @@ def update_request(user_id, request_id):
     except:
         print ("I could not  select from requests")
 
-#kudelete
-# @app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
-# def delete_request(user_id, request_id):
-#     """Deletes a reuest from a specific user"""
-#     reqw = requests[user_id]
-#     req = [req for req in reqw if req['id'] == request_id]
-#     if len(req) == 0:
-#         abort(404)
-#     reqw.remove(req[0])
-#     return jsonify({'result': True, "message":"Request successfuly deleted"})
+kudelete
+@app.route('/api/v1/requests/<int:user_id>/<int:request_id>/', methods=['DELETE'])
+def delete_request(user_id, request_id):
+    """Deletes a reuest from a specific user"""
+    reqw = requests[user_id]
+    req = [req for req in reqw if req['id'] == request_id]
+    if len(req) == 0:
+        abort(404)
+    reqw.remove(req[0])
+    return jsonify({'result': True, "message":"Request successfuly deleted"})
 
-# if __name__ == '__main__':
-#     app.run()
+if __name__ == '__main__':
+    app.run()

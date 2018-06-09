@@ -6,16 +6,16 @@ class Request(Resource):
         """This class creates a request"""
         pass
 
-    def get(self, id):
+    def get(self, request_id):
         """This method gets the details of a request"""
         pass
 
-    def put(self, id):
+    def put(self, request_id):
         """This method modifies the details of a request"""
         pass
 
-    def delete(self, id):
+    def delete(self, request_id):
         """This method deletes a request"""
         pass
 
-api.add_resource(Request, '/api/v1/request/<int:id>', endpoint = 'request')
+
