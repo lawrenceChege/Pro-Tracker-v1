@@ -3,10 +3,7 @@ from flask import Flask,jsonify
 from flask_restful import Resource, Api, reqparse
 from passlib.hash import pbkdf2_sha256
 from app.helpers import HelperDb
-from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
-)
+
 import config
 import psycopg2
 import json
@@ -53,9 +50,8 @@ class User(Resource):
             "password": hash_password,
             "role": "user"
         }
-        
-        return HelperDb().register_user(username, data)
-
+        user = HelperDb().register_user(username, data)
+        return user
 class User_login(Resource):
     """This user logs in the user"""
     def post(self):
@@ -66,21 +62,8 @@ class User_login(Resource):
         help = "Passord is required!", location = 'json')
         args =  self.reqparse.parse_args()
         username, password = args["username"], args["password"]
-        try:
-            cur.execute("""SELECT * FROM users""")
-            result = cur.fetchall()
-            if username in result and pbkdf2_sha256.verify(password, hash):
-                cur.execute("""SELECT user_id FROM users WHERE username = %(username)s """)
-                user_id = cur.fetchall()
-                return "User successfully logged in"
-            else:
-                return "please check your credentials!"
-        except:
-            print ("I could not  select from user")
-
-        access_token = create_access_token(identity=username)
-        token = str(access_token)
-        return (token),user_id, 201
+        HelperDb().login_user(username, password)
+        # return (token), 201
 class Get_user(Resource):
     """Gets user details"""
     def get(self, user_id):
