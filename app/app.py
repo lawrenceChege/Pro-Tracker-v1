@@ -1,5 +1,7 @@
 from flask_restful import Resource, Api, marshal_with, fields
-from helpers import HelperDb
+from app.helpers import HelperDb
+import json
+
 resource_fields = {
     'category': fields.String,
     'frequency': fields.String,
@@ -13,17 +15,19 @@ class Request(Resource):
     @marshal_with(resource_fields, envelope='resource')
     def post(self, **kwargs):
         """This class creates a request"""
-        return HelperDb().create_request()
+        data = json.dumps(marshal_with(resource_fields))
+        print (data)
+        # return HelperDb().create_request()
     def get(self, request_id):
         """This method gets the details of a request"""
-        return HelperDb().get_user()
+        return HelperDb().get_request(request_id)
 
     def put(self, request_id, **kwargs):
         """This method modifies the details of a request"""
-        return HelperDb().update_request()
+        return HelperDb().update_request(request_id, **kwargs)
 
     def delete(self, request_id):
         """This method deletes a request"""
-        return HelperDb().delete_request()
+        return HelperDb().delete_request(request_id)
 
 

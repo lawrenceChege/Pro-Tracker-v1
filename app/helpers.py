@@ -26,7 +26,10 @@ class HelperDb(object):
             if username in result:
                 return "User already exists!"
             else:
-                self.cur.execute(""" INSERT INTO users (username, email, password, role) VALUES (%(username)s, %(email)s, %(password)s, %(role)s)""",data)
+                self.cur.execute(""" 
+                                    INSERT INTO users (username, email, password, role) 
+                                                    VALUES (%(username)s, %(email)s, %(password)s, %(role)s)
+                                """,data)
                 self.conn.commit()
                 return "User created successfully!"
         except:
@@ -46,15 +49,29 @@ class HelperDb(object):
     #     except:
     #         print ("I could not  select from user")
 
-    def create_request(self, **kwargs):
-        pass
+    def create_request(self, title, data):
+        try:
+            self.cur.execute("SELECT title FROM requests")
+            result = self.cur.fetchall()
+            if title not in result:
+                self.cur.execute(
+                    """ 
+                        INSERT INTO requests (category, frequency, title, description, status )
+                                                VALUES ( %(category)s, %(frequency)s, %(title)s, %(desctiption)s, %(status)s)
+                    """,data)
+                self.conn.commit()
+                return  "Request created successfully!"
+            else:
+                return "Request with similar title exists"
+        except:
+            return "I could not select from requests"
 
-    def update_request(self, request_id, data):
+    def update_request(self, request_id, **kwargs):
         pass
 
     def delete_request(self, request_id):
         pass
-        
+
     def get_request(self, request_id):
         pass
 
