@@ -1,6 +1,5 @@
 """Tests for users"""
 from tests.base import BaseTestCase
-from app import app 
 from passlib.hash import pbkdf2_sha256
 
 import unittest
@@ -66,26 +65,26 @@ class TestUserTestCase(BaseTestCase):
                                  headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,400)
         dataman = json.loads(response.get_data())
-        self.assertEqual(dataman['message'],'Password is required'
+        self.assertEqual(dataman['message'],'Password is required')
         #no username
         response = self.app.post('api/v1/auth/login',
                                  data=json.dumps(self.no_username),
                                  headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,400)
         dataman = json.loads(response.get_data())
-        self.assertEqual(dataman['message'],'password is requirecd'
+        self.assertEqual(dataman['message'],'password is required')
         #incorrect
         response = self.app.post('api/v1/auth/login',
                                  data=json.dumps(self.wrong_login),
                                  headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,401)
         dataman = json.loads(response.get_data())
-        self.assertEqual(dataman['message'],'please check your credential'
+        self.assertEqual(dataman['message'],'please check your credential')
         #empty
         response = self.app.post('api/v1/auth/signup',
                                  data=json.dumps(self.correct_login),
                                  headers={'content-type': "application/json"})
         self.assertEqual(response.status_code,200)
         dataman = json.loads(response.get_data())
-        self.assertEqual(dataman['message'],'User successfully logged in'
+        self.assertEqual(dataman['message'],'User successfully logged in')
         
