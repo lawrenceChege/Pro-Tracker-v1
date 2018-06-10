@@ -29,7 +29,7 @@ class Admin_get_all(Resource):
 class Admin_get_user(Resource):
     """ gets a user"""
     def get(self, user_id):
-        HelpAdmin().get_user(user_id)
+        return HelpAdmin().get_user(user_id)
     def delete(self,user_id):
         HelpAdmin()
 

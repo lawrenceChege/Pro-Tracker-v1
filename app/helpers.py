@@ -113,17 +113,15 @@ class HelpAdmin(HelperDb):
     """helper methods for Admin"""
 
     def get_user(self,user_id):
-        return "shut up"
-        # try:
-        #     self.cur.execute(""" SELECT * FROM users where user_id=%s""", (user_id,))
-        #     user = self.cur.fetchall()
-        #     return user
-        #     if user:
-        #         return user
-        #     else:
-        #         return "user does not exitst!"
-        # except:
-        #     return "I could not read from users"
+        try:
+            self.cur.execute(""" SELECT * FROM users where user_id=%s""", (user_id,))
+            user = self.cur.fetchall()
+            if user:
+                return user
+            else:
+                return "user does not exitst!"
+        except:
+            return "I could not read from users"
 
     def get_all_users(self):
         self.cur.execute(""" SELECT * FROM users""")
