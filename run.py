@@ -1,5 +1,4 @@
 """Runs the app"""
-# from app.views import app
 from app import app
 # from config import create_tables
 
