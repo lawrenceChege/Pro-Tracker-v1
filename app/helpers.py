@@ -67,8 +67,9 @@ class HelperDb(object):
                 self.conn.commit()
                 return  "Request created successfully!"
                 
-        except(Exception, psycopg2.DatabaseError) as error:
-            print(error) 
+        except:
+
+            return "I could not red from requests" 
 
     def update_request(self, request_id, data):
         try:
@@ -85,15 +86,16 @@ class HelperDb(object):
 
     def delete_request(self, request_id):
         try:
-            self.cur.execute(""" SELECT request_id FROM requests""")
-            result = self.cur.fetchall()
-            if request_id in result:
-                self.cur.execute(""" DELETE FROM requests WHERE request_id = %s""", request_id)
+            self.cur.execute("SELECT * FROM requests WHERE request_id = %s",(request_id,))
+            request_i = self.cur.fetchall()
+            if len(request_i) > 0:
+                self.cur.execute(""" DELETE FROM requests WHERE request_id = %s""", (request_id,)) 
                 self.conn.commit()
+                return "Request deleted successfully!"
             else:
                 return "Request does not exitst!"
-        except:
-            return "I could not read from requests"
+        except(Exception, psycopg2.DatabaseError) as error:
+            print(error)
 
     def get_request(self, request_id):
         try:

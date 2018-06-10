@@ -54,7 +54,7 @@ class Request_get(Resource):
 
     def delete(self, request_id):
         """This method deletes a request"""
-        current_user = get_jwt_identity()
-        return jsonify(logged_in_as=current_user), HelperDb().delete_request(request_id)
+        # current_user = get_jwt_identity()
+        return HelperDb().delete_request(request_id)
 
 
