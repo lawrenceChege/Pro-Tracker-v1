@@ -15,10 +15,10 @@ resource_fields = {
 
 class Request(Resource):
     """This class will define methods for the request"""
-    # @jwt_required
+    @jwt_required
     def post(self, **kwargs):
         """This class creates a request"""
-        # current_user = get_jwt_identity()
+        current_user = get_jwt_identity()
         check_request(resource_fields)
         category, title, frequency, description, = request.json['category'],request.json['frequency'],request.json['title'],request.json.get('description', "")
         req = {
@@ -30,17 +30,18 @@ class Request(Resource):
             'user_id': "1",
         }
         
-        return HelperDb().create_request(title, req)
+        return jsonify(logged_in_as=current_user), HelperDb().create_request(title, req)
 class Request_get(Resource):
     """defines methods requiring request_id"""
+    @jwt_required
     def get(self, request_id):
         """This method gets the details of a request"""
-        # current_user = get_jwt_identity()
-        return HelperDb().get_request(request_id)
+        current_user = get_jwt_identity()
+        return jsonify(logged_in_as=current_user), HelperDb().get_request(request_id)
 
     def put(self, request_id, **kwargs):
         """This method modifies the details of a request"""
-        # current_user = get_jwt_identity()
+        current_user = get_jwt_identity()
         check_request(resource_fields)
         category, title, frequency, description, = request.json['category'],request.json['frequency'],request.json['title'],request.json.get('description', "")
         req = {
@@ -50,11 +51,11 @@ class Request_get(Resource):
             'description': description,
         }
         
-        return HelperDb().update_request(request_id, req)
+        return jsonify(logged_in_as=current_user), HelperDb().update_request(request_id, req)
 
     def delete(self, request_id):
         """This method deletes a request"""
-        # current_user = get_jwt_identity()
-        return HelperDb().delete_request(request_id)
+        current_user = get_jwt_identity()
+        return jsonify(logged_in_as=current_user), HelperDb().delete_request(request_id)
 
 

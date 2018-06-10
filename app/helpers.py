@@ -46,7 +46,7 @@ class HelperDb(object):
             if check_password_hash(pasword,password):
                 access_token = create_access_token(identity=user)
                 token = access_token
-                return "user successfully loged in", token
+                return (token)
             else:
                 return "wrong password"
         else:

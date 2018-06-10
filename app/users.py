@@ -20,7 +20,28 @@ class User(Resource):
     """This class will define methods for the user"""
     
     def post(self):
-        """This class creates a user"""
+        """
+       Registers a new user.
+       ---
+       tags:
+            - The Users API
+       parameters:
+         - in: formData
+           name: email
+           type: string
+           required: true
+         - in: formData
+           name: username
+           type: string
+           required: true
+         - in: formData
+           name: password
+           type: string
+           required: true
+       responses:
+         201:
+           description: New user registered.
+        """
         self.reqparse = reqparse.RequestParser()
         
         self.reqparse.add_argument("username",

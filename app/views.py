@@ -4,7 +4,8 @@ from app.helpers import HelpAdmin
 from app.validators import check_user
 import psycopg2
 from flask_restful import Resource, reqparse,fields
-from app.validators import check_request 
+from app.validators import check_request
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
 conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
@@ -25,26 +26,33 @@ class Admin(Resource):
         usernm, pssword = args["username"], args["password"]
         return HelpAdmin().login_admin(usernm,pssword)
 class Admin_get_all(Resource):
+    """get ll users"""
+    @jwt_required
     def get(self):
-        return HelpAdmin().get_all_users()
+        current_user = get_jwt_identity()
+        return jsonify(logged_in_as=current_user), HelpAdmin().get_all_users()
 
 
 class Admin_get_user(Resource):
     """ gets a user"""
+    @jwt_required
     def get(self, user_id):
-        return HelpAdmin().get_user(user_id)
+        current_user = get_jwt_identity()
+        return jsonify(logged_in_as=current_user), HelpAdmin().get_user(user_id)
     def delete(self,user_id):
-        return HelpAdmin().delete_user(user_id)
+        current_user = get_jwt_identity()
+        return jsonify(logged_in_as=current_user), HelpAdmin().delete_user(user_id)
 
 class Admin_approve_request(Resource):
     """change the status of the request to approved"""
-
+    @jwt_required
     def put(self, request_id, **kwargs):
         check_request(resource_fields)
+        current_user = get_jwt_identity()
         status =resource_fields['status']
         req = {
             'status': status
         }
-        return HelpAdmin().change_status(request_id, req)
+        return jsonify(logged_in_as=current_user),HelpAdmin().change_status(request_id, req)
 
 
