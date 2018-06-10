@@ -95,8 +95,8 @@ class HelperDb(object):
                 return "Request deleted successfully!"
             else:
                 return "Request does not exitst!"
-        except(Exception, psycopg2.DatabaseError) as error:
-            print(error)
+        except:
+            return "I could not see inside"
 
     def get_request(self, request_id):
         try:
@@ -146,7 +146,17 @@ class HelpAdmin(HelperDb):
 
     def delete_user(self, user_id):
         """delete a user"""
-        pass
+        try:
+            self.cur.execute("SELECT * FROM users WHERE user_id = %s",(user_id,))
+            request_i = self.cur.fetchall()
+            if len(request_i) > 0:
+                self.cur.execute(""" DELETE FROM users WHERE user_id = %s""", (user_id,)) 
+                self.conn.commit()
+                return "Request deleted successfully!"
+            else:
+                return "Request does not exitst!"
+        except:
+            return "I could not see inside"
 
 # if __name__ =='__main__':
 # print(

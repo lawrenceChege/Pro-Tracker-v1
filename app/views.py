@@ -31,7 +31,7 @@ class Admin_get_user(Resource):
     def get(self, user_id):
         return HelpAdmin().get_user(user_id)
     def delete(self,user_id):
-        HelpAdmin()
+        return HelpAdmin().delete_user(user_id)
 
 class Admin_approve_request(Resource):
     """change the status of the request to approved"""
