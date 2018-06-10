@@ -3,7 +3,7 @@ from flask import Flask,jsonify
 from flask_restful import Resource, Api, reqparse
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.helpers import HelperDb
-from flask_jwt_extended import  create_access_token
+
 
 import config
 import psycopg2
@@ -64,13 +64,7 @@ class User_login(Resource):
         help = "Passord is required!", location = 'json')
         args =  self.reqparse.parse_args()
         usernm, pssword = args["username"], args["password"]
-        # HelperDb().login_user(username, password)
-        # access_token = create_access_token(identity=username)
-        # token = {
-        #     # "user_id": user_id,
-        #     "token": access_token
-        # }
-        return HelperDb().login_user(usernm, pssword)
+        return HelperDb().login_user(usernm, pssword),201
         
     
 class Admin_get_users(Resource):

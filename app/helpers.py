@@ -3,6 +3,7 @@ import json
 import unicodedata
 from flask import request, jsonify
 from psycopg2.extras import RealDictCursor
+from flask_jwt_extended import  create_access_token
 from werkzeug.security import check_password_hash
 class HelperDb(object):
     """ Helper methods for connecting to db"""
@@ -42,7 +43,9 @@ class HelperDb(object):
             pssword= self.cur2.fetchone()
             pasword = pssword[0]
             if check_password_hash(pasword,password):
-                return "user successfully loged in"
+                access_token = create_access_token(identity=user)
+                token = access_token
+                return "user successfully loged in", token
             else:
                 return "wrong password"
         else:
