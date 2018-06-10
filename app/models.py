@@ -17,7 +17,14 @@ namedict = {"username": "Joshua", "email": "Drake@gmail.com", "password": "somet
 
 
 cur.execute(
-    """INSERT INTO users (username,email, password) VALUES (%s, %s, %s)""", (namedict["username"], namedict["email"], namedict["password"]))
+    """
+    INSERT INTO users (username,email, password) VALUES (%s, %s, %s)
+    """,
+    (
+        namedict["username"],
+        namedict["email"],
+        namedict["password"]
+    ))
 
 
 try:

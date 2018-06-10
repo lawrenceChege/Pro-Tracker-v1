@@ -67,7 +67,6 @@ class User(Resource):
         except:
             print ("I could not  select from user")
         return 201
-
 class User_login(Resource):
     """This user logs in the user"""
     def post(self):
@@ -92,6 +91,7 @@ class User_login(Resource):
 
         access_token = create_access_token(identity=username)
         token = str(access_token)
+<<<<<<< HEAD
         return (token),user_id, 201
 class Get_user(Resource):
     """Gets user details"""
@@ -107,8 +107,10 @@ class Get_user(Resource):
             print ("I could not  select from users")
 
 
+=======
+        return (token), 201
+>>>>>>> challenge3
 
 
 api.add_resource(User_login, '/api/v1/auth/login')
 api.add_resource(User, '/api/v1/auth/signup')
-api.add_resource(Get_user, '/api/v1/auth/<int:user_id>')
