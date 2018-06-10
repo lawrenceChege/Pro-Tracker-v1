@@ -1,14 +1,17 @@
 import psycopg2
+import json
+import unicodedata
+from flask import request, jsonify
 from psycopg2.extras import RealDictCursor
-from passlib.hash import pbkdf2_sha256
+from werkzeug.security import check_password_hash
 class HelperDb(object):
     """ Helper methods for connecting to db"""
     def __init__(self):
         """initialize db"""
         self.conn = psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
-        # self.cur2= self.conn.cursor()
-   
+        self.cur2= self.conn.cursor()
+
     def register_user(self, username,data ):
         """helper for registering a user"""
         try:
@@ -19,26 +22,31 @@ class HelperDb(object):
             else:
                 self.cur.execute(""" 
                                     INSERT INTO users (username, email, password, role) 
-                                                    VALUES (%(username)s, %(email)s, %(password)s, %(role)s)
+                                                    VALUES (rtrim(%(username)s), %(email)s, %(password)s, %(role)s)
                                 """,data)
                 self.conn.commit()
                 return "User created successfully!"
         except:
-            return " "
+            return " Cannot do that"
+    
     
     def login_user(self,password, username):
         """helper for confirming user using id"""
-        try:
-            self.cur.execute("SELECT username FROM users")
-            result = self.cur.fetchall() 
-            if username in result and pbkdf2_sha256.verify(password, hash):
-                self.cur.execute("""SELECT user_id FROM users WHERE username = %s """, (username))
-                user_id = self.cur.fetchall()
-                return (user_id), "User successfully logged in"
+        content = request.get_json()
+        username = (content['username'])
+        password = (content['password'])
+        self.cur.execute(""" SELECT username FROM users WHERE username = %s """, (username,))
+        user = self.cur.fetchall()
+        if user:
+            self.cur2.execute(""" SELECT password FROM users WHERE username = %s """, (username,))
+            pssword= self.cur2.fetchone()
+            pasword = pssword[0]
+            if check_password_hash(pasword,password):
+                return "user successfully loged in"
             else:
-                return "please check your credentials!"
-        except:
-            print ("I could not  select from user")
+                return "wrong password"
+        else:
+            return "user not registered" 
 
     def create_request(self, title, data):
         try:

@@ -9,7 +9,7 @@ Admin_resolve_request)
 app = Flask(__name__)
 api = Api(app)
 
-app.config['JWT_SECRET_KEY'] = 'raise JSONDecodeError("Expecting value", s, err.value) from None' 
+app.config['JWT_SECRET_KEY'] = 'raiseSONDecodeErrorExpectingromNone' 
 jwt = JWTManager(app)
 
 
