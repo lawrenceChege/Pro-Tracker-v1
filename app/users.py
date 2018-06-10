@@ -81,15 +81,35 @@ class User_login(Resource):
             cur.execute("""SELECT * FROM users""")
             result = cur.fetchall()
             if username in result and pbkdf2_sha256.verify(password, hash):
+                cur.execute("""SELECT user_id FROM users WHERE username = username """)
+                user_id = cur.fetchall()
                 return "User successfully logged in"
             else:
                 return "please check your credentials!"
         except:
             print ("I could not  select from user")
-        
+
         access_token = create_access_token(identity=username)
         token = str(access_token)
+<<<<<<< HEAD
+        return (token),user_id, 201
+class Get_user(Resource):
+    """Gets user details"""
+    def get(self, user_id):
+        try:
+            cur.execute("""SELECT FROM users WHERE user_id = user_id""")
+            result = cur.fetchall()
+            if user_id in result:
+                return jsonify(result)
+            else:
+                return "User not found!"
+        except:
+            print ("I could not  select from users")
+
+
+=======
         return (token), 201
+>>>>>>> challenge3
 
 
 api.add_resource(User_login, '/api/v1/auth/login')

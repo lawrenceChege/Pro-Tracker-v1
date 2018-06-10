@@ -63,34 +63,42 @@ class BaseTestCase(TestCase):
             "frequency": "once",
             "title": "fogort hammer",
             "description": "i am also stupid",
-            "status": "Approved"
+            "status": "Pending"
         }
-        self.requests = [
-            {
-                "id": 0,
-                "category": "maintenance",
-                "title": "fogort password",
-                "frequency": "once",
-                "description": "i am stupid",
-                "status": "Pending"
-            },
-            {
-                "id": 1,
-                "category": "repair",
-                "title": "fogort hammer",
-                "frequency": "once",
-                "description": "i am also stupid",
-                "status": "Pending"
-            },
-            {
-                "id": 2,
-                "category": "maintenance",
-                "title": "Tissue out",
-                "frequency": "daily",
-                "description": "well, not cool",
-                "status": "Pending"
-            }
-        ]
+        self.request_no_category= {
+            "frequency": "once",
+            "title": "fogort hammer",
+            "description": "i am also stupid",
+            "status": "pending"
+        }
+        self.request_no_frequency={
+            "category": "repair",
+            "title": "fogort hammer",
+            "description": "i am also stupid",
+            "status": "Pending"
+        }
+        self.request_no_description={
+            "category": "repair",
+            "frequency": "once",
+            "title": "fogort hammer",
+            "status": "pending"
+        }
+        self.request_no_title={
+            "category": "repair",
+            "frequency": "once",
+            "description": "fogort hammer",
+            "status": "pending"
+        }
+        self.request_approve={
+            "status": "Approve"
+        }
+        self.request_reject={
+            "status": "Rejected"
+        }
+        self.request_resolve={
+            "status": "Resolved"
+        }
+
     @classmethod
     def tearDownClass(cls):
         pass
