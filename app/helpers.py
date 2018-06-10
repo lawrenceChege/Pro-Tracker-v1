@@ -142,7 +142,22 @@ class HelpAdmin(HelperDb):
     
     def login_admin(self, username, password):
         """logs in admin"""
-        pass
+        content = request.get_json()
+        username = (content['username'])
+        password = (content['password'])
+        user = "Admin"
+        if username == user:
+            self.cur2.execute(""" SELECT password FROM users WHERE username = %s """, (user,))
+            pssword= self.cur2.fetchone()
+            pasword = pssword[0]
+            if check_password_hash(pasword,password):
+                access_token = create_access_token(identity=user)
+                token = access_token
+                return "You know What to do !", token
+            else:
+                return "wrong password"
+        else:
+            return "You are not admin ...shu shu!"
 
     def delete_user(self, user_id):
         """delete a user"""
@@ -158,6 +173,4 @@ class HelpAdmin(HelperDb):
         except:
             return "I could not see inside"
 
-# if __name__ =='__main__':
-# print(
 
