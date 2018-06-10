@@ -3,12 +3,15 @@ from flask import jsonify, request
 from app.helpers import HelpAdmin
 from app.validators import check_user
 import psycopg2
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse,fields
+from app.validators import check_request 
 
 
 conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
 cur = conn.cursor()
-
+resource_fields = {
+    'status': fields.String,
+}
 class Admin(Resource):
     """defines Admin methods"""
     def post(self):
@@ -35,15 +38,13 @@ class Admin_get_user(Resource):
 
 class Admin_approve_request(Resource):
     """change the status of the request to approved"""
-    def put(self, status, request_id):
-        HelpAdmin().change_status(status, request_id)
 
-class Admin_disapprove_request(Resource):
-    """change the status of the request to rejected"""
-    def put(self,status, request_id):
-        HelpAdmin().change_status(status, request_id)
-class Admin_resolve_request(Resource):
-    """change the status of the request to resolved"""
-    def put(self, status,request_id):
-        HelpAdmin().change_status(status, request_id)
+    def put(self, request_id, **kwargs):
+        check_request(resource_fields)
+        status =resource_fields['status']
+        req = {
+            'status': status
+        }
+        return HelpAdmin().change_status(request_id, req)
+
 

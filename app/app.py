@@ -1,4 +1,4 @@
-from flask_restful import Resource, Api, marshal_with, fields
+from flask_restful import Resource, Api, fields
 from app.helpers import HelperDb
 from flask import jsonify, request
 from app.validators import check_request 

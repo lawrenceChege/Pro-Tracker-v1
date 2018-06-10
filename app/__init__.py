@@ -3,9 +3,7 @@ from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager
 from app.app import Request, Request_get
 from app.models import IndexPage
-from app.views import (Admin, Admin_approve_request,Admin_get_all,
-                       Admin_disapprove_request, Admin_get_user,
-                       Admin_resolve_request)
+from app.views import (Admin, Admin_approve_request,Admin_get_all, Admin_get_user)
 from app.users import (User_login, User,)
 
 app = Flask(__name__, static_url_path = "/static")
@@ -24,5 +22,3 @@ api.add_resource(Admin,'/api/v2/admin/auth/login')
 api.add_resource(Admin_get_all, '/api/v2/admin/users/')
 api.add_resource(Admin_get_user, '/api/v2/admin/users/<int:user_id>')
 api.add_resource(Admin_approve_request, '/api/v2/admin/requests/<int:request_id>')
-api.add_resource(Admin_disapprove_request,'/api/v2/admn/requests/<int:request_id>')
-api.add_resource(Admin_resolve_request,'/api/v2/admin/requests/<int:request_id>')

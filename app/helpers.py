@@ -127,17 +127,18 @@ class HelpAdmin(HelperDb):
         self.cur.execute(""" SELECT * FROM users""")
         result = self.cur.fetchall()
         return result 
-    def change_status(self, status, request_id):
+    def change_status(self, request_id, data):
         try:
-            self.cur.execute(""" SELECT request_id FROM users""")
+            self.cur.execute(""" SELECT TRIM(status) FROM requests WHERE request_id=%s""", (request_id,))
             result = self.cur.fetchall()
-            if request_id in result:
-                self.cur.execute(""" UPADTE requests SET (status) VALUES (%(status)s)""")
+            if len(result)>0:
+                self.cur.execute("UPDATE requests SET status=%(status)s",data)
                 self.conn.commit()
                 return "Request status updated !"
             else:
                 return "username does not exitst!"
-        except:
+        except(Exception, psycopg2.DatabaseError) as error:
+            print(error)
             return "I could not read from users"
     
     def login_admin(self, username, password):
