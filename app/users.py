@@ -54,6 +54,7 @@ class User(Resource):
         print(data)
         user = HelperDb().register_user(username, data)
         return user 
+
 class User_login(Resource):
     """This user logs in the user"""
     def post(self):
@@ -66,6 +67,15 @@ class User_login(Resource):
         usernm, pssword = args["username"], args["password"]
         return HelperDb().login_user(usernm, pssword),201
         
-    
-
-
+class Get_user(Resource):
+    """Gets user details"""
+    def get(self, user_id):
+        try:
+            cur.execute("""SELECT FROM users WHERE user_id = user_id""")
+            result = cur.fetchall()
+            if user_id in result:
+                return jsonify(result)
+            else:
+                return "User not found!"
+        except:
+            print ("I could not  select from users")
