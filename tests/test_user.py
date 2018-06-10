@@ -1,6 +1,5 @@
 """Tests for users"""
 from tests.base import BaseTestCase
-from app.views import app 
 from passlib.hash import pbkdf2_sha256
 
 import unittest
