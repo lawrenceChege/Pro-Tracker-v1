@@ -72,16 +72,12 @@ class HelperDb(object):
 
     def update_request(self, request_id, data):
         try:
-            self.cur.execute("SELECT request_id FROM requests")
-            result = self.cur.fetchall()
-            if request_id in result:
-                self.cur.execute(
-                    """ 
-                        UPADTE requests SET (category, frequency, title, description)
-                                                VALUES ( %(category)s, %(frequency)s, %(title)s, %(desctiption)s)
-                    """,data)
+            self.cur.execute("SELECT * FROM requests WHERE request_id = %s",(request_id,))
+            request_i = self.cur.fetchall()
+            if request_i:
+                self.cur.execute("UPDATE requests SET category=%(category)s, frequency=%(frequency)s, title=%(title)s, description=%(description)s",data)
                 self.conn.commit()
-                return  "Request created successfully!"
+                return  "Request updated successfully!"
             else:
                 return "Request does not exist"
         except:
