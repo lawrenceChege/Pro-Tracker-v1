@@ -37,3 +37,14 @@ def check_request(data):
         return jsonify({"message" : "Title should be a string"})
     if 'description' in request.json and not isinstance(request.json['description'], str):
         return jsonify({"message" : "Description is a string"})
+
+def check_user(data):
+    if not request.json or not 'title' in request.json:
+        return jsonify({"message" : "check your request type"})
+    if 'username' in request.json and not isinstance(request.json['username'], str):
+        return jsonify({"message" : "Please enter username as a String"})
+    if 'email' in request.json and check_email(request.json['email']):
+        return jsonify({"message" : "Email is invalid"})
+    if 'password' in request.json and not isinstance(request.json['title'], str):
+        return jsonify({"message" : "Title should be a string"})
+    

@@ -1,6 +1,6 @@
 from flask import Flask,jsonify
 
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, reqparse
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.helpers import HelperDb
 
@@ -67,35 +67,5 @@ class User_login(Resource):
         return HelperDb().login_user(usernm, pssword),201
         
     
-class Admin_get_users(Resource):
-    """gets all users"""
-    def get(self):
-        HelperDb().get_all_users()
 
-class Admin_get_user(Resource):
-    """ gets a user"""
-    def get(self, user_id):
-        try:
-            cur.execute("""SELECT user_id FROM users""")
-            result = cur.fetchall()
-            if user_id in result:
-                return jsonify(result)
-            else:
-                return "User not found!"
-        except:
-            print ("I could not  select from users")
-
-class Admin_approve_request(Resource):
-    """change the status of the request to approved"""
-    def put(self, status, request_id):
-        HelperDb().change_status(status, request_id)
-
-class Admin_disapprove_request(Resource):
-    """change the status of the request to rejected"""
-    def put(self,status, request_id):
-        HelperDb().change_status(status, request_id)
-class Admin_resolve_request(Resource):
-    """change the status of the request to resolved"""
-    def put(self, status,request_id):
-        HelperDb().change_status(status, request_id)
 

@@ -5,6 +5,7 @@ from flask import request, jsonify
 from psycopg2.extras import RealDictCursor
 from flask_jwt_extended import  create_access_token
 from werkzeug.security import check_password_hash
+
 class HelperDb(object):
     """ Helper methods for connecting to db"""
     def __init__(self):
@@ -53,11 +54,11 @@ class HelperDb(object):
 
     def create_request(self, title, req):
         content = request.get_json()
-        title = (content['title'])
+        Title = (content['title'])
         try:
-            self.cur.execute("SELECT title FROM requests WHERE title = %s",(title,))
-            title = self.cur.fetchall()
-            if title :
+            self.cur.execute("SELECT * FROM requests WHERE title = %s",(Title,))
+            request_i = self.cur.fetchall()
+            if len(request_i) > 0:
                return "Request with similar title exists"
             else:
                 self.cur.execute(""" 
@@ -107,6 +108,9 @@ class HelperDb(object):
                 return "Request does not exitst!"
         except:
             return "I could not read from requests"
+
+class HelpAdmin(HelperDb):
+    """helper methods for Admin"""
 
     def get_user(self,username):
         try:
