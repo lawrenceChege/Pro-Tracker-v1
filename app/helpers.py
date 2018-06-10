@@ -112,22 +112,23 @@ class HelperDb(object):
 class HelpAdmin(HelperDb):
     """helper methods for Admin"""
 
-    def get_user(self,username):
-        try:
-            self.cur.execute(""" SELECT username FROM users""")
-            result = self.cur.fetchall()
-            if username in result:
-                self.cur.execute(""" SELECT * FROM users WHERE username = %s""", username)
-                return self.cur.fetchall()
-            else:
-                return "username does not exitst!"
-        except:
-            return "I could not read from users"
+    def get_user(self,user_id):
+        return "shut up"
+        # try:
+        #     self.cur.execute(""" SELECT * FROM users where user_id=%s""", (user_id,))
+        #     user = self.cur.fetchall()
+        #     return user
+        #     if user:
+        #         return user
+        #     else:
+        #         return "user does not exitst!"
+        # except:
+        #     return "I could not read from users"
 
     def get_all_users(self):
         self.cur.execute(""" SELECT * FROM users""")
-        return self.cur.fetchall()
-    
+        result = self.cur.fetchall()
+        return result 
     def change_status(self, status, request_id):
         try:
             self.cur.execute(""" SELECT request_id FROM users""")
@@ -140,7 +141,15 @@ class HelpAdmin(HelperDb):
                 return "username does not exitst!"
         except:
             return "I could not read from users"
-        
+    
+    def login_admin(self, username, password):
+        """logs in admin"""
+        pass
+
+    def delete_user(self, user_id):
+        """delete a user"""
+        pass
+
 # if __name__ =='__main__':
 # print(
 

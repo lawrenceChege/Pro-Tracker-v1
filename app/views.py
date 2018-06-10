@@ -1,8 +1,9 @@
 """API endpoints for the maintenance tracker app"""
 from flask import jsonify, request
 from app.helpers import HelpAdmin
+from app.validators import check_user
 import psycopg2
-from flask_restful import Resource
+from flask_restful import Resource, reqparse
 
 
 conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
@@ -11,18 +12,26 @@ cur = conn.cursor()
 class Admin(Resource):
     """defines Admin methods"""
     def post(self):
-        HelpAdmin().login_admin()
-
+        self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('username', type=str, required = True,
+        help ="Username is required!")
+        self.reqparse.add_argument('password', type = str, required = True,
+        help = "Passord is required!", location = 'json')
+        args =  self.reqparse.parse_args()
+        check_user(args)
+        usernm, pssword = args["username"], args["password"]
+        return HelpAdmin().login_admin(usernm,pssword)
+class Admin_get_all(Resource):
     def get(self):
-        HelpAdmin().get_all_users()
+        return HelpAdmin().get_all_users()
 
 
 class Admin_get_user(Resource):
     """ gets a user"""
     def get(self, user_id):
         HelpAdmin().get_user(user_id)
-    def delete(self):
-        HelpAdmin().delete_user()
+    def delete(self,user_id):
+        HelpAdmin()
 
 class Admin_approve_request(Resource):
     """change the status of the request to approved"""
