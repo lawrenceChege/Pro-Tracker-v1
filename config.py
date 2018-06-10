@@ -23,14 +23,12 @@ def create_tables():
                             )                            
     """,
     """
-        CREATE TABLE requestsif __name__ == '__main__':
-#     create_tables()
-(request_id SERIAL PRIMARY KEY,
-                                category CHAR(100) NOT NULL,
-                                title VARCHAR(100) NOT NULL,
-                                frequency CHAR(100) NOT NULL,
-                                description VARCHAR(255) NOT NULL,
-                                status CHAR(50),
+        CREATE TABLE requests(request_id SERIAL PRIMARY KEY,
+                                category CHAR(10) NOT NULL,
+                                title VARCHAR(40) NOT NULL,
+                                frequency CHAR(30) NOT NULL,
+                                description VARCHAR(220) NOT NULL,
+                                status CHAR(10),
                                 user_id integer REFERENCES users (user_id) ON DELETE RESTRICT
         )
     """)
@@ -53,4 +51,5 @@ def create_tables():
         if conn is not None:
             conn.close()
 
-# create_tables()
+# if __name__ == '__main__':
+#     create_tables()

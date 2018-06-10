@@ -51,22 +51,24 @@ class HelperDb(object):
         else:
             return "user not registered" 
 
-    def create_request(self, title, data):
+    def create_request(self, title, req):
+        content = request.get_json()
+        title = (content['title'])
         try:
-            self.cur.execute("SELECT title FROM requests")
-            result = self.cur.fetchall()
-            if title not in result:
-                self.cur.execute(
-                    """ 
-                        INSERT INTO requests (category, frequency, title, description, status )
-                                                VALUES ( %(category)s, %(frequency)s, %(title)s, %(desctiption)s, %(status)s)
-                    """,data)
+            self.cur.execute("SELECT title FROM requests WHERE title = %s",(title,))
+            title = self.cur.fetchall()
+            if title :
+               return "Request with similar title exists"
+            else:
+                self.cur.execute(""" 
+                                    INSERT INTO requests (category, title, frequency, description, status ,user_id)
+                                                            VALUES ( %(category)s, %(title)s, %(frequency)s,  %(description)s, %(status)s, %(user_id)s)
+                                """,req)
                 self.conn.commit()
                 return  "Request created successfully!"
-            else:
-                return "Request with similar title exists"
-        except:
-            return "I could not select from requests"
+                
+        except(Exception, psycopg2.DatabaseError) as error:
+            print(error) 
 
     def update_request(self, request_id, data):
         try:
@@ -75,8 +77,8 @@ class HelperDb(object):
             if request_id in result:
                 self.cur.execute(
                     """ 
-                        UPADTE requests SET (category, frequency, title, description, status )
-                                                VALUES ( %(category)s, %(frequency)s, %(title)s, %(desctiption)s, %(status)s)
+                        UPADTE requests SET (category, frequency, title, description)
+                                                VALUES ( %(category)s, %(frequency)s, %(title)s, %(desctiption)s)
                     """,data)
                 self.conn.commit()
                 return  "Request created successfully!"
@@ -99,11 +101,10 @@ class HelperDb(object):
 
     def get_request(self, request_id):
         try:
-            self.cur.execute(""" SELECT request_id FROM requests""")
-            result = self.cur.fetchall()
-            if request_id in result:
-                self.cur.execute(""" SELECT * FROM requests WHERE request_id = %s""", request_id)
-                return self.cur.fetchall()
+            self.cur.execute("SELECT * FROM requests WHERE request_id = %s",(request_id,))
+            request_i = self.cur.fetchall()
+            if len(request_i) > 0:
+                return request_i
             else:
                 return "Request does not exitst!"
         except:
