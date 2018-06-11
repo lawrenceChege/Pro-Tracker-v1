@@ -51,10 +51,10 @@ class User(Resource):
         args = self.reqparse.parse_args()
         if not request.json:
           return jsonify({"message" : "check your request type"})
-        if 'username' in request.json and not isinstance(request.json['username'], str):
-          return jsonify({"message" : "Please enter username as a String"})
-        if 'email' in request.json and check_email(request.json['email']):
-          return jsonify({"message" : "Email is invalid"})
+        if 'username' not in request.json or not request.json['username']:
+          return {"message" : "Username is required"}, 400
+        if 'email' not in request.json or not request['email']:
+          return jsonify({"message" : "Email is required"})
         if 'password' in request.json and not isinstance(request.json['password'], str):
           return jsonify({"message" : "Title should be a string"})
         username, email, password = args["username"], args["email"], args["password"]
