@@ -15,49 +15,56 @@ resource_fields = {
 
 
 class Request(Resource):
+  @jwt_required
+  def post(self, **kwargs):
+      """
+    Creates a new request.
+    ---
+    tags:
+        - The Requests
+    parameters:
+      - in: formData
+        name: category
+        type: string
+        required: true
+      - in: formData
+        name: frequency
+        type: string
+        required: true
+      - in: formData
+        name: title
+        type: string
+        required: true
+      - in: formData
+        name: description
+        type: string
+        required: true
 
-    @jwt_required
-    def post(self, **kwargs):
-        """
-      Creates a new request.
-      ---
-      tags:
-          - The Requests
-      parameters:
-        - in: formData
-          name: category
-          type: string
-          required: true
-        - in: formData
-          name: frequency
-          type: string
-          required: true
-        - in: formData
-          name: title
-          type: string
-          required: true
-        - in: formData
-          name: description
-          type: string
-          required: true
-
-      responses:
-        201:
-          description: New request created.
+    responses:
+      201:
+        description: New request created.
     """
-        current_user = get_jwt_identity()
-        check_request(resource_fields)
-        category, title, frequency, description, = request.json['category'], request.json[
-            'frequency'], request.json['title'], request.json.get('description', "")
-        req = {
-            'category': category,
-            'frequency': frequency,
-            'title': title,
-            'description': description,
-            'status': "pending",
-            'username': current_user,
-        }
-        return HelperDb().create_request(title, req)
+      if 'category' in request.json and not isinstance(request.json['category'], str):
+        return jsonify({"message": "Please enter category as either repair or maintenance"})
+      if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
+        return jsonify({"message": "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
+      if 'title' in request.json and not isinstance(request.json['title'], str):
+        return jsonify({"message": "Title should be a string"})
+      if 'description' in request.json and not isinstance(request.json['description'], str):
+        return jsonify({"message": "Description is a string"})
+      current_user = get_jwt_identity()
+      check_request(resource_fields)
+      category, title, frequency, description, = request.json['category'], request.json[
+          'frequency'], request.json['title'], request.json.get('description', "")
+      req = {
+          'category': category,
+          'frequency': frequency,
+          'title': title,
+          'description': description,
+          'status': "pending",
+          'username': current_user,
+      }
+      return HelperDb().create_request(title, req)
 
 
 class Request_get(Resource):
@@ -105,6 +112,14 @@ class Request_get(Resource):
          201:
            description: Request updated.
         """
+        if 'category' in request.json and not isinstance(request.json['category'], str):
+            return jsonify({"message": "Please enter category as either repair or maintenance"})
+        if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
+            return jsonify({"message": "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
+        if 'title' in request.json and not isinstance(request.json['title'], str):
+            return jsonify({"message": "Title should be a string"})
+        if 'description' in request.json and not isinstance(request.json['description'], str):
+            return jsonify({"message": "Description is a string"})
         current_user = get_jwt_identity()
         check_request(resource_fields)
         category, title, frequency, description, = request.json['category'], request.json[
@@ -114,9 +129,10 @@ class Request_get(Resource):
             'frequency': frequency,
             'title': title,
             'description': description,
+            'username':current_user,
         }
 
-        return jsonify(logged_in_as=current_user), HelperDb().update_request(request_id, req)
+        return HelperDb().update_request(request_id, req)
 
     def delete(self, request_id):
         """
@@ -128,5 +144,4 @@ class Request_get(Resource):
          200:
            description: request deleted.
         """
-        current_user = get_jwt_identity()
-        return jsonify(logged_in_as=current_user), HelperDb().delete_request(request_id)
+        return HelperDb().delete_request(request_id)

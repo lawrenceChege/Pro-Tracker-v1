@@ -3,7 +3,7 @@ import psycopg2
 
 
 def connectTODB():
-    conn_string = "dbname='tracker' user='postgres' password='       ' host='localhost'"
+    conn_string = "dbname='maintenancedb' user='postgres' password='       ' host='localhost'"
     try:
         print("connecting to database ...")
         return psycopg2.connect(conn_string)
@@ -16,20 +16,20 @@ def create_tables():
     commands=(
     """
         CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY,
-                            username CHAR(20) NOT NULL unique,
+                            username CHAR(50) NOT NULL unique,
                             email VARCHAR(50) NOT NULL unique,
                             password VARCHAR(255) NOT NULL,
-                            role CHAR(10) DEFAULT user
+                            role CHAR(20) DEFAULT user
                             )                            
     """,
     """
         CREATE TABLE IF NOT EXISTS requests(request_id SERIAL PRIMARY KEY,
-                                category CHAR(10) NOT NULL,
+                                category CHAR(20) NOT NULL,
                                 title VARCHAR(40) NOT NULL,
                                 frequency CHAR(30) NOT NULL,
                                 description VARCHAR(220) NOT NULL,
-                                status CHAR(10),
-                                username CHAR(20)
+                                status CHAR(20),
+                                username CHAR(50)REFERENCES users (username)
         )
     """)
 
@@ -51,5 +51,5 @@ def create_tables():
         if conn is not None:
             conn.close()
 
-# if __name__ == '__main__':
-#     create_tables()
+if __name__ == '__main__':
+    create_tables()

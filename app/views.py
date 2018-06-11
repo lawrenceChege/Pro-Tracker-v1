@@ -59,7 +59,7 @@ class Admin_get_all(Resource):
            description: users found.
         """
         current_user = get_jwt_identity()
-        return jsonify(logged_in_as=current_user), HelpAdmin().get_all_users()
+        return HelpAdmin().get_all_users()
 
 
 class Admin_get_user(Resource):
@@ -76,7 +76,7 @@ class Admin_get_user(Resource):
            description: User Found.
         """
         current_user = get_jwt_identity()
-        return jsonify(logged_in_as=current_user), HelpAdmin().get_user(user_id)
+        return  HelpAdmin().get_user(user_id)
     def delete(self,user_id):
         """
        deletes a new user.
@@ -88,7 +88,7 @@ class Admin_get_user(Resource):
            description: request deleted.
         """
         current_user = get_jwt_identity()
-        return jsonify(logged_in_as=current_user), HelpAdmin().delete_user(user_id)
+        return  HelpAdmin().delete_user(user_id)
 
 class Admin_approve_request(Resource):
     

@@ -13,26 +13,28 @@ class HelperDb(object):
     def __init__(self):
         """initialize db"""
         self.conn = psycopg2.connect(
-            "dbname='tracker' user='postgres' password='       ' host='localhost'")
+            "dbname='maintenancedb' user='postgres' password='       ' host='localhost'")
         self.cur = self.conn.cursor(cursor_factory=RealDictCursor)
         self.cur2 = self.conn.cursor()
 
-    def register_user(self, username, data):
+    def register_user(self, username,email, data):
         """helper for registering a user"""
         try:
-            self.cur.execute("SELECT * FROM users")
-            result = self.cur.fetchall()
-            if username in result:
+            self.cur.execute("SELECT TRIM(username) FROM users WHERE username=%s",(username,))
+            user_username = self.cur.fetchall()
+            self.cur.execute("SELECT TRIM(email) FROM users WHERE email=%s",(email,))
+            email_user = self.cur.fetchall()
+            if len(user_username)!=0 and len(email_user):
                 return "User already exists!"
             else:
                 self.cur.execute(""" 
                                     INSERT INTO users (username, email, password, role) 
-                                                    VALUES (rtrim(%(username)s), %(email)s, %(password)s, %(role)s)
+                                                    VALUES ((%(username)s), %(email)s, %(password)s, %(role)s)
                                 """, data)
                 self.conn.commit()
                 return "User created successfully!"
         except:
-            return " Cannot do that"
+            return "culd not see"
 
     def login_user(self, password, username):
         """helper for confirming user using id"""
@@ -65,12 +67,12 @@ class HelperDb(object):
             self.cur.execute(
                 "SELECT * FROM requests WHERE title = %s", (Title,))
             request_i = self.cur.fetchall()
-            if len(request_i) > 0:
+            if len(request_i)!=0:
                 return "Request with similar title exists"
             else:
                 self.cur.execute(""" 
-                                    INSERT INTO requests (category, title, frequency, description, status ,user_id)
-                                                            VALUES ( %(category)s, %(title)s, %(frequency)s,  %(description)s, %(status)s, %(user_id)s)
+                                    INSERT INTO requests (category, title, frequency, description, status ,username)
+                                                            VALUES ( %(category)s, %(title)s, %(frequency)s,  %(description)s, %(status)s, %(username)s)
                                 """, req)
                 self.conn.commit()
                 return "Request created successfully!"
@@ -83,7 +85,7 @@ class HelperDb(object):
         try:
             self.cur.execute(
                 "SELECT * FROM requests WHERE request_id = %s", (request_id,))
-            request_i = self.cur.fetchall()
+            request_i = self.cur.fetchone()
             if request_i:
                 self.cur.execute(
                     "UPDATE requests SET category=%(category)s, frequency=%(frequency)s, title=%(title)s, description=%(description)s", data)
@@ -94,12 +96,12 @@ class HelperDb(object):
         except:
             return "I could not select from requests"
 
-    def delete_request(self, request_id):
+    def delete_request(self,request_id):
         try:
             self.cur.execute(
                 "SELECT * FROM requests WHERE request_id = %s", (request_id,))
-            request_i = self.cur.fetchall()
-            if len(request_i) > 0:
+            request_details = self.cur.fetchall()
+            if len(request_details)!=0:
                 self.cur.execute(
                     """ DELETE FROM requests WHERE request_id = %s""", (request_id,))
                 self.conn.commit()

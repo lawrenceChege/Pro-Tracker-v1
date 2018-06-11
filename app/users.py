@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from app.validators import check_user, check_email
+from flask import Flask, jsonify, request
+from app.validators import check_user,check_blank,check_password, check_email
 from flask_restful import Resource, reqparse
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.helpers import HelperDb
@@ -26,11 +26,11 @@ class User(Resource):
           - Users
         parameters:
           - in: formData
-            name: email
+            name: username
             type: string
             required: true
           - in: formData
-            name: username
+            name: email
             type: string
             required: true
           - in: formData
@@ -43,27 +43,21 @@ class User(Resource):
         """
         self.reqparse = reqparse.RequestParser()
 
-        self.reqparse.add_argument("username",
-                                   required=True,
-                                   help='Username is required!',
-                                   location='json')
+        self.reqparse.add_argument("username",location='json')
 
-        self.reqparse.add_argument('email',
-                                   type=str,
-                                   required=True,
-                                   help="Email is required!",
-                                   location='json')
+        self.reqparse.add_argument('email', location='json')
 
-        self.reqparse.add_argument('password',
-                                   type=str,
-                                   required=True,
-                                   help="Passord is required!",
-                                   location='json')
+        self.reqparse.add_argument('password', location='json')
         args = self.reqparse.parse_args()
+        if not request.json:
+          return jsonify({"message" : "check your request type"})
+        if 'username' in request.json and not isinstance(request.json['username'], str):
+          return jsonify({"message" : "Please enter username as a String"})
+        if 'email' in request.json and check_email(request.json['email']):
+          return jsonify({"message" : "Email is invalid"})
+        if 'password' in request.json and not isinstance(request.json['password'], str):
+          return jsonify({"message" : "Title should be a string"})
         username, email, password = args["username"], args["email"], args["password"]
-        if username is None:
-            return "Username cannot be empty!"
-
         hash_password = generate_password_hash(password)
         data = {
             "username": username,
@@ -72,7 +66,7 @@ class User(Resource):
             "role": "user"
         }
         print(data)
-        user = HelperDb().register_user(username, data)
+        user = HelperDb().register_user(username,email, data)
         return user
 
 
@@ -98,10 +92,15 @@ class User_login(Resource):
                 description: User Successfullly logged in.
         """
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('username', type=str, required=True,
-                                   help="Username is required!")
-        self.reqparse.add_argument('password', type=str, required=True,
-                                   help="Passord is required!", location='json')
+        self.reqparse.add_argument('username', location='json')
+        self.reqparse.add_argument('password',location='json')
+        if not request.json:
+          return jsonify({"message" : "check your request type"})
+        if 'username' in request.json and not isinstance(request.json['username'], str):
+          return jsonify({"message" : "Please enter username as a String"})
+        if 'password' in request.json and not isinstance(request.json['password'], str):
+          return jsonify({"message" : "Title should be a string"})
+        
         args = self.reqparse.parse_args()
         usernm, pssword = args["username"], args["password"]
         return HelperDb().login_user(usernm, pssword), 201
