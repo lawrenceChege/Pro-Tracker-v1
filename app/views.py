@@ -14,8 +14,28 @@ resource_fields = {
     'status': fields.String,
 }
 class Admin(Resource):
-    """defines Admin methods"""
+    
     def post(self):
+        """
+       Logs in Admin.
+       ---
+       tags:
+            - Admin
+       parameters:
+         - in: formData
+           name: username
+           type: string
+           required: true
+         - in: formData
+           name: pssword
+           type: string
+           required: true
+         
+         
+       responses:
+         201:
+           description: New request created.
+    """
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('username', type=str, required = True,
         help ="Username is required!")
@@ -26,9 +46,18 @@ class Admin(Resource):
         usernm, pssword = args["username"], args["password"]
         return HelpAdmin().login_admin(usernm,pssword)
 class Admin_get_all(Resource):
-    """get ll users"""
+    
     @jwt_required
     def get(self):
+        """
+       Gets all users.
+       ---
+       tags:
+            - Admin
+       responses:
+         200:
+           description: users found.
+        """
         current_user = get_jwt_identity()
         return jsonify(logged_in_as=current_user), HelpAdmin().get_all_users()
 
@@ -37,16 +66,48 @@ class Admin_get_user(Resource):
     """ gets a user"""
     @jwt_required
     def get(self, user_id):
+        """
+       Gets a user.
+       ---
+       tags:
+            - Admin
+       responses:
+         200:
+           description: User Found.
+        """
         current_user = get_jwt_identity()
         return jsonify(logged_in_as=current_user), HelpAdmin().get_user(user_id)
     def delete(self,user_id):
+        """
+       deletes a new user.
+       ---
+       tags:
+            - Admin
+       responses:
+         200:
+           description: request deleted.
+        """
         current_user = get_jwt_identity()
         return jsonify(logged_in_as=current_user), HelpAdmin().delete_user(user_id)
 
 class Admin_approve_request(Resource):
-    """change the status of the request to approved"""
+    
     @jwt_required
     def put(self, request_id, **kwargs):
+        """
+       updates a request's status.
+       ---
+       tags:
+            - Admin 
+       parameters:
+         - in: formData
+           name: status
+           type: string
+           required: true
+       responses:
+         201:
+           description: request updated.
+        """
         check_request(resource_fields)
         current_user = get_jwt_identity()
         status =resource_fields['status']

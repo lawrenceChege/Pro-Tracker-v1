@@ -15,7 +15,7 @@ def create_tables():
     """"Create tables in the protrackerdb database."""
     commands=(
     """
-        CREATE TABLE users (user_id SERIAL PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS users (user_id SERIAL PRIMARY KEY,
                             username CHAR(20) NOT NULL unique,
                             email VARCHAR(50) NOT NULL unique,
                             password VARCHAR(255) NOT NULL,
@@ -23,13 +23,13 @@ def create_tables():
                             )                            
     """,
     """
-        CREATE TABLE requests(request_id SERIAL PRIMARY KEY,
+        CREATE TABLE IF NOT EXISTS requests(request_id SERIAL PRIMARY KEY,
                                 category CHAR(10) NOT NULL,
                                 title VARCHAR(40) NOT NULL,
                                 frequency CHAR(30) NOT NULL,
                                 description VARCHAR(220) NOT NULL,
                                 status CHAR(10),
-                                user_id integer REFERENCES users (user_id) ON DELETE RESTRICT
+                                username CHAR(20)
         )
     """)
 

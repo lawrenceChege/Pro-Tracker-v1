@@ -1,6 +1,6 @@
 """Runs the app"""
 from app import app
-# from config import create_tables
+from config import create_tables
 
 # create_tables()
 
