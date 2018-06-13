@@ -129,6 +129,11 @@ class Get_user_requests(Resource):
     ---
     tags:
       - Users
+    Parameters:
+      - in: formData
+        name: user_id
+        type: integer
+        required: true
     responses:
       200:
         description: The request was successful.
