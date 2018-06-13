@@ -13,8 +13,9 @@ cur = conn.cursor()
 resource_fields = {
     'status': fields.String,
 }
+
 class Admin(Resource):
-    """"""
+    """defines methods for admin"""
     def post(self):
         """
         Logs in Admin.
@@ -53,7 +54,7 @@ class Admin(Resource):
         return HelpAdmin().login_admin(usernm,pssword)
 
 class Admin_get_all(Resource):
-    """"""
+    """Gets all users"""
     @jwt_required
     def get(self):
         """
@@ -86,6 +87,11 @@ class Admin_get_user(Resource):
         ---
         tags:
             - Admin
+        parameters:
+          - in: formData
+            name: user_id
+            type: integer
+            required: true
         responses:
           200:
             description: The request was successful.
@@ -107,6 +113,11 @@ class Admin_get_user(Resource):
         ---
         tags:
             - Admin
+        parameters:
+          - in: formData
+            name: user_id
+            type: integer
+            required: true
         responses:
           200:
             description: The request was successful.
@@ -123,7 +134,7 @@ class Admin_get_user(Resource):
         return  HelpAdmin().delete_user(user_id)
 
 class Admin_approve_request(Resource):
-    """"""
+    """defines methods for changing the status of a request"""
     @jwt_required
     def put(self, request_id, **kwargs):
         """
@@ -135,6 +146,10 @@ class Admin_approve_request(Resource):
           - in: formData
             name: status
             type: string
+            required: true
+          - in: formData
+            name: request_id
+            type: integer
             required: true
         responses:
           200:
