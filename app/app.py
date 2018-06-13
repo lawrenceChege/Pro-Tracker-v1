@@ -15,6 +15,7 @@ resource_fields = {
 
 
 class Request(Resource):
+  """ methods for requests"""
   @jwt_required
   def post(self, **kwargs):
       """
@@ -41,8 +42,16 @@ class Request(Resource):
         required: true
 
     responses:
+      200:
+        description: The request was successful.
       201:
         description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
     """
       if 'category' in request.json and not isinstance(request.json['category'], str):
         return jsonify({"message": "Please enter category as either repair or maintenance"})
@@ -68,80 +77,104 @@ class Request(Resource):
 
 
 class Request_get(Resource):
+  """methods for getting requests"""
+  @jwt_required
+  def get(self, request_id):
+      """"
+      Gets a  request.
+      ---
+      tags:
+          - The Requests
 
-    @jwt_required
-    def get(self, request_id):
-        """"
-       Gets a  request.
-       ---
-       tags:
-            - The Requests
+      responses:
+      200:
+        description: The request was successful.
+      201:
+        description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
+      """
+      # current_user = get_jwt_identity()
+      return HelperDb().get_request(request_id)
 
-       responses:
-         200:
-           description: request found.
-        """
-        # current_user = get_jwt_identity()
-        return HelperDb().get_request(request_id)
+  def put(self, request_id, **kwargs):
+      """
+      Modifies a request.
+      ---
+      tags:
+        - The Requests
+      parameters:
+        - in: formData
+          name: category
+          type: string
+          required: true
+        - in: formData
+          name: frequency
+          type: string
+          required: true
+        - in: formData
+          name: title
+          type: string
+          required: true
+        - in: formData
+          name: description
+          type: string
+          required: true
 
-    def put(self, request_id, **kwargs):
-        """
-       Modifies a request.
-       ---
-       tags:
-         - The Requests
-       parameters:
-         - in: formData
-           name: category
-           type: string
-           required: true
-         - in: formData
-           name: frequency
-           type: string
-           required: true
-         - in: formData
-           name: title
-           type: string
-           required: true
-         - in: formData
-           name: description
-           type: string
-           required: true
+      responses:
+      200:
+        description: The request was successful.
+      201:
+        description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
+      """
+      if 'category' in request.json and not isinstance(request.json['category'], str):
+          return jsonify({"message": "Please enter category as either repair or maintenance"})
+      if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
+          return jsonify({"message": "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
+      if 'title' in request.json and not isinstance(request.json['title'], str):
+          return jsonify({"message": "Title should be a string"})
+      if 'description' in request.json and not isinstance(request.json['description'], str):
+          return jsonify({"message": "Description is a string"})
+      current_user = get_jwt_identity()
+      check_request(resource_fields)
+      category, title, frequency, description, = request.json['category'], request.json[
+          'frequency'], request.json['title'], request.json.get('description', "")
+      req = {
+          'category': category,
+          'frequency': frequency,
+          'title': title,
+          'description': description,
+          'username':current_user,
+      }
 
-       responses:
-         201:
-           description: Request updated.
-        """
-        if 'category' in request.json and not isinstance(request.json['category'], str):
-            return jsonify({"message": "Please enter category as either repair or maintenance"})
-        if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
-            return jsonify({"message": "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
-        if 'title' in request.json and not isinstance(request.json['title'], str):
-            return jsonify({"message": "Title should be a string"})
-        if 'description' in request.json and not isinstance(request.json['description'], str):
-            return jsonify({"message": "Description is a string"})
-        current_user = get_jwt_identity()
-        check_request(resource_fields)
-        category, title, frequency, description, = request.json['category'], request.json[
-            'frequency'], request.json['title'], request.json.get('description', "")
-        req = {
-            'category': category,
-            'frequency': frequency,
-            'title': title,
-            'description': description,
-            'username':current_user,
-        }
+      return HelperDb().update_request(request_id, req)
 
-        return HelperDb().update_request(request_id, req)
-
-    def delete(self, request_id):
-        """
-       Creates a new request.
-       ---
-       tags:
-            - The Requests
-       responses:
-         200:
-           description: request deleted.
-        """
-        return HelperDb().delete_request(request_id)
+  def delete(self, request_id):
+      """
+      Creates a new request.
+      ---
+      tags:
+          - The Requests
+      responses:
+      200:
+        description: The request was successful.
+      201:
+        description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
+      """
+      return HelperDb().delete_request(request_id)

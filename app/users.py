@@ -16,114 +16,137 @@ cur = conn.cursor()
 
 
 class User(Resource):
-    """This class will define methods for the user"""
+  """This class will define methods for the user"""
+  def post(self):
+    """
+    Registers a new user.
+    ---
+    tags:
+      - Users
+    parameters:
+      - in: formData
+        name: username
+        type: string
+        required: true
+      - in: formData
+        name: email
+        type: string
+        required: true
+      - in: formData
+        name: password
+        type: string
+        required: true
+    responses:
+      200:
+        description: The request was successful.
+      201:
+        description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
+    """
+    self.reqparse = reqparse.RequestParser()
 
-    def post(self):
-        """
-        Registers a new user.
-        ---
-        tags:
-          - Users
-        parameters:
-          - in: formData
-            name: username
-            type: string
-            required: true
-          - in: formData
-            name: email
-            type: string
-            required: true
-          - in: formData
-            name: password
-            type: string
-            required: true
-        responses:
-          201:
-            description: New user registered.
-        """
-        self.reqparse = reqparse.RequestParser()
+    self.reqparse.add_argument("username",location='json')
 
-        self.reqparse.add_argument("username",location='json')
+    self.reqparse.add_argument('email', location='json')
 
-        self.reqparse.add_argument('email', location='json')
-
-        self.reqparse.add_argument('password', location='json')
-        args = self.reqparse.parse_args()
-        if not request.json:
-          return jsonify({"message" : "check your request type"})
-        if 'username' not in request.json or not request.json['username']:
-          return {"message" : "Username is required"}, 400
-        if 'email' not in request.json or not request['email']:
-          return jsonify({"message" : "Email is required"})
-        if 'password' in request.json and not isinstance(request.json['password'], str):
-          return jsonify({"message" : "Title should be a string"})
-        username, email, password = args["username"], args["email"], args["password"]
-        hash_password = generate_password_hash(password)
-        data = {
-            "username": username,
-            "email": email,
-            "password": hash_password,
-            "role": "user"
-        }
-        print(data)
-        user = HelperDb().register_user(username,email, data)
-        return user
+    self.reqparse.add_argument('password', location='json')
+    args = self.reqparse.parse_args()
+    if not request.json:
+      return jsonify({"message" : "check your request type"})
+    if 'username' not in request.json or not request.json['username']:
+      return {"message" : "Username is required"}, 400
+    if 'email' not in request.json or not request['email']:
+      return jsonify({"message" : "Email is required"})
+    if 'password' in request.json and not isinstance(request.json['password'], str):
+      return jsonify({"message" : "Title should be a string"})
+    username, email, password = args["username"], args["email"], args["password"]
+    hash_password = generate_password_hash(password)
+    data = {
+        "username": username,
+        "email": email,
+        "password": hash_password,
+        "role": "user"
+    }
+    print(data)
+    user = HelperDb().register_user(username,email, data)
+    return user
 
 
 class User_login(Resource):
-
-    def post(self):
-        """
-            Signs in a new user.
-            ---
-            tags:
-              - Users
-            parameters:
-              - in: formData
-                name: username
-                type: string
-                required: true
-              - in: formData
-                name: password
-                type: string
-                required: true
-            responses:
-              201:
-                description: User Successfullly logged in.
-        """
-        self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('username', location='json')
-        self.reqparse.add_argument('password',location='json')
-        if not request.json:
-          return jsonify({"message" : "check your request type"})
-        if 'username' in request.json and not isinstance(request.json['username'], str):
-          return jsonify({"message" : "Please enter username as a String"})
-        if 'password' in request.json and not isinstance(request.json['password'], str):
-          return jsonify({"message" : "Title should be a string"})
-        
-        args = self.reqparse.parse_args()
-        usernm, pssword = args["username"], args["password"]
-        return HelperDb().login_user(usernm, pssword), 201
+  """"""
+  def post(self):
+    """
+    Signs in a new user.
+    ---
+    tags:
+      - Users
+    parameters:
+      - in: formData
+        name: username
+        type: string
+        required: true
+      - in: formData
+        name: password
+        type: string
+        required: true
+    responses:
+      200:
+        description: The request was successful.
+      201:
+        description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
+    """
+    self.reqparse = reqparse.RequestParser()
+    self.reqparse.add_argument('username', location='json')
+    self.reqparse.add_argument('password',location='json')
+    if not request.json:
+      return jsonify({"message" : "check your request type"})
+    if 'username' in request.json and not isinstance(request.json['username'], str):
+      return jsonify({"message" : "Please enter username as a String"})
+    if 'password' in request.json and not isinstance(request.json['password'], str):
+      return jsonify({"message" : "Title should be a string"})
+    
+    args = self.reqparse.parse_args()
+    usernm, pssword = args["username"], args["password"]
+    return HelperDb().login_user(usernm, pssword), 201
 
 
 class Get_user_requests(Resource):
-
-    def get(self, user_id):
-        """
-            Registers a new user.
-            ---
-            tags:
-              - Users
-            responses:
-              200:
-                description: Requests succcesfully retrieved.
-        """
-        try:
-            cur.execute("""SELECT * FROM requests WHERE user_id = user_id""")
-            result = cur.fetchall()
-            if user_id in result:
-                return jsonify(result)
-            else:
-                return "User not found!"
-        except:
-            return ("I could not  select from users")
+  """"""
+  def get(self, user_id):
+    """
+    Registers a new user.
+    ---
+    tags:
+      - Users
+    responses:
+      200:
+        description: The request was successful.
+      201:
+        description: New request created.
+      400:
+        description: Bad request made.
+      401:
+        description: Unauthorised access.
+      404:
+        description: Page not found.
+    """
+    try:
+      cur.execute("""SELECT * FROM requests WHERE user_id = user_id""")
+      result = cur.fetchall()
+      if user_id in result:
+        return jsonify(result)
+      else:
+        return "User not found!"
+    except:
+        return ("I could not  select from users")

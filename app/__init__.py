@@ -2,8 +2,8 @@ from flask import Flask
 from flask_restful import Api, Resource
 from flask_jwt_extended import JWTManager
 from app.app import Request, Request_get
-from app.models import IndexPage
-from app.views import (Admin,Admin_approve_request,Admin_get_all, Admin_get_user)
+from app.index import IndexPage
+from app.admin import (Admin,Admin_approve_request,Admin_get_all, Admin_get_user)
 from app.users import (User_login, User,)
 from flasgger import Swagger
 
