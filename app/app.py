@@ -84,8 +84,12 @@ class Request_get(Resource):
       Gets a  request.
       ---
       tags:
-          - The Requests
-
+        - The Requests
+      Parameters:
+        - in: formData
+          name: request_id
+          type: integer
+          required: true
       responses:
       200:
         description: The request was successful.
@@ -123,6 +127,10 @@ class Request_get(Resource):
         - in: formData
           name: description
           type: string
+          required: true
+        - in: formData
+          name: request_id
+          type: integer
           required: true
 
       responses:
@@ -164,7 +172,12 @@ class Request_get(Resource):
       Creates a new request.
       ---
       tags:
-          - The Requests
+        - The Requests
+      parameters:
+        - in: formData
+          name: request_id
+          type: integer
+          required: true
       responses:
       200:
         description: The request was successful.
