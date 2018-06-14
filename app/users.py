@@ -112,9 +112,9 @@ class User_login(Resource):
     if not request.json:
       return jsonify({"message" : "check your request type"})
     if 'username' in request.json and not isinstance(request.json['username'], str):
-      return jsonify({"message" : "Please enter username as a String"})
+      return jsonify({"message" : "Please enter username as a String"}),400
     if 'password' in request.json and not isinstance(request.json['password'], str):
-      return jsonify({"message" : "Title should be a string"})
+      return jsonify({"message" : "Please enter a valid password"}),400
     
     args = self.reqparse.parse_args()
     usernm, pssword = args["username"], args["password"]

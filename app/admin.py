@@ -75,7 +75,7 @@ class Admin_get_all(Resource):
             description: Page not found.
         """
         current_user = get_jwt_identity()
-        return HelpAdmin().get_all_users()
+        return HelpAdmin().get_all_users(),current_user
 
 
 class Admin_get_user(Resource):
@@ -105,7 +105,7 @@ class Admin_get_user(Resource):
             description: Page not found.
             """
         current_user = get_jwt_identity()
-        return  HelpAdmin().get_user(user_id)
+        return  HelpAdmin().get_user(user_id),current_user
 
     def delete(self,user_id):
         """
@@ -131,7 +131,7 @@ class Admin_get_user(Resource):
             description: Page not found.
             """
         current_user = get_jwt_identity()
-        return  HelpAdmin().delete_user(user_id)
+        return  HelpAdmin().delete_user(user_id),current_user
 
 class Admin_approve_request(Resource):
     """defines methods for changing the status of a request"""

@@ -34,7 +34,7 @@ class HelperDb(object):
                 self.conn.commit()
                 return "User created successfully!"
         except:
-            return "culd not see"
+            return "culd not see",400
 
     def login_user(self, password, username):
         """helper for confirming user using id"""
@@ -79,7 +79,7 @@ class HelperDb(object):
 
         except(Exception, psycopg2.DatabaseError) as error:
             print(error)
-            return "I could not red from requests"
+            return "I could not red from requests",400
 
     def update_request(self, request_id, data):
         try:
@@ -94,7 +94,7 @@ class HelperDb(object):
             else:
                 return "Request does not exist"
         except:
-            return "I could not select from requests"
+            return "I could not select from requests",400
 
     def delete_request(self,request_id):
         try:
@@ -109,7 +109,7 @@ class HelperDb(object):
             else:
                 return "Request does not exitst!"
         except:
-            return "I could not see inside"
+            return "I could not see inside",400
 
     def get_request(self, request_id):
         try:
@@ -121,7 +121,7 @@ class HelperDb(object):
             else:
                 return "Request does not exitst!"
         except:
-            return "I could not read from requests"
+            return "I could not read from requests",400
 
 
 class HelpAdmin(HelperDb):
@@ -137,7 +137,7 @@ class HelpAdmin(HelperDb):
             else:
                 return "user does not exitst!"
         except:
-            return "I could not read from users"
+            return "I could not read from users",400
 
     def get_all_users(self):
         self.cur.execute(""" SELECT * FROM users""")
@@ -157,7 +157,7 @@ class HelpAdmin(HelperDb):
                 return "username does not exitst!"
         except(Exception, psycopg2.DatabaseError) as error:
             print(error)
-            return "I could not read from users"
+            return "I could not read from users",400
 
     def login_admin(self, username, password):
         """logs in admin"""
@@ -193,4 +193,4 @@ class HelpAdmin(HelperDb):
             else:
                 return "Request does not exitst!"
         except:
-            return "I could not see inside"
+            return "I could not see inside",400
