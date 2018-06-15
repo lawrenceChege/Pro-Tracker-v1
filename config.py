@@ -4,7 +4,7 @@ import psycopg2
 
 def connectTODB():
     # conn_string = "dbname='maintenancedb' user='postgres' password='       ' host='localhost'"
-    con_string ="postgres://evahdilycttgas:2fbf6a56272ad23e15f761fb8b7db1592d96f4fedcfa06016fde54791c17ac1c@ec2-50-16-241-91.compute-1.amazonaws.com:5432/d4rk034rpmde2c"
+    con_string ="postgresql+psycopg2://evahdilycttgas:2fbf6a56272ad23e15f761fb8b7db1592d96f4fedcfa06016fde54791c17ac1c@ec2-50-16-241-91.compute-1.amazonaws.com:5432/d4rk034rpmde2c?sslmode=require"
     try:
         print("connecting to database ...")
         return psycopg2.connect(con_string)
