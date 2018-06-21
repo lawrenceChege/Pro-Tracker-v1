@@ -7,7 +7,6 @@ install:
 
 before_script:
   - psql -c 'create database maintenancedb;' -U postgres
-  - source env/bin/activate
   - python run.py
 
 script:
