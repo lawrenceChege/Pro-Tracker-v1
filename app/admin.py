@@ -1,5 +1,5 @@
 """API endpoints for the maintenance maintenancedb app"""
-from flask import jsonify, request
+from flask import jsonify
 from app.helpers import HelpAdmin
 from app.validators import check_user
 import psycopg2

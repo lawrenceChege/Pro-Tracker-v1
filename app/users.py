@@ -1,13 +1,10 @@
-from flask import Flask, jsonify, request
-from app.validators import check_user,check_blank,check_password, check_email
+from flask import jsonify, request
+from app.validators import check_blank,check_password, check_email
 from flask_restful import Resource, reqparse
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import generate_password_hash
 from app.helpers import HelperDb
 
-
-import config
 import psycopg2
-import json
 
 conn = psycopg2.connect(
     "dbname='maintenancedb' user='postgres' password='       ' host='localhost'")

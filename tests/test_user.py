@@ -1,9 +1,6 @@
 """Tests for users"""
 from tests.base import BaseTestCase
-from passlib.hash import pbkdf2_sha256
 
-import unittest
-import psycopg2
 import json
 
 class TestUserTestCase(BaseTestCase):

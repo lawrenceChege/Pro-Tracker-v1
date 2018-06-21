@@ -1,7 +1,7 @@
 import psycopg2
 import json
 import unicodedata
-from flask import request, jsonify, abort
+from flask import request, abort
 from psycopg2.extras import RealDictCursor
 from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
