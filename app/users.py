@@ -10,7 +10,7 @@ import psycopg2
 import json
 
 conn = psycopg2.connect(
-    "dbname='tracker' user='postgres' password='       ' host='localhost'")
+    "dbname='maintenancedb' user='postgres' password='       ' host='localhost'")
 
 cur = conn.cursor()
 

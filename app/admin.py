@@ -1,4 +1,4 @@
-"""API endpoints for the maintenance tracker app"""
+"""API endpoints for the maintenance maintenancedb app"""
 from flask import jsonify, request
 from app.helpers import HelpAdmin
 from app.validators import check_user
@@ -8,7 +8,7 @@ from app.validators import check_request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 
-conn= psycopg2.connect("dbname='tracker' user='postgres' password='       ' host='localhost'")
+conn= psycopg2.connect("dbname='maintenancedb' user='postgres' password='       ' host='localhost'")
 cur = conn.cursor()
 resource_fields = {
     'status': fields.String,
