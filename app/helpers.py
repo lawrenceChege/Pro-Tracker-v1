@@ -195,3 +195,14 @@ class HelpAdmin(HelperDb):
                 return {"message":"Request does not exitst!"},400
         except:
             return {"message":"I could not see inside"},400
+    
+    def get_all_requests(self):
+        """ get all requests from all users"""
+        try:
+            self.cur.execute(
+                "SELECT * FROM requests"
+            )
+            requests = self.cur.fetchall()
+            return {"message":"all requests found successfully","requests":requests}
+        except:
+            return {"message":"I could not see inside"}

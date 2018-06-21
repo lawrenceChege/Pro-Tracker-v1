@@ -67,12 +67,14 @@ class BaseTestCase(TestCase):
         }
         self.request_no_category= {
             "frequency": "once",
+            "category":"",
             "title": "fogort hammer",
             "description": "i am also stupid",
             "status": "pending"
         }
         self.request_no_frequency={
             "category": "repair",
+            "frequency":"",
             "title": "fogort hammer",
             "description": "i am also stupid",
             "status": "Pending"
@@ -81,11 +83,13 @@ class BaseTestCase(TestCase):
             "category": "repair",
             "frequency": "once",
             "title": "fogort hammer",
+            "description":"",
             "status": "pending"
         }
         self.request_no_title={
             "category": "repair",
             "frequency": "once",
+            "title":"",
             "description": "fogort hammer",
             "status": "pending"
         }

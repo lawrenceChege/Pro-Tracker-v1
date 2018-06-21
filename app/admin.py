@@ -171,4 +171,8 @@ class Admin_approve_request(Resource):
         }
         return jsonify(logged_in_as=current_user),HelpAdmin().change_status(request_id, req)
 
+class Admin_get_requests(Resource):
+  """gets all requests from all users """
+  def get(self):
+    return HelpAdmin().get_all_requests()
 

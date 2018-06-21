@@ -16,7 +16,7 @@ resource_fields = {
 
 class Request(Resource):
   """ methods for requests"""
-  @jwt_required
+  # @jwt_required
   def post(self, **kwargs):
       """
     Creates a new request.
@@ -53,14 +53,14 @@ class Request(Resource):
       404:
         description: Page not found.
     """
-      if 'category' in request.json and not isinstance(request.json['category'], str):
-        return jsonify({"message": "Please enter category as either repair or maintenance"})
-      if 'frequency' in request.json and not isinstance(request.json['frequency'], str):
-        return jsonify({"message": "Frequency must be a string. Reccomended;once, daily, weekly, monthly or annually"})
-      if 'title' in request.json and not isinstance(request.json['title'], str):
-        return jsonify({"message": "Title should be a string"})
-      if 'description' in request.json and not isinstance(request.json['description'], str):
-        return jsonify({"message": "Description is a string"})
+      if 'category' in request.json and not request.json['category']:
+        return {"message": "Please enter category as either repair or maintenance"}, 400
+      if 'frequency' in request.json and not request.json['frequency']:
+        return {"message": "Frequency must be a string."}, 400
+      if 'title' in request.json and not request.json['title']:
+        return {"message": "Title should be a string"}, 400
+      if 'description' in request.json and not request.json['description']:
+        return {"message": "Description is a string"}, 400
       current_user = get_jwt_identity()
       check_request(resource_fields)
       category, title, frequency, description, = request.json['category'], request.json[
@@ -74,11 +74,15 @@ class Request(Resource):
           'username': current_user,
       }
       return HelperDb().create_request(title, req)
+  
+  def get(self):
+    """get a users rquests"""
+    return {"message":"all requests found successfully"}
 
 
 class Request_get(Resource):
   """methods for getting requests"""
-  @jwt_required
+  # @jwt_required
   def get(self, request_id):
       """"
       Gets a  request.
