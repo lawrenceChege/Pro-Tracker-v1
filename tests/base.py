@@ -14,8 +14,8 @@ class BaseTestCase(TestCase):
         self.app.testing = True
 
         self.person = {
-            "username": "lawrence",
-            "email": "mbuchez8@gmail.com",
+            "username": "lau lau",
+            "email": "mbuchez9@gmail.com",
             "password": "maembembili"
         }
         self.person_no_username ={
@@ -40,7 +40,7 @@ class BaseTestCase(TestCase):
             "email": "test@gmail.com",
             "password": "password"
         }
-        self.correct_login = {"username": "lawrence",
+        self.correct_login = {"username": "lau lau",
                               "password": "maembembili"}
         self.wrong_login = {"username": "lawrence",
                             "password": "mistubishi"}
