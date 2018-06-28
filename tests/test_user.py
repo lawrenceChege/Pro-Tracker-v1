@@ -46,7 +46,7 @@ class TestUserTestCase(BaseTestCase):
         self.assertEqual(response.status_code,201)
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'User created successfully!')
-        existing user
+        #existing user
         response = self.app.post('api/v2/auth/signup',
                                  data=json.dumps(self.person_existing_user),
                                  headers={'content-type': "application/json"})
