@@ -39,14 +39,14 @@ class TestUserTestCase(BaseTestCase):
         self.assertEqual(response.status_code,400)
         dataman = json.loads(response.get_data())
         self.assertEqual(dataman['message'],'Passord is required!')
-        # #correct details
-        # response = self.app.post('api/v2/auth/signup',
-        #                          data=json.dumps(self.person),
-        #                          headers={'content-type': "application/json"})
-        # self.assertEqual(response.status_code,201)
-        # dataman = json.loads(response.get_data())
-        # self.assertEqual(dataman['message'],'User created successfully!')
-        #existing user
+        #correct details
+        response = self.app.post('api/v2/auth/signup',
+                                 data=json.dumps(self.person),
+                                 headers={'content-type': "application/json"})
+        self.assertEqual(response.status_code,201)
+        dataman = json.loads(response.get_data())
+        self.assertEqual(dataman['message'],'User created successfully!')
+        existing user
         response = self.app.post('api/v2/auth/signup',
                                  data=json.dumps(self.person_existing_user),
                                  headers={'content-type': "application/json"})
