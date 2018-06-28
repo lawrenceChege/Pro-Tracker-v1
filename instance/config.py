@@ -1,24 +1,46 @@
 import os
 
+
 class Config(object):
-    """Parent configuration class."""
+    """ base config class """
     DEBUG = False
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
 
+
 class DevelopmentConfig(Config):
-    """Configurations for Development."""
+    """ Development time config"""
     DEBUG = True
+    DB_NAME = 'todos'
+    DB_NAME = os.getenv('DB_NAME')
+
 
 class TestingConfig(Config):
-    """Configurations for Testing, with a separate test database."""
+    """ Testing time config """
     TESTING = True
     DEBUG = True
+    DB_NAME = os.getenv('DB_TEST')
+
 
 class StagingConfig(Config):
-    """Configurations for Staging."""
+    """ Staging time config"""
     DEBUG = True
+    DB_NAME = os.getenv('DB_NAME')
 
+
+class ProductionConfig(Config):
+    """ Production environment config """
+    DEBUG = False
+    TESTING = False
+    DB_NAME = os.getenv('DB_NAME')
+
+
+app_config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'staging': StagingConfig,
+    'production': ProductionConfig,
+}
 class ProductionConfig(Config):
     """Configurations for Production."""
     DEBUG = False

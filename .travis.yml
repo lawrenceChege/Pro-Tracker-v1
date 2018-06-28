@@ -6,7 +6,8 @@ install:
   - pip install -r requirements.txt
 
 before_script:
-  - psql -c 'create database maintenancedb;' -U postgres
+  - "psql -c 'create database db_test;' -U postgres"
+  - python migrations.py
   
 
 script:
