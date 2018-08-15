@@ -5,10 +5,20 @@ python:
 install:
   - pip install -r requirements.txt
 
+postgres:
+  
+
+before_script:
+  - "psql -c 'create database db_test;' -U postgres"
+  - "psql -c 'create database maintenancedb;' -U postgres"
+  - python migrations.py
+  
+
 script:
   - nosetests --with-coverage --cover-package=tests && coverage report
   - python -m pytest --cov-report term-missing --cov=app
 # -python-codacy-coverage -r coverage.xml
+
 
 after_success: 
   - coveralls

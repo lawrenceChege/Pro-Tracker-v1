@@ -2,7 +2,7 @@ import re
 from flask import request, jsonify
 
 
-def blank(**data):
+def check_blank(**data):
     for key in data:
         name = re.sub(r'\s+', '', data[key])
         if not name:
@@ -21,7 +21,7 @@ def key_blank(**data):
             return {'message': key + ' is missing'}
 
 
-def key_password(password):
+def check_password(password):
     password = re.match(r'[a-zA-Z_]+[\d\w]{8,}', password)
     if password is None:
         return {'message': 'password should contain atleast (a-z), (0-4), (-), characters(8)'}
